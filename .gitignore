@@ -1,0 +1,9 @@
+/.tmp
+/jellyfinintel/build
+/jellyfinintel/build.*
+/jellyfinintel/tmp.*
+/*.deb
+/jellyfinintel/shared/jellyfin
+/jellyfinintel/shared/jellyfin-ffmpeg
+/jellyfin/shared/jellyfin-ffmpeg
+/jellyfin/shared/jellyfin

@@ -1,0 +1,22 @@
+{
+  "name": "jellyfin-qnap-intel",
+  "preversion": "10801.10801.4321",
+  "presha": "10.8.0-alpha3_60bdd8f1924e0b1313e3ff1f61a0b1c1",
+  "version": "10771.10771.4321",
+  "sha": "ce71e7807ef87ad7e90ba96d86553e0d",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "debian.exe run 'cd /mnt/c/Works/qnap-jellyfin-intel; ./make.sh'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdulvp/jellyfin-qnap-intel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pdulvp/jellyfin-qnap-intel/issues"
+  },
+  "homepage": "https://github.com/pdulvp/jellyfin-qnap-intel#readme"
+}

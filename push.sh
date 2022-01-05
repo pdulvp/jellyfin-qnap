@@ -6,6 +6,7 @@
 # $4=FILE
 # $5=PRERELEASE
 
+echo $*
 git pull bot HEAD
 git config user.email "pdulvp-bot@laposte.net"
 git config user.name "pdulvp-bot"

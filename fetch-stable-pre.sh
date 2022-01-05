@@ -50,6 +50,6 @@ sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$PRE_SERVER_VERSION\"/" jellyfin/qpkg.cfg
 sed -i "s/$CURRENT_VERSION/$NEXT_VERSION/g" package.json
 sed -i "s/$CURRENT_SHA/$NEXT_SHA/g" package.json
 
-DESC="Version based on: \`jellyfin-server_$PRE_SERVER_VERSION\` \`jellyfin-web_$PRE_WEB_VERSION\` \`jellyfin-ffmpeg_$PRE_FFMPEG_VERSION\`"
+DESC="Version based on: \`jellyfin-server_$PRE_SERVER_VERSION\` \`jellyfin-web_$PRE_WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
 PKG=`find jellyfin/build/ -name "jellyfin_*${PRE_SERVER_VERSION:0:10}*.qpkg"`
 ./push.sh "${NEXT_VERSION}_${NEXT_SHA::-24}" "$PRE_SERVER_VERSION" "$DESC" "$PKG" "true"

@@ -7,8 +7,8 @@ echo "WEB_VERSION=$WEB_VERSION"
 FFMPEG_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable/ffmpeg/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=-bullseye_amd64.buildinfo)" | head -n 1`
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
 
-CURRENT_VERSION=`cat package.json | grep -o -P "(?<=\"version\"\: \").*([\d\.])+"`
-CURRENT_SHA=`cat package.json | grep -o -P "(?<=\"sha\"\: \").*([\da-z\.])+"`
+CURRENT_VERSION=`cat package.json | grep -o -P "(?<=\"version\"\: \")([^\"])+"`
+CURRENT_SHA=`cat package.json | grep -o -P "(?<=\"sha\"\: \")([^\"])+"`
 echo "CURRENT_VERSION=$CURRENT_VERSION"
 echo "CURRENT_SHA=$CURRENT_SHA"
 

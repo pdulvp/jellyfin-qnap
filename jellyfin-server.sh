@@ -23,6 +23,7 @@ ar x ../$SERVER data.tar.xz
 tar xvf data.tar.xz ./usr/lib/
 cd ..
 rm -rf jellyfin/shared/jellyfin
+rm -rf jellyfin/shared/jellyfin-web
 mv .tmp/usr/lib/jellyfin jellyfin/shared/
 
 
@@ -32,7 +33,7 @@ cd .tmp
 ar x ../$WEB data.tar.xz
 tar xvf data.tar.xz ./usr/share/jellyfin
 cd ..
-mv .tmp/usr/share/jellyfin/web jellyfin/shared/jellyfin/bin/jellyfin-web
+mv .tmp/usr/share/jellyfin/web jellyfin/shared/jellyfin-web
 
 #Add "System.Globalization.Invariant": true into jellyfin/bin/jellyfin.runtimeconfig.json
 #https://everythingtech.dev/2021/08/how-to-fix-couldnt-find-a-valid-icu-package-installed-on-the-system-set-the-configuration-flag-system-globalization-invariant-to-true-if-you-want-to-run-with-no-globalization-support/

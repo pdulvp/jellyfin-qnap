@@ -20,7 +20,7 @@ export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME
 /bin/ln -sf $QPKG_ROOT/jellyfin-ffmpeg /usr/lib/jellyfin-ffmpeg
 
-$QPKG_ROOT/jellyfin/bin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --restartpath=/etc/init.d/jellyfin.sh --restartargs=restart --package-name=pdulvp &
+$QPKG_ROOT/jellyfin/bin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --restartpath=/etc/init.d/jellyfin.sh --restartargs=restart --package-name=pdulvp &
 sleep 10
 
 

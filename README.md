@@ -16,6 +16,10 @@ Go to `Admin > Dashboard`
 - Transcoding > Hardware acceleration : Video Acceleration API (VAAPI)
 - Transcoding > VA API Device: /dev/dri/renderD128
 
+## HybridDesk Station
+
+To add a shortcut onto the HybridDesk Station, you can use **[@pdulvp/jellyfin-qnap-hd](https://github.com/pdulvp/jellyfin-qnap-hd)**
+
 ## Build
 
 ### Requirements

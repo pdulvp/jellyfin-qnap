@@ -22,6 +22,9 @@ NEXT_SHA=`find . -maxdepth 1 -name "jelly*.deb.sha256sum" -exec cat {} \; | cut 
 echo "NEXT_VERSION=$NEXT_VERSION"
 echo "NEXT_SHA=$NEXT_SHA"
 
+QPKG_VER=`echo $SERVER_VERSION`
+echo "QPKG_VER=$QPKG_VER"
+
 if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
     echo -e "\033[0;36mNo new release \033[0m"
     exit;
@@ -36,7 +39,7 @@ wget -q "https://repo.jellyfin.org/releases/server/debian/stable/server/jellyfin
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable/web/jellyfin-web_"$WEB_VERSION"_all.deb"
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable/ffmpeg/jellyfin-ffmpeg_"$FFMPEG_VERSION"-bullseye_amd64.deb"
 
-sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$SERVER_VERSION\"/" jellyfin/qpkg.cfg
+sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
 
 ./jellyfin-server.sh
 ./jellyfin-ffmpeg.sh
@@ -47,4 +50,4 @@ sed -i "s/$CURRENT_SHA/$NEXT_SHA/g" package.json
 
 DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
 PKG=`find jellyfin/build/ -name "jellyfin_*${SERVER_VERSION:0:10}*.qpkg"`
-./push.sh "${NEXT_VERSION}_${NEXT_SHA:0:8}" "$SERVER_VERSION" "$DESC" "$PKG" "false"
+#./push.sh "${NEXT_VERSION}_${NEXT_SHA:0:8}" "$SERVER_VERSION" "$DESC" "$PKG" "false"

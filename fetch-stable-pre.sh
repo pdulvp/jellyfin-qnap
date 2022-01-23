@@ -27,6 +27,9 @@ NEXT_SHA="${PRE_SERVER_VERSION}_${NEXT_SHA}"
 echo "NEXT_VERSION=$NEXT_VERSION"
 echo "NEXT_SHA=$NEXT_SHA"
 
+QPKG_VER=`echo $PRE_SERVER_VERSION | sed -r 's/([0-9a-z.]+)-([0-9a-z])([0-9a-z.]+)([0-9a-z])/\1-\2\4/g'`
+echo "QPKG_VER=$QPKG_VER"
+
 if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
     echo -e "\033[0;36mNo new prerelease \033[0m"
     exit;
@@ -41,7 +44,7 @@ wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/web/jellyfin-web_"$WEB_VERSION"_all.deb"
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/ffmpeg/jellyfin-ffmpeg_"$FFMPEG_VERSION"-bullseye_amd64.deb"
 
-sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$PRE_SERVER_VERSION\"/" jellyfin/qpkg.cfg
+sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
 
 ./jellyfin-server.sh
 ./jellyfin-ffmpeg.sh

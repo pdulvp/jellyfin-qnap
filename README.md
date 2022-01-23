@@ -1,4 +1,7 @@
-# jellyfin for QNAP version. 
+[![](https://img.shields.io/badge/dynamic/json?color=8FD53D&label=release&query=$[?(@.prerelease==false)].name&url=https%3A%2F%2Fapi.github.com%2Frepositories%2F441484865%2Freleases)](https://github.com/pdulvp/jellyfin-qnap/releases)
+[![](https://img.shields.io/badge/dynamic/json?color=FFD53D&label=prerelease&query=$[?(@.prerelease==true)].name&url=https%3A%2F%2Fapi.github.com%2Frepositories%2F441484865%2Freleases)](https://github.com/pdulvp/jellyfin-qnap/releases)
+
+# jellyfin for QNAP
 
 ![](https://raw.githubusercontent.com/pdulvp/jellyfin-qnap-intel/master/jellyfin/icons/jellyfin_80.gif)
 
@@ -13,12 +16,17 @@
 
 Go to `Admin > Dashboard`
 `Server > Playback`
-- Transcoding > Hardware acceleration : Video Acceleration API (VAAPI)
-- Transcoding > VA API Device: /dev/dri/renderD128
+- `Transcoding` > `Hardware acceleration` : `Video Acceleration API (VAAPI)`
+- `Transcoding` > `VA API Device`: `/dev/dri/renderD128`
 
 ## HybridDesk Station
 
 To add a shortcut onto the HybridDesk Station, you can use **[@pdulvp/jellyfin-qnap-hd](https://github.com/pdulvp/jellyfin-qnap-hd)**
+
+## Automatic updates
+
+You can use my alternative store link on the App Center to retrieve automatic updates.
+See **[pdulvp.fr/qnap-store](https://pdulvp.fr/qstore.html)**
 
 ## Build
 

@@ -14,7 +14,6 @@ case "$1" in
     fi
     : ADD START ACTIONS HERE
 
-export LIBVA_DRIVER_NAME=i965 #iHD
 export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
 /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME

@@ -107,4 +107,3 @@ cd ..
 
 mv .tmp/usr/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin-ffmpeg/lib/
 mv .tmp/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin-ffmpeg/lib/
-rm -rf jellyfin/shared/jellyfin-ffmpeg/lib/dri/iHD*

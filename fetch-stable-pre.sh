@@ -1,14 +1,14 @@
 #!/bin/bash
 
-PRE_SERVER_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=/server)" | head -1`
-PRE_WEB_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=/web)" | head -1`
-PRE_FFMPEG_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=/ffmpeg)" | head -n 1`
+PRE_SERVER_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=/server)" | head -1`
+PRE_WEB_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=/web)" | head -1`
+PRE_FFMPEG_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=/ffmpeg)" | head -n 1`
 
-SERVER_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/server/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=.dsc)" | head -n 1`
+SERVER_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/server/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=.dsc)" | head -n 1`
 echo "SERVER_VERSION=$SERVER_VERSION"
-WEB_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/web/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=.dsc)" | head -n 1`
+WEB_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/web/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=.dsc)" | head -n 1`
 echo "WEB_VERSION=$WEB_VERSION"
-FFMPEG_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ffmpeg/ -q -O- | grep -o -P "([a-z0-9\-\.]+)(?=-bullseye_amd64.buildinfo)" | head -n 1`
+FFMPEG_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable-pre/ffmpeg/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_amd64.buildinfo)" | head -n 1`
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
 
 CURRENT_VERSION=`cat package.json | grep -o -P "(?<=\"preversion\"\: \")([^\"])+"`
@@ -21,13 +21,13 @@ wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/ffmpeg/jell
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/server/jellyfin-server_"$SERVER_VERSION"_amd64.deb.sha256sum"
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/web/jellyfin-web_"$WEB_VERSION"_all.deb.sha256sum"
 
-NEXT_VERSION=`echo $SERVER_VERSION @ $WEB_VERSION @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | sed "s/ //g"`
+NEXT_VERSION=`echo $SERVER_VERSION @ $WEB_VERSION @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g"`
 NEXT_SHA=`find . -maxdepth 1 -name "jelly*.deb.sha256sum" -exec cat {} \; | cut -d" " -f 1 | md5sum | cut -d" " -f 1`
 NEXT_SHA="${PRE_SERVER_VERSION}_${NEXT_SHA}"
 echo "NEXT_VERSION=$NEXT_VERSION"
 echo "NEXT_SHA=$NEXT_SHA"
 
-QPKG_VER=`echo $PRE_SERVER_VERSION | sed -r 's/([0-9a-z.]+)-([0-9a-z])([0-9a-z.]+)([0-9a-z])/\1-\2\4/g'`
+QPKG_VER=`echo $PRE_SERVER_VERSION | sed -r 's/([0-9a-z.]+)[-~]([0-9a-z])([0-9a-z.]+)([0-9a-z])/\1-\2\4/g'`
 echo "QPKG_VER=$QPKG_VER"
 
 if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then

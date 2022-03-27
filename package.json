@@ -1,7 +1,7 @@
 {
   "name": "jellyfin-qnap-intel",
-  "preversion": "10801.10801.4414",
-  "presha": "10.8.0-alpha5_bd2975f00e1a7e68f095ded6d246bdaf",
+  "preversion": "1080-beta1.1080-beta1.4414",
+  "presha": "10.8.0-beta1_33f78ed5589ee6acb7e3c507061e3f88",
   "version": "10771.10771.4414",
   "sha": "4534ae84b3b88af7030e3e322ae63dad",
   "description": "",

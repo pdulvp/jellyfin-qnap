@@ -1,5 +1,5 @@
 {
-  "name": "jellyfin-qnap-intel",
+  "name": "jellyfin-qnap",
   "preversion": "1080-beta1.1080-beta1.4414",
   "presha": "10.8.0-beta1_33f78ed5589ee6acb7e3c507061e3f88",
   "version": "10771.10771.4414",
@@ -7,16 +7,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "debian.exe run 'cd /mnt/c/Works/qnap-jellyfin-intel; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'"
+    "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pdulvp/jellyfin-qnap-intel.git"
+    "url": "git+https://github.com/pdulvp/jellyfin-qnap.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pdulvp/jellyfin-qnap-intel/issues"
+    "url": "https://github.com/pdulvp/jellyfin-qnap/issues"
   },
-  "homepage": "https://github.com/pdulvp/jellyfin-qnap-intel#readme"
+  "homepage": "https://github.com/pdulvp/jellyfin-qnap#readme"
 }

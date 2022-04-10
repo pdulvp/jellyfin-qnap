@@ -1,0 +1,68 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jellyfin.Plugin.QnapConfiguration", "Jellyfin.Plugin.QnapConfiguration\Jellyfin.Plugin.QnapConfiguration.csproj", "{D921B930-CF91-406F-ACBC-08914DCD0D34}"
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "jellyfin-1080", "C:\Tools\jellyfin\jellyfin-server_1080\jellyfin-1080.exe", "{39686033-B849-4675-BB74-A76A281AE2D9}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Tools\jellyfin\jellyfin-server_1080\jellyfin-1080.exe
+		RemoteMachine = 
+		StartingDirectory = C:\Tools\jellyfin\jellyfin-server_1080
+		Arguments = --datadir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\database --cachedir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\cache --webdir=.\jellyfin-web --configdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\conf --logdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\logs
+		Environment = Par défaut
+		LaunchingEngine = 2e36f1d4-b23c-435d-ab41-18e608940038
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+		IORedirection = Auto
+	EndProjectSection
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "jellyfin-1077", "C:\Tools\jellyfin\jellyfin-server_1077\jellyfin-1077.exe", "{39686033-B849-4675-BB74-A76A281AE2D5}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Tools\jellyfin\jellyfin-server_1077\jellyfin-1077.exe
+		RemoteMachine = 
+		StartingDirectory = C:\Tools\jellyfin\jellyfin-server_1077
+		Arguments = --datadir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\database --cachedir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\cache --webdir=.\jellyfin-web --configdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\conf --logdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\logs
+		Environment = Par défaut
+		LaunchingEngine = 2e36f1d4-b23c-435d-ab41-18e608940038
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+		IORedirection = Auto
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Debug|x64.Build.0 = Debug|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Release|x64.ActiveCfg = Release|Any CPU
+		{D921B930-CF91-406F-ACBC-08914DCD0D34}.Release|x64.Build.0 = Release|Any CPU
+		{39686033-B849-4675-BB74-A76A281AE2D9}.Debug|Any CPU.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D9}.Debug|x64.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D9}.Release|Any CPU.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D9}.Release|x64.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D5}.Debug|Any CPU.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D5}.Debug|x64.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D5}.Release|Any CPU.ActiveCfg = Release|x64
+		{39686033-B849-4675-BB74-A76A281AE2D5}.Release|x64.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F386BAC8-2A2F-4B1C-A665-44DCD3500EBE}
+	EndGlobalSection
+EndGlobal

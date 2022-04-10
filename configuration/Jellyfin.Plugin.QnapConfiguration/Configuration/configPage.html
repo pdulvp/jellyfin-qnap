@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Jellyfin.QnapConfiguration</title>
+</head>
+<body>
+    <div id="TemplateConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <form id="TemplateConfigForm">
+                    <div class="selectContainer">
+                        <label class="selectLabel" for="VaapiDriver">VAAPI driver</label>
+                        <select is="emby-select" id="VaapiDriver" name="VaapiDriver" class="emby-select-withcolor emby-select">
+                            <option id="defaultValue" value="defaultValue">defaultValue</option>
+                            <option id="i965" value="i965">i965</option>
+                            <option id="iHD" value="iHD">iHD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var TemplateConfig = {
+                pluginUniqueId: 'a575773e-ff2f-4bf9-8dc1-d3ce1d957a7f'
+            };
+
+            document.querySelector('#TemplateConfigPage')
+                .addEventListener('pageshow', function() {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
+                        document.querySelector('#VaapiDriver').value = config.VaapiDriver;
+                        Dashboard.hideLoadingMsg();
+                    });    
+                });
+            
+            document.querySelector('#TemplateConfigForm')
+                .addEventListener('submit', function(e) {
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
+                    config.VaapiDriver = document.querySelector('#VaapiDriver').value;
+                    ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
+                        Dashboard.processPluginConfigurationUpdateResult(result);
+                    });
+                });
+                e.preventDefault();
+                return false;
+            });
+        </script>
+    </div>
+</body>
+</html>

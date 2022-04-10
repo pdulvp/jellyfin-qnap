@@ -25,7 +25,6 @@ mv .tmp/usr/lib/jellyfin-ffmpeg jellyfin/shared/
 cp $FFMPEG .tmp/
 
 
-
 # Create ffmpeg and ffprobe versions that will rely on required jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 rather than default one
 mv jellyfin/shared/jellyfin-ffmpeg/ffmpeg jellyfin/shared/jellyfin-ffmpeg/ffmpeg2
 mv jellyfin/shared/jellyfin-ffmpeg/ffprobe jellyfin/shared/jellyfin-ffmpeg/ffprobe2
@@ -38,6 +37,15 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
+## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
+LIBVA_FROM_CONFIG=\`[ -f \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1\`
+if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
+    if [ "\$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
+        export LIBVA_DRIVER_NAME_JELLYFIN="\$LIBVA_FROM_CONFIG"
+        export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
+    fi
+fi
+echo "LIBVA_DRIVER_NAME_JELLYFIN=\$LIBVA_DRIVER_NAME_JELLYFIN"
 \$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
 EOL
 
@@ -48,6 +56,15 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
+## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
+LIBVA_FROM_CONFIG=\`[ -f \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1\`
+if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
+    if [ "\$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
+        export LIBVA_DRIVER_NAME_JELLYFIN="\$LIBVA_FROM_CONFIG"
+        export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
+    fi
+fi
+echo "LIBVA_DRIVER_NAME_JELLYFIN=\$LIBVA_DRIVER_NAME_JELLYFIN"
 \$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 

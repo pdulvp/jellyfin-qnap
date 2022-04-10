@@ -41,3 +41,9 @@ mv .tmp/usr/share/jellyfin/web jellyfin/shared/jellyfin-web
 
 sed -i 's/"configProperties": {/"configProperties": {\n      "System.Globalization.Invariant": true,/g' jellyfin/shared/jellyfin/bin/jellyfin.runtimeconfig.json
 
+# Add Configuration plugin
+mkdir -p jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration
+NETVERSION=`cat jellyfin/shared/jellyfin/bin/jellyfin.runtimeconfig.json | grep -E "tfm.*" | cut -f4 -d"\""`
+echo "NETVERSION=$NETVERSION"
+cp configuration/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
+ls "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"

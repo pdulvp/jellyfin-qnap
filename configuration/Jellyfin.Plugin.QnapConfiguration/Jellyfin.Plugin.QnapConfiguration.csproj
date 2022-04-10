@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <RootNamespace>Jellyfin.Plugin.QnapConfiguration</RootNamespace>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <CodeAnalysisRuleSet>../jellyfin.ruleset</CodeAnalysisRuleSet>
+    <BaseOutputPath>bin\</BaseOutputPath>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyName>Jellyfin.Plugin.QnapConfiguration</AssemblyName>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jellyfin.Controller" Version="10.7.7" Condition="'$(TargetFramework)' == 'net5.0'" />
+    <PackageReference Include="Jellyfin.Model" Version="10.7.7" Condition="'$(TargetFramework)' == 'net5.0'" />
+    <PackageReference Include="Jellyfin.Controller" Version="10.8-*" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="Jellyfin.Model" Version="10.8-*" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="SerilogAnalyzer" Version="0.15.0" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.376" PrivateAssets="All" />
+    <PackageReference Include="SmartAnalyzers.MultithreadingAnalyzer" Version="1.1.31" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Configuration\configPage.html" />
+    <EmbeddedResource Include="Configuration\configPage.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="obj\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="call copy.bat" />
+  </Target>
+
+</Project>

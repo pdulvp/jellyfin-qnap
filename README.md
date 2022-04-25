@@ -7,12 +7,31 @@
 
 ## <img alt="hardware icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hard.png" width="24px"/> Enable Video Acceleration in Jellyfin <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
-![](ScreenshotConfig.png)
+![](ScreenshotConfig.png) ([中文](ScreenshotConfigCh.png))
 
 Go to `Admin > Dashboard`
 `Server > Playback`
 - `Transcoding` > `Hardware acceleration` : `Video Acceleration API (VAAPI)`
 - `Transcoding` > `VA API Device`: `/dev/dri/renderD128`
+
+This shall be OK, but maybe not.
+
+### Troubleshooting while trancoding
+
+Go to `Admin > Dashboard`
+
+* You can find a log of vainfo of your NAS under `Advanced > Logs > vainfo-*.log`. It will helps you to find which driver or options to enable.
+
+* A dedicated plugin is now installed by default on the Jellyfin server `(Plugins > QNAP.Configuration)`, you can change the default vaapi driver used while loading a video. (from `defaultValue` to `iHD` or `i965`).
+
+![](ScreenshotPluginConfig.png)
+
+* Ensure that `Transcoding` > `FFmpeg path` is not empty. If empty, you can set it to `/usr/lib/jellyfin-ffmpeg/ffmpeg`
+
+* Disable some unexpected enabled options `Server > Playback > Transcoding`:
+
+   * On TS-253A, the option `Enable 10-Bit hardware decoding for HEVC` shall be disabled
+
 
 ## <img alt="hybriddesk icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hd.png" width="24px"/> HybridDesk Station <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
@@ -26,8 +45,11 @@ See **[pdulvp.fr/qnap-store](https://pdulvp.fr/qstore.html)**
 ## <img alt="build icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/build.png" width="24px"/> Build <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
 ### Requirements
-- WSL debian bullseye
+- WSL debian bullseye 
 - QDK2 : https://github.com/qnap-dev/qdk2/releases
+- Visual Studio 2022
 
 ### How to
+- Launch a Release build of the `configuration/Jellyfin.Plugin.QnapConfiguration.sln` under Visual Studio. It will create two releases, for net5.0 and net6.0 that will be embedded afterwards.
 - Launch `./make.sh` (note that the script will try to push it on this repository. `push.sh` can be disabled in subscripts `fetch-stable.sh` and `fetch-stable-pre.sh`)
+- If there is some 'File not found' while downloading dependencies, just launch a `sudo apt-get update` on your WSL and relaunch the build

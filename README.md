@@ -13,24 +13,6 @@ Go to `Admin > Dashboard`
 `Server > Playback`
 - `Transcoding` > `Hardware acceleration` : `Video Acceleration API (VAAPI)`
 - `Transcoding` > `VA API Device`: `/dev/dri/renderD128`
-- `Transcoding` > `FFmpeg path`: `/usr/lib/jellyfin-ffmpeg/ffmpeg` (if not set)
-
-This shall be OK, but maybe not.
-
-### Troubleshooting while encoding
-
-Go to `Admin > Dashboard`
-
-* You can find a log of vainfo of your NAS under `Advanced > Logs > vainfo-*.log`. It will helps you to find which driver or options to enable.
-
-* A dedicated plugin is now installed by default on the Jellyfin server `(Plugins > QNAP.Configuration)`, you can change the default vaapi driver used while loading a video. (from `defaultValue` to `iHD` or `i965`).
-
-![](ScreenshotPluginConfig.png)
-
-* Disable some unexpected enabled options `Server > Playback > Transcoding`:
-
-   * On TS-253A, the option `Enable 10-Bit hardware decoding for HEVC` shall be disabled
-
 
 This shall be OK, but maybe not.
 

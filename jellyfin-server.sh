@@ -20,7 +20,7 @@ echo $SERVER found.
 rm -rf .tmp; mkdir .tmp;
 cd .tmp
 ar x ../$SERVER data.tar.xz
-tar xvf data.tar.xz ./usr/lib/
+tar xf data.tar.xz ./usr/lib/
 cd ..
 rm -rf jellyfin/shared/jellyfin
 rm -rf jellyfin/shared/jellyfin-web
@@ -31,7 +31,7 @@ mv .tmp/usr/lib/jellyfin jellyfin/shared/
 rm -rf .tmp; mkdir .tmp;
 cd .tmp
 ar x ../$WEB data.tar.xz
-tar xvf data.tar.xz ./usr/share/jellyfin
+tar xf data.tar.xz ./usr/share/jellyfin
 cd ..
 mv .tmp/usr/share/jellyfin/web jellyfin/shared/jellyfin-web
 
@@ -47,3 +47,5 @@ NETVERSION=`cat jellyfin/shared/jellyfin/bin/jellyfin.runtimeconfig.json | grep 
 echo "NETVERSION=$NETVERSION"
 cp configuration/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 ls "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
+
+./prefetch-lib.sh "$SERVER" "jellyfin/shared/jellyfin/lib/"

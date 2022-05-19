@@ -5,6 +5,7 @@ echo "SERVER_VERSION=$SERVER_VERSION"
 WEB_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable/web/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=.dsc)" | head -n 1`
 echo "WEB_VERSION=$WEB_VERSION"
 FFMPEG_VERSION=`wget https://repo.jellyfin.org/releases/server/debian/stable/ffmpeg/ -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_amd64.buildinfo)" | head -n 1`
+FFMPEG_VERSION="4.4.1-4"
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
 
 CURRENT_VERSION=`cat package.json | grep -o -P "(?<=\"version\"\: \")([^\"])+"`
@@ -13,7 +14,7 @@ echo "CURRENT_VERSION=$CURRENT_VERSION"
 echo "CURRENT_SHA=$CURRENT_SHA"
 
 rm -f *.sha256sum
-wget -q "https://repo.jellyfin.org/releases/server/debian/stable/ffmpeg/jellyfin-ffmpeg_"$FFMPEG_VERSION"-bullseye_amd64.deb.sha256sum"
+wget -q "https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/$FFMPEG_VERSION/jellyfin-ffmpeg_"$FFMPEG_VERSION"-bullseye_amd64.deb.sha256sum"
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable/server/jellyfin-server_"$SERVER_VERSION"_amd64.deb.sha256sum"
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable/web/jellyfin-web_"$WEB_VERSION"_all.deb.sha256sum"
 
@@ -33,11 +34,11 @@ echo -e "\033[0;32mDownload new release \033[0m"
 
 rm -f jellyfin-server_*.deb*
 rm -f jellyfin-web_*.deb*
-rm -f jellyfin-ffmpeg_*.deb*
+rm -f jellyfin-ffmpeg*_*.deb*
 
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable/server/jellyfin-server_"$SERVER_VERSION"_amd64.deb"
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable/web/jellyfin-web_"$WEB_VERSION"_all.deb"
-wget -q "https://repo.jellyfin.org/releases/server/debian/stable/ffmpeg/jellyfin-ffmpeg_"$FFMPEG_VERSION"-bullseye_amd64.deb"
+wget -q "https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/$FFMPEG_VERSION/jellyfin-ffmpeg_"$FFMPEG_VERSION"-bullseye_amd64.deb"
 
 sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
 

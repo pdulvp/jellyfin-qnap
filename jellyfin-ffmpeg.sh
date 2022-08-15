@@ -45,7 +45,6 @@ if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
         export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
     fi
 fi
-echo "LIBVA_DRIVER_NAME_JELLYFIN=\$LIBVA_DRIVER_NAME_JELLYFIN"
 \$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
 EOL
 
@@ -64,7 +63,6 @@ if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
         export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
     fi
 fi
-echo "LIBVA_DRIVER_NAME_JELLYFIN=\$LIBVA_DRIVER_NAME_JELLYFIN"
 \$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 

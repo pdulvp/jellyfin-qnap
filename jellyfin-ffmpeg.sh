@@ -1,20 +1,21 @@
 #!/bin/bash
 
-if [ `ls -1 jellyfin-ffmpeg*_*-bullseye_amd64.deb | wc -l` -ne 1 ]; then
-    echo "jellyfin-ffmpeg*_XYZ-bullseye_amd64.deb not found or several releases."
-    exit
+if [ $(ls -1 jellyfin-ffmpeg*_*-bullseye_amd64.deb | wc -l) -ne 1 ]; then
+    echo -e "jellyfin-ffmpeg*_XYZ-bullseye_amd64.deb not found or several releases." 1>&2
+    exit 1
 fi
 
-FFMPEG=`ls -1 jellyfin-ffmpeg*_*-bullseye_amd64.deb`
+FFMPEG=$(ls -1 jellyfin-ffmpeg*_*-bullseye_amd64.deb)
 echo $FFMPEG found.
 
-getDependencies () {
-    AAA=`dpkg-deb -I "$1" | grep "^ Depends:" | cut -c 11- | sed "s/[ ]//g" | sed "s/[(][^)]*[)]//g" `
+getDependencies() {
+    AAA=$(dpkg-deb -I "$1" | grep "^ Depends:" | cut -c 11- | sed "s/[ ]//g" | sed "s/[(][^)]*[)]//g")
     echo "$AAA" | sed -E "s/[|]([a-zA-Z0-9\.\-]+,)/,/g" | tr -s "," "\n" | sort | uniq
 }
 
-#Unzip jellyfin-ffmpeg.deb/data.tar.xz/./usr/lib/ into jellyfin/shared/
-rm -rf .tmp; mkdir .tmp;
+# Unzip jellyfin-ffmpeg.deb/data.tar.xz/./usr/lib/ into jellyfin/shared/
+rm -rf .tmp
+mkdir .tmp
 cd .tmp
 ar x ../$FFMPEG data.tar.xz
 tar xvf data.tar.xz ./usr/lib/
@@ -23,7 +24,6 @@ rm -rf jellyfin/shared/jellyfin-ffmpeg
 mv .tmp/usr/lib/jellyfin-ffmpeg jellyfin/shared/
 
 cp $FFMPEG .tmp/
-
 
 # Create ffmpeg and ffprobe versions that will rely on required jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 rather than default one
 mv jellyfin/shared/jellyfin-ffmpeg/ffmpeg jellyfin/shared/jellyfin-ffmpeg/ffmpeg2
@@ -80,45 +80,63 @@ chmod +x jellyfin/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x jellyfin/shared/jellyfin-ffmpeg/ffprobe
 chmod +x jellyfin/shared/jellyfin-ffmpeg/vainfo
 
-
-
 cd .tmp
 
 #for all .deb recursively in the .tmp folder, we fetch dependencies
-echo "" > done.txt
+echo "" >done.txt
 while true; do
-    cat dependencies2.txt > dependencies.txt
+    cat dependencies2.txt >dependencies.txt
     rm -f dependencies2.txt
     echo "       #########################     "
     cat dependencies.txt
     while read line; do
-        cat done.txt | grep $line;
+        cat done.txt | grep $line
         if [ $? -eq 1 ]; then
-            for var in `getDependencies $line`; do
-                apt-get download "$var" 
+            for var in $(getDependencies $line); do
+                apt-get download "$var"
             done
-            echo "$line" >> done.txt
+            echo "$line" >>done.txt
         fi
-    done < dependencies.txt
+    done <dependencies.txt
 
-    find . -name "*.deb" > dependencies2.txt
-     
-    F1=`md5sum dependencies.txt | cut -d" " -f1`
-    F2=`md5sum dependencies2.txt | cut -d" " -f1`
+    find . -name "*.deb" >dependencies2.txt
+
+    F1=$(md5sum dependencies.txt | cut -d" " -f1)
+    F2=$(md5sum dependencies2.txt | cut -d" " -f1)
     echo $F1 $F2
-    [[ "$F1" != "$F2" ]] || break;
+    [[ "$F1" != "$F2" ]] || break
 done
 
 echo "       #########################     "
 
-for file in `find . -name "*.deb"`; do
+for file in $(find . -maxdepth 1 -name "*.deb"); do
     echo "--- $file"
     ar x $file data.tar.xz
-    tar xvf data.tar.xz ./usr/lib/x86_64-linux-gnu/
-    tar xvf data.tar.xz ./lib/x86_64-linux-gnu/
+
+    for archive_dir in "./usr/lib/x86_64-linux-gnu/" "./lib/x86_64-linux-gnu/"; do
+        error_info=$(tar tf data.tar.xz $archive_dir 2>&1 >/dev/null)
+        error_code=$?
+
+        if [ $error_code -eq 0 ]; then
+            # No error - Directory found in archive.
+            echo "Extracting $archive_dir"
+            tar xvf data.tar.xz ./usr/lib/x86_64-linux-gnu/
+        elif [ $error_code -eq 2 ] && grep -q "Not found in archive" <<<"$error_info"; then
+            # Expected error - ignore.
+            true
+        else
+            # Unexpected error - Highlight in red and send to stderr.
+            echo -e "\033[31m$error_info\033[0m" 1>&2
+        fi
+    done
     rm -f *.tar.xz
 done
 cd ..
 
+if ! [ -d .tmp/usr/lib/x86_64-linux-gnu ] && ! [ -d .tmp/lib/x86_64-linux-gnu ]; then
+    exit 1
+fi
+
 mv .tmp/usr/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin-ffmpeg/lib/
 mv .tmp/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin-ffmpeg/lib/
+exit 0

@@ -53,3 +53,4 @@ See **[pdulvp.fr/qnap-store](https://pdulvp.fr/qstore.html)**
 - Launch a Release build of the `configuration/Jellyfin.Plugin.QnapConfiguration.sln` under Visual Studio. It will create two releases, for net5.0 and net6.0 that will be embedded afterwards.
 - Launch `./make.sh` (note that the script will try to push it on this repository. `push.sh` can be disabled in subscripts `fetch-stable.sh` and `fetch-stable-pre.sh`)
 - If there is some 'File not found' while downloading dependencies, just launch a `sudo apt-get update` on your WSL and relaunch the build
+- The build is verbose and raises some logs on tar operations but shall not ring a bell

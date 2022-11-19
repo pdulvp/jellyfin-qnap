@@ -120,7 +120,7 @@ for file in $(find . -maxdepth 1 -name "*.deb"); do
         if [ $error_code -eq 0 ]; then
             # No error - Directory found in archive.
             echo "Extracting $archive_dir"
-            tar xvf data.tar.xz ./usr/lib/x86_64-linux-gnu/
+            tar xvf data.tar.xz $archive_dir
         elif [ $error_code -eq 2 ] && grep -q "Not found in archive" <<<"$error_info"; then
             # Expected error - ignore.
             true

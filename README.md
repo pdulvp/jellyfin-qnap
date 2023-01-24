@@ -5,6 +5,11 @@
 - Releases are created automatically from the latest jellyfin releases and are not field-tested nor official ones from Jellyfin or QNAP.
 - The latest release with my :+1: is deployed on my QNAP and working properly.
 
+## <img alt="hardware icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hard.png" width="24px"/> Installation <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
+
+- Download the `.qpkg` from the releases
+- On the `Qnap QTS` > `App Center` > `Install Manually`. then choose the downloaded `.qpkg`.
+
 ## <img alt="hardware icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hard.png" width="24px"/> Enable Video Acceleration in Jellyfin <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
 ![](ScreenshotConfig.png) ([中文](ScreenshotConfigCh.png))

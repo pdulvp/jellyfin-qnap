@@ -2,8 +2,8 @@
   "name": "jellyfin-qnap",
   "preversion": "1080-beta3.1080-beta3.5014",
   "presha": "10.8.0-beta3_fef37ac1c887de65574ce94688f1f479",
-  "version": "10891.10891.5126",
-  "sha": "34fa16923b03d4e4ed73fc884225c1af",
+  "version": "10891.10891.5131",
+  "sha": "1ef0d6e9ce314c923546661d01cb15a5",
   "description": "",
   "main": "index.js",
   "scripts": {

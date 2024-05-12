@@ -41,7 +41,7 @@ if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
         export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
     fi
 fi
-\$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
 EOL
 
 cat >jellyfin/shared/jellyfin-ffmpeg/ffprobe <<EOL
@@ -59,7 +59,7 @@ if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
         export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
     fi
 fi
-\$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 
 cat >jellyfin/shared/jellyfin-ffmpeg/vainfo <<EOL
@@ -69,14 +69,14 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
-\$QPKG_ROOT/jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
 EOL
 
 chmod +x jellyfin/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x jellyfin/shared/jellyfin-ffmpeg/ffprobe
 chmod +x jellyfin/shared/jellyfin-ffmpeg/vainfo
 
-if ! ./prefetch-lib.sh "$FFMPEG_INFO" "jellyfin/shared/jellyfin-ffmpeg/lib/"; then
+if ! ./prefetch-lib.sh "$FFMPEG_INFO" "jellyfin/shared/jellyfin/bin/"; then
     exit $?
 fi
 exit 0

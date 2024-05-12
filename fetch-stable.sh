@@ -26,17 +26,17 @@ echo "QPKG_VER=$QPKG_VER"
 
 if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
     echo -e "\033[0;36mNo new release \033[0m"
-    exit;
+#    exit;
 fi
 echo -e "\033[0;32mDownload new release \033[0m"
 
-rm -f jellyfin-server_*.deb*
-rm -f jellyfin-web_*.deb*
-rm -f jellyfin-ffmpeg*_*.deb*
+#rm -f jellyfin-server_*.deb*
+#rm -f jellyfin-web_*.deb*
+#rm -f jellyfin-ffmpeg*_*.deb*
 
-wget -q "https://repo.jellyfin.org/files/ffmpeg/debian/latest-6.x/amd64/jellyfin-ffmpeg6_"$FFMPEG_VERSION"-bullseye_amd64.deb"
-wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-server_"$SERVER_VERSION"%2Bdeb11_amd64.deb"
-wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-web_"$SERVER_VERSION"%2Bdeb11_all.deb"
+#wget -q "https://repo.jellyfin.org/files/ffmpeg/debian/latest-6.x/amd64/jellyfin-ffmpeg6_"$FFMPEG_VERSION"-bullseye_amd64.deb"
+#wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-server_"$SERVER_VERSION"%2Bdeb11_amd64.deb"
+#wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-web_"$SERVER_VERSION"%2Bdeb11_all.deb"
 
 sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
 

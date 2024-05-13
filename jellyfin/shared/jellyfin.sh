@@ -31,7 +31,7 @@ sleep 10
   stop)
     : ADD STOP ACTIONS HERE
 
-killall -9 jellyfin
+ps aux | grep -ie jellyfin | grep -v grep | awk '{print $1}' | xargs kill -9
 
 rm -rf /opt/$QPKG_NAME
 rm -rf /usr/lib/jellyfin-ffmpeg

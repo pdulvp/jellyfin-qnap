@@ -32,8 +32,6 @@ Go to `Admin > Dashboard`
 
 ![](ScreenshotPluginConfig.png)
 
-* Ensure that `Transcoding` > `FFmpeg path` is not empty. If empty, you can set it to `/usr/lib/jellyfin-ffmpeg/ffmpeg`
-
 * Disable some unexpected enabled options `Server > Playback > Transcoding`:
 
    * On TS-253A, the option `Enable 10-Bit hardware decoding for HEVC` shall be disabled

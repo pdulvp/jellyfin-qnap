@@ -8,6 +8,7 @@
 ## <img alt="hardware icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hard.png" width="24px"/> Installation <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
 - Download the `.qpkg` from the releases
+- On the `Qnap QTS` > `App Center` > `Settings` > `Allow installation of applications without a valid digital signature`
 - On the `Qnap QTS` > `App Center` > `Install Manually`. then choose the downloaded `.qpkg`.
 
 ## <img alt="hardware icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hard.png" width="24px"/> Enable Video Acceleration in Jellyfin <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>

@@ -12,6 +12,7 @@
 - On the `Qnap QTS` > `App Center` > `Install Manually`. then choose the downloaded `.qpkg`.
 - After installation, on the Jellyfin appearing in the App Center, just wait a bit (~30s) then open it using the `Open` button. It shall open a working web site.
 - If it is the first time you open, you will have to choose a server (which is the IP of your NAS) and an user (which is one account of your NAS)
+- If you watch jellyfin on your TV (or so) using Jellyfin Android version (or other), your NAS should then be accessible from it. Just add the NAS ip to access it.
 
 ## <img alt="hardware icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hard.png" width="24px"/> Enable Video Acceleration in Jellyfin <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 

@@ -63,4 +63,4 @@ See **[pdulvp.fr/qnap-store](https://pdulvp.fr/qstore.html)**
 
 ### Why this qpkg is so large
 
-It is large as jellyfin and ffmpeg require some dependencies that are not available on most QNAP NAS default installation (latest releases of libc or stuff) so it embeds almost all dependencies in it to be able to be launched. Dependenceis and custom installed jellyfin plugin.
+It is large as it embeds Jellyfin Server, Jellyfin FFMPEG and Jellyfin Web Client and most of their dependencies. Jellyfin and ffmpeg require some dependencies that are not available on most QNAP NAS default installation (latest releases of libc or stuff) so it embeds almost all dependencies in it to be able to be launched. Dependencies and custom installed jellyfin plugin.

@@ -60,3 +60,7 @@ See **[pdulvp.fr/qnap-store](https://pdulvp.fr/qstore.html)**
 - Launch `./make.sh` (note that the script will try to push it on this repository. `push.sh` can be disabled in subscripts `fetch-stable.sh` and `fetch-stable-pre.sh`)
 - If there is some 'File not found' while downloading dependencies, just launch a `sudo apt-get update` on your WSL and relaunch the build
 - The build is verbose and raises some logs on tar operations but shall not ring a bell
+
+### Why this qpkg is so large
+
+It is large as jellyfin and ffmpeg require some dependencies that are not available on most QNAP NAS default installation (latest releases of libc or stuff) so it embeds almost all dependencies in it to be able to be launched. Dependenceis and custom installed jellyfin plugin.

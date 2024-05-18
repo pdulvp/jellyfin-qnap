@@ -41,7 +41,7 @@ echo -e "\033[0;32mDownload new release \033[0m"
 
 sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
 
-rm -f .tmp*
+rm -rf .tmp*
 
 if ! ./jellyfin-server.sh; then
     exit $?
@@ -51,9 +51,13 @@ if ! ./jellyfin-ffmpeg.sh; then
     exit $?
 fi
 
-if ! ./unpack-lib.sh "jellyfin/shared/jellyfin/bin/"; then
+if ! ./unpack-lib.sh; then
     exit $?
 fi
+
+# move all libs under bin as jellyfin doesn't support other folders.
+mv .tmp-lib/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin/bin/
+mv .tmp-lib/usr/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin/bin/
 
 if ! ./jellyfin-web.sh; then
     exit $?

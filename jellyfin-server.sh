@@ -43,7 +43,7 @@ echo "NETVERSION=$NETVERSION"
 cp configuration/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 ls "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 
-if ! ./prefetch-lib.sh "$SERVER_INFO"; then
+if ! ./prefetch-lib.sh "$SERVER_INFO" "amd64"; then
     exit $?
 fi
 

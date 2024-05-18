@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir .tmp-lib;
-mkdir -p "$1"
+mkdir -p .tmp-lib/lib;
+mkdir -p .tmp-lib/usr/lib;
 cd .tmp-lib
 echo "Unpack dependencies"
 
@@ -19,6 +19,4 @@ if ! [ -d .tmp-lib/usr/lib/x86_64-linux-gnu ] && ! [ -d .tmp-lib/lib/x86_64-linu
     exit 1
 fi
 
-mv .tmp-lib/usr/lib/x86_64-linux-gnu/* "$1"
-mv .tmp-lib/lib/x86_64-linux-gnu/* "$1"
 exit 0

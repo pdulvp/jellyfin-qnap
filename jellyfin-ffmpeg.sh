@@ -76,7 +76,7 @@ chmod +x jellyfin/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x jellyfin/shared/jellyfin-ffmpeg/ffprobe
 chmod +x jellyfin/shared/jellyfin-ffmpeg/vainfo
 
-if ! ./prefetch-lib.sh "$FFMPEG_INFO"; then
+if ! ./prefetch-lib.sh "$FFMPEG_INFO" "amd64"; then
     exit $?
 fi
 exit 0

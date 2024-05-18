@@ -4,7 +4,7 @@ mkdir -p .tmp-lib;
 cp "$1" .tmp-lib
 cd .tmp-lib
 
-ARCH=amd64
+ARCH=$2
 echo "Prefetch dependencies $1"
 BUILD_INFO="$1"
 getDependencies() {

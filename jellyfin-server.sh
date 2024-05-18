@@ -5,14 +5,6 @@ if [ `ls -1 jellyfin-server_*_amd64.deb | wc -l` -ne 1 ]; then
     exit
 fi
 
-if [ `ls -1 jellyfin-web_*_all.deb | wc -l` -ne 1 ]; then
-    echo "jellyfin-web_XYZ_all.deb not found or several releases."
-    exit
-fi
-
-WEB=`ls -1 jellyfin-web_*_all.deb`
-echo $WEB jellyfin-web found.
-
 SERVER=`ls -1 jellyfin-server_*_amd64.deb`
 echo $SERVER found.
 
@@ -20,15 +12,14 @@ SERVER_INFO=`ls -1 jellyfin_*.buildinfo`
 echo $SERVER_INFO found.
 
 #Unzip jellyfin-server.deb/data.tar.xz/./usr/lib/ into jellyfin/shared/
-rm -rf .tmp; mkdir .tmp;
-cd .tmp
+mkdir .tmp-server;
+cd .tmp-server
 ar x ../$SERVER data.tar.xz
 tar xf data.tar.xz ./usr/lib/
 cd ..
 rm -rf jellyfin/shared/jellyfin
-rm -rf jellyfin/shared/jellyfin-web
-mv .tmp/usr/lib/jellyfin jellyfin/shared/
-
+mv .tmp-server/usr/lib/jellyfin jellyfin/shared/
+rm -rf .tmp-server;
 
 #Create redirection for jellyfin
 mv jellyfin/shared/jellyfin/bin/jellyfin jellyfin/shared/jellyfin/bin/jellyfin2
@@ -45,24 +36,15 @@ EOL
 
 chmod +x jellyfin/shared/jellyfin/bin/jellyfin
 
-if ! ./prefetch-lib.sh "$SERVER_INFO" "jellyfin/shared/jellyfin/bin/"; then
-    exit $?
-fi
-
-
-#Unzip jellyfin-web.deb/data.tar.xz/./usr/lib/ into jellyfin/shared/
-rm -rf .tmp; mkdir .tmp;
-cd .tmp
-ar x ../$WEB data.tar.xz
-tar xf data.tar.xz ./usr/share/jellyfin
-cd ..
-mv .tmp/usr/share/jellyfin/web jellyfin/shared/jellyfin-web
-
 # Add Configuration plugin
 mkdir -p jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration
 NETVERSION=`cat jellyfin/shared/jellyfin/bin/jellyfin.runtimeconfig.json | grep -E "tfm.*" | cut -f4 -d"\""`
 echo "NETVERSION=$NETVERSION"
 cp configuration/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 ls "jellyfin/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
+
+if ! ./prefetch-lib.sh "$SERVER_INFO"; then
+    exit $?
+fi
 
 exit 0

@@ -18,7 +18,8 @@ wget "https://repo.jellyfin.org/files/ffmpeg/debian/latest-6.x/amd64/jellyfin-ff
 wget "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin_"$SERVER_VERSION"%2Bdeb11_amd64.buildinfo"
 
 NEXT_VERSION=$(echo $SERVER_VERSION @ $WEB_VERSION @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g")
-NEXT_SHA=$(find . -maxdepth 1 -name "jelly*.buildinfo" -exec cat {} \; | grep amd64.deb | md5sum | cut -d" " -f 1)
+PREFIX=""
+NEXT_SHA=$(PREFIX)$(find . -maxdepth 1 -name "jelly*.buildinfo" -exec cat {} \; | grep amd64.deb | md5sum | cut -d" " -f 1)
 echo "NEXT_VERSION=$NEXT_VERSION"
 echo "NEXT_SHA=$NEXT_SHA"
 QPKG_VER=$(echo $SERVER_VERSION)
@@ -30,21 +31,31 @@ if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" 
 fi
 echo -e "\033[0;32mDownload new release \033[0m"
 
-rm -f jellyfin-server_*.deb*
-rm -f jellyfin-web_*.deb*
-rm -f jellyfin-ffmpeg*_*.deb*
+#rm -f jellyfin-server_*.deb*
+#rm -f jellyfin-web_*.deb*
+#rm -f jellyfin-ffmpeg*_*.deb*
 
-wget -q "https://repo.jellyfin.org/files/ffmpeg/debian/latest-6.x/amd64/jellyfin-ffmpeg6_"$FFMPEG_VERSION"-bullseye_amd64.deb"
-wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-server_"$SERVER_VERSION"%2Bdeb11_amd64.deb"
-wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-web_"$SERVER_VERSION"%2Bdeb11_all.deb"
+#wget -q "https://repo.jellyfin.org/files/ffmpeg/debian/latest-6.x/amd64/jellyfin-ffmpeg6_"$FFMPEG_VERSION"-bullseye_amd64.deb"
+#wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-server_"$SERVER_VERSION"%2Bdeb11_amd64.deb"
+#wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-web_"$SERVER_VERSION"%2Bdeb11_all.deb"
 
 sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
+
+rm -f .tmp*
 
 if ! ./jellyfin-server.sh; then
     exit $?
 fi
 
 if ! ./jellyfin-ffmpeg.sh; then
+    exit $?
+fi
+
+if ! ./unpack-lib.sh "jellyfin/shared/jellyfin/bin/"; then
+    exit $?
+fi
+
+if ! ./jellyfin-web.sh; then
     exit $?
 fi
 

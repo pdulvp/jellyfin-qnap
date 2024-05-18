@@ -1,4 +1,4 @@
-/.tmp
+/.tmp*
 /jellyfin/build
 /jellyfin/build.*
 /jellyfin/.tmp

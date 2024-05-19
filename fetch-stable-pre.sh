@@ -45,7 +45,7 @@ wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER
 wget -q "https://repo.jellyfin.org/releases/server/debian/stable-pre/$PRE_SERVER_VERSION/web/jellyfin-web_"$WEB_VERSION"_all.deb"
 wget -q "https://repo.jellyfin.org/releases/server/debian/versions/jellyfin-ffmpeg/$FFMPEG_VERSION/jellyfin-ffmpeg5_"$FFMPEG_VERSION"-bullseye_amd64.deb"
 
-sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
+sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
 
 ./jellyfin-server.sh
 ./jellyfin-ffmpeg.sh
@@ -55,5 +55,5 @@ sed -i "s/$CURRENT_VERSION/$NEXT_VERSION/g" package.json
 sed -i "s/$CURRENT_SHA/$NEXT_SHA/g" package.json
 
 DESC="Version based on: \`jellyfin-server_$PRE_SERVER_VERSION\` \`jellyfin-web_$PRE_WEB_VERSION\` \`jellyfin-ffmpeg5_$FFMPEG_VERSION\`"
-PKG=`find jellyfin/build/ -name "jellyfin_*${QPKG_VER:0:10}*.qpkg"`
+PKG=`find output/build/ -name "jellyfin_*${QPKG_VER:0:10}*.qpkg"`
 ./push.sh "${NEXT_VERSION}_${NEXT_SHA::-24}" "$PRE_SERVER_VERSION" "$DESC" "$PKG" "true"

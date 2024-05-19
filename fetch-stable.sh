@@ -39,9 +39,13 @@ echo -e "\033[0;32mDownload new release \033[0m"
 #wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-server_"$SERVER_VERSION"%2Bdeb11_amd64.deb"
 #wget -q "https://repo.jellyfin.org/files/server/debian/latest-stable/amd64/jellyfin-web_"$SERVER_VERSION"%2Bdeb11_all.deb"
 
-sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" jellyfin/qpkg.cfg
-
 rm -rf .tmp*
+
+rm -rf output
+mkdir output
+cp -rf packaging/* output
+
+sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
 
 if ! ./jellyfin-server.sh; then
     exit $?
@@ -56,8 +60,8 @@ if ! ./unpack-lib.sh; then
 fi
 
 # move all libs under bin as jellyfin doesn't support other folders.
-mv .tmp-lib/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin/bin/
-mv .tmp-lib/usr/lib/x86_64-linux-gnu/* jellyfin/shared/jellyfin/bin/
+mv .tmp-lib/lib/x86_64-linux-gnu/* output/shared/jellyfin/bin/
+mv .tmp-lib/usr/lib/x86_64-linux-gnu/* output/shared/jellyfin/bin/
 
 if ! ./jellyfin-web.sh; then
     exit $?
@@ -71,5 +75,5 @@ sed -i "s/$CURRENT_VERSION/$NEXT_VERSION/g" package.json
 sed -i "s/$CURRENT_SHA/$NEXT_SHA/g" package.json
 
 DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
-PKG=$(find jellyfin/build/ -name "jellyfin_*${QPKG_VER:0:10}*.qpkg")
+PKG=$(find output/build/ -name "jellyfin_*${QPKG_VER:0:10}*.qpkg")
 ./push.sh "${NEXT_VERSION}_${NEXT_SHA:0:8}" "$SERVER_VERSION" "$DESC" "$PKG" "false"

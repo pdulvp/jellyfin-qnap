@@ -1,10 +1,7 @@
 /.tmp*
-/jellyfin/build
-/jellyfin/build.*
-/jellyfin/.tmp
+/build
+/output
+/packaging/build
 /*.deb
-/*.sha256sum
-/jellyfin/shared/jellyfin-ffmpeg
-/jellyfin/shared/jellyfin-web
-/jellyfin/shared/jellyfin
+/*.buildinfo
 /init.sh

@@ -10,8 +10,8 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "jellyfin-1080", "C:\Tools\j
 		Executable = C:\Tools\jellyfin\jellyfin-server_1080\jellyfin-1080.exe
 		RemoteMachine = 
 		StartingDirectory = C:\Tools\jellyfin\jellyfin-server_1080
-		Arguments = --datadir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\database --cachedir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\cache --webdir=.\jellyfin-web --configdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\conf --logdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\logs
-		Environment = Par défaut
+		Arguments = --datadir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\database --cachedir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\cache --webdir=.\jellyfin-web --configdir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\conf --logdir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1080\logs
+		Environment = Par dï¿½faut
 		LaunchingEngine = 2e36f1d4-b23c-435d-ab41-18e608940038
 		UseLegacyDebugEngines = No
 		LaunchSQLEngine = No
@@ -25,8 +25,8 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "jellyfin-1077", "C:\Tools\j
 		Executable = C:\Tools\jellyfin\jellyfin-server_1077\jellyfin-1077.exe
 		RemoteMachine = 
 		StartingDirectory = C:\Tools\jellyfin\jellyfin-server_1077
-		Arguments = --datadir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\database --cachedir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\cache --webdir=.\jellyfin-web --configdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\conf --logdir=C:\Works\jellyfin-qnap\configuration\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\logs
-		Environment = Par défaut
+		Arguments = --datadir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\database --cachedir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\cache --webdir=.\jellyfin-web --configdir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\conf --logdir=C:\Works\jellyfin-qnap\plugins\Jellyfin.Plugin.QnapConfiguration\bin\server-1077\logs
+		Environment = Par dï¿½faut
 		LaunchingEngine = 2e36f1d4-b23c-435d-ab41-18e608940038
 		UseLegacyDebugEngines = No
 		LaunchSQLEngine = No

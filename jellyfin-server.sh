@@ -40,7 +40,7 @@ chmod +x output/shared/jellyfin/bin/jellyfin
 mkdir -p output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration
 NETVERSION=`cat output/shared/jellyfin/bin/jellyfin.runtimeconfig.json | grep -E "tfm.*" | cut -f4 -d"\""`
 echo "NETVERSION=$NETVERSION"
-cp configuration/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
+cp plugins/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 ls "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 
 if ! ./prefetch-lib.sh "$SERVER_INFO" "amd64"; then

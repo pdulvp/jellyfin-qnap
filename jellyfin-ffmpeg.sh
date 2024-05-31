@@ -1,11 +1,12 @@
 #!/bin/bash
 
-if [ $(ls -1 jellyfin-ffmpeg*_*-bullseye_amd64.deb | wc -l) -ne 1 ]; then
-    echo -e "jellyfin-ffmpeg*_XYZ-bullseye_amd64.deb not found or several releases." 1>&2
+ARCH=$1
+if [ $(ls -1 jellyfin-ffmpeg*_*-bullseye_*.deb | wc -l) -ne 1 ]; then
+    echo -e "jellyfin-ffmpeg*_XYZ-bullseye_*.deb not found or several releases." 1>&2
     exit 1
 fi
 
-FFMPEG=$(ls -1 jellyfin-ffmpeg*_*-bullseye_amd64.deb)
+FFMPEG=$(ls -1 jellyfin-ffmpeg*_*-bullseye_*.deb)
 echo $FFMPEG found.
 
 FFMPEG_INFO=`ls -1 jellyfin-ffmpeg*.buildinfo`
@@ -76,7 +77,7 @@ chmod +x output/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x output/shared/jellyfin-ffmpeg/ffprobe
 chmod +x output/shared/jellyfin-ffmpeg/vainfo
 
-if ! ./prefetch-lib.sh "$FFMPEG_INFO" "amd64"; then
+if ! ./prefetch-lib.sh "$FFMPEG_INFO" "$ARCH"; then
     exit $?
 fi
 exit 0

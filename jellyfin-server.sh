@@ -1,11 +1,12 @@
 #!/bin/bash
 
-if [ `ls -1 jellyfin-server_*_amd64.deb | wc -l` -ne 1 ]; then
-    echo "jellyfin-server_XYZ_amd64.deb not found or several releases."
+ARCH=$1
+if [ `ls -1 jellyfin-server_*_*.deb | wc -l` -ne 1 ]; then
+    echo "jellyfin-server_XYZ_*.deb not found or several releases."
     exit
 fi
 
-SERVER=`ls -1 jellyfin-server_*_amd64.deb`
+SERVER=`ls -1 jellyfin-server_*_*.deb`
 echo $SERVER found.
 
 SERVER_INFO=`ls -1 jellyfin_*.buildinfo`
@@ -48,7 +49,7 @@ fi
 
 ls "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 
-if ! ./prefetch-lib.sh "$SERVER_INFO" "amd64"; then
+if ! ./prefetch-lib.sh "$SERVER_INFO" "$ARCH"; then
     exit $?
 fi
 

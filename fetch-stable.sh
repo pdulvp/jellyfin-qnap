@@ -76,5 +76,5 @@ sed -i "s/$CURRENT_VERSION/$NEXT_VERSION/g" package.json
 sed -i "s/$CURRENT_SHA/$NEXT_SHA/g" package.json
 
 DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
-PKG=$(find output/build/ -name "jellyfin_*${QPKG_VER:0:10}*.qpkg")
+PKG=$(find build/ -name "jellyfin_*${QPKG_VER:0:10}*.qpkg")
 ./push.sh "${NEXT_VERSION}_${NEXT_SHA:0:8}" "$SERVER_VERSION" "$DESC" "$PKG" "false"

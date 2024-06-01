@@ -86,7 +86,10 @@ ADDITIONAL_PATHS=""
 if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
   ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
 fi
-\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
+if [ -f \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 ]; then
+  \$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
+fi
+
 EOL
 
 chmod +x output/shared/jellyfin-ffmpeg/ffmpeg

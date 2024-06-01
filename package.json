@@ -3,7 +3,9 @@
   "preversion": "1080-beta3.1080-beta3.5014",
   "presha": "10.8.0-beta3_fef37ac1c887de65574ce94688f1f479",
   "version": "1093.1093.6017",
-  "sha": "0539cf37d92bcff8bb1e5c88213fad6a",
+  "sha": "924cf13c90780e64425857974b90b198",
+  "server": "10.9.3",
+  "ffmpeg": "6.0.1-7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/pdulvp/jellyfin-qnap/issues"
   },
-  "homepage": "https://github.com/pdulvp/jellyfin-qnap#readme"
+  "homepage": "https://github.com/pdulvp/jellyfin-qnap#readme",
+  "web": "10.9.3"
 }

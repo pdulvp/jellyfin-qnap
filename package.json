@@ -1,0 +1,26 @@
+{
+  "name": "jellyfin-qnap",
+  "preversion": "1080-beta3.1080-beta3.5014",
+  "presha": "10.8.0-beta3_fef37ac1c887de65574ce94688f1f479",
+  "version": "1093.1093.6017",
+  "sha": "924cf13c90780e6490b198",
+  "server": "10.9.3",
+  "ffmpeg": "6.0.1-7",
+  "ffmpeg5": "5.1.4-7",
+  "web": "10.9.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdulvp/jellyfin-qnap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pdulvp/jellyfin-qnap/issues"
+  },
+  "homepage": "https://github.com/pdulvp/jellyfin-qnap#readme"
+}

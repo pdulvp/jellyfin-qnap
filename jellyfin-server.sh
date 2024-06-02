@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ARCH=$1
+SERVER_VERSION=$2
 if [ `ls -1 jellyfin-server_*_*.deb | wc -l` -ne 1 ]; then
     echo "jellyfin-server_XYZ_*.deb not found or several releases."
     exit
@@ -53,7 +54,7 @@ fi
 
 ls "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
 
-if ! ./prefetch-lib.sh "$SERVER_INFO" "$ARCH"; then
+if ! ./prefetch-lib.sh "$SERVER_VERSION" "$SERVER_INFO" "$ARCH"; then
     exit $?
 fi
 

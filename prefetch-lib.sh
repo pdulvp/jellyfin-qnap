@@ -1,12 +1,20 @@
 #!/bin/bash
 
+VERSION="$1"
+BUILD_INFO="$2"
+ARCH=$3
+
 mkdir -p .tmp-lib;
-cp "$1" .tmp-lib
+if [ -d ".cache/$VERSION-$ARCH/deb" ]; then
+  echo -e "\033[0;32mPrefetch dependencies $2 from cache \033[0m"
+  cp .cache/$VERSION-$ARCH/deb/* .tmp-lib
+  exit 0
+fi
+
+echo "Prefetch dependencies $2"
+cp "$2" .tmp-lib
 cd .tmp-lib
 
-ARCH=$2
-echo "Prefetch dependencies $1"
-BUILD_INFO="$1"
 getDependencies() {
   echo $(awk '
   /^Installed-Build-Depends:/ || /^ / && deps {
@@ -27,9 +35,16 @@ getDependencies() {
   echo "libpciaccess0" #vainfo
   echo "libstdc++"     #jellyfin
 }
+
+
 for var in $(getDependencies $BUILD_INFO); do
   apt-get download "$var" -o APT::Architecture=$ARCH
 done
+
+cd ..
+
+mkdir -p .cache/$VERSION-$ARCH/deb
+cp .tmp-lib/* .cache/$VERSION-$ARCH/deb
 
 echo "Finished prefetch dependencies $1"
 exit 0

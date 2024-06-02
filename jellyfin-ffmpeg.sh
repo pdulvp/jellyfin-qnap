@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ARCH=$1
+FFMPEG_VERSION=$2
 if [ $(ls -1 jellyfin-ffmpeg*_*-bullseye_*.deb | wc -l) -ne 1 ]; then
     echo -e "jellyfin-ffmpeg*_XYZ-bullseye_*.deb not found or several releases." 1>&2
     exit 1
@@ -12,11 +13,22 @@ echo $FFMPEG found.
 FFMPEG_INFO=`ls -1 jellyfin-ffmpeg*.buildinfo`
 echo $FFMPEG_INFO found.
 
+case "$ARCH" in
+    armhf) LD_LIB="ld-linux-armhf.so.3" ;;
+    arm64) LD_LIB="ld-linux-aarch64.so.1" ;;
+    *) LD_LIB="ld-linux-x86-64.so.2" ;;
+esac
+
+if [ $ARCH == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
+    echo -e "\033[0;36mNo new release \033[0m"
+    exit;
+fi
+
 # Unzip jellyfin-ffmpeg.deb/data.tar.xz/./usr/lib/ into output/shared/
 mkdir .tmp-ffmpeg
 cd .tmp-ffmpeg
 ar x ../$FFMPEG data.tar.xz
-tar xvf data.tar.xz ./usr/lib/
+tar xf data.tar.xz ./usr/lib/
 cd ..
 rm -rf output/shared/jellyfin-ffmpeg
 mv .tmp-ffmpeg/usr/lib/jellyfin-ffmpeg output/shared/
@@ -48,7 +60,7 @@ if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
   ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
 fi
 
-\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
 EOL
 
 cat >output/shared/jellyfin-ffmpeg/ffprobe <<EOL
@@ -71,7 +83,7 @@ ADDITIONAL_PATHS=""
 if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
   ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
 fi
-\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 
 cat >output/shared/jellyfin-ffmpeg/vainfo <<EOL
@@ -81,22 +93,22 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
-
 ADDITIONAL_PATHS=""
 if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
   ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
 fi
 if [ -f \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 ]; then
-  \$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
+  \$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
 fi
 
 EOL
+
 
 chmod +x output/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x output/shared/jellyfin-ffmpeg/ffprobe
 chmod +x output/shared/jellyfin-ffmpeg/vainfo
 
-if ! ./prefetch-lib.sh "$FFMPEG_INFO" "$ARCH"; then
+if ! ./prefetch-lib.sh "$FFMPEG_VERSION" "$FFMPEG_INFO" "$ARCH"; then
     exit $?
 fi
 exit 0

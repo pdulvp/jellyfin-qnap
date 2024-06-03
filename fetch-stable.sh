@@ -73,7 +73,7 @@ proceed() {
   get "https://repo.jellyfin.org/files/server/debian/$SERVER_DEB"
   get "https://repo.jellyfin.org/files/server/debian/$WEB_DEB"
 
-  rm -rf .tmp*
+  rm -rf .tmp
   rm -rf output
   mkdir output
   cp -rf packaging/* output
@@ -84,7 +84,7 @@ proceed() {
       exit $?
   fi
 
-  if ! ./jellyfin-ffmpeg.sh "$ARCH" "$FFMPEG_TAG"; then
+  if ! ./jellyfin-ffmpeg.sh "$ARCH" "$FFMPEG_TAG" "$FFMPEG"; then
       exit $?
   fi
 
@@ -93,8 +93,8 @@ proceed() {
   fi
 
   # move all libs under bin as jellyfin doesn't support other folders.
-  mv .tmp-lib/lib/*-linux-*/* output/shared/jellyfin/bin/
-  mv .tmp-lib/usr/lib/*-linux-*/* output/shared/jellyfin/bin/
+  mv .tmp/lib/lib/*-linux-*/* output/shared/jellyfin/bin/
+  mv .tmp/lib/usr/lib/*-linux-*/* output/shared/jellyfin/bin/
 
   if ! ./jellyfin-web.sh; then
       exit $?
@@ -106,10 +106,10 @@ proceed() {
   fi
 }
 
-if ! proceed "amd64" "ffmpeg6"; then
+if ! proceed "amd64" "ffmpeg5"; then
   exit $?
 fi
-if ! proceed "amd64" "ffmpeg5"; then
+if ! proceed "amd64" "ffmpeg6"; then
   exit $?
 fi
 if ! proceed "arm64" "ffmpeg6"; then

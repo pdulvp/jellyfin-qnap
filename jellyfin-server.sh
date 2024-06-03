@@ -14,14 +14,14 @@ SERVER_INFO=`ls -1 jellyfin_*.buildinfo`
 echo $SERVER_INFO found.
 
 #Unzip jellyfin-server.deb/data.tar.xz/./usr/lib/ into output/shared/
-mkdir .tmp-server;
-cd .tmp-server
-ar x ../$SERVER data.tar.xz
+mkdir -p .tmp/server;
+cd .tmp/server
+ar x ../../$SERVER data.tar.xz
 tar xf data.tar.xz ./usr/lib/
-cd ..
+cd ../..
 rm -rf output/shared/jellyfin
-mv .tmp-server/usr/lib/jellyfin output/shared/
-rm -rf .tmp-server;
+mv .tmp/server/usr/lib/jellyfin output/shared/
+rm -rf .tmp/server;
 
 #Create redirection for jellyfin
 mv output/shared/jellyfin/bin/jellyfin output/shared/jellyfin/bin/jellyfin2

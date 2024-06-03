@@ -2,6 +2,7 @@
 
 ARCH=$1
 FFMPEG_VERSION=$2
+FFMPEG_TYPE=$3
 if [ $(ls -1 jellyfin-ffmpeg*_*-bullseye_*.deb | wc -l) -ne 1 ]; then
     echo -e "jellyfin-ffmpeg*_XYZ-bullseye_*.deb not found or several releases." 1>&2
     exit 1
@@ -25,14 +26,14 @@ if [ $ARCH == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
 fi
 
 # Unzip jellyfin-ffmpeg.deb/data.tar.xz/./usr/lib/ into output/shared/
-mkdir .tmp-ffmpeg
-cd .tmp-ffmpeg
-ar x ../$FFMPEG data.tar.xz
+mkdir .tmp/ffmpeg
+cd .tmp/ffmpeg
+ar x ../../$FFMPEG data.tar.xz
 tar xf data.tar.xz ./usr/lib/
-cd ..
+cd ../..
 rm -rf output/shared/jellyfin-ffmpeg
-mv .tmp-ffmpeg/usr/lib/jellyfin-ffmpeg output/shared/
-rm -rf .tmp-ffmpeg
+mv .tmp/ffmpeg/usr/lib/jellyfin-ffmpeg output/shared/
+rm -rf .tmp/ffmpeg
 
 # Create ffmpeg and ffprobe versions that will rely on required jellyfin-ffmpeg/lib/ld-linux-x86-64.so.2 rather than default one
 mv output/shared/jellyfin-ffmpeg/ffmpeg output/shared/jellyfin-ffmpeg/ffmpeg2
@@ -103,12 +104,18 @@ fi
 
 EOL
 
-
 chmod +x output/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x output/shared/jellyfin-ffmpeg/ffprobe
 chmod +x output/shared/jellyfin-ffmpeg/vainfo
 
-if ! ./prefetch-lib.sh "$FFMPEG_VERSION" "$FFMPEG_INFO" "$ARCH"; then
-    exit $?
+if [ $FFMPEG != "ffmpeg6" ]; then 
+  if ! ! ./prefetch-lib-legacy.sh "$FFMPEG_VERSION" "$FFMPEG" "$ARCH"; then
+      exit $?
+  fi
+else
+  if ! ./prefetch-lib.sh "$FFMPEG_VERSION" "$FFMPEG_INFO" "$ARCH"; then
+      exit $?
+  fi
 fi
+
 exit 0

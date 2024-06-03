@@ -7,9 +7,12 @@ WEB_VERSION=$(cat package.json | jq -r .web)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 FFMPEG5_VERSION=$(cat package.json | jq -r .ffmpeg5)
 PRERELEASE=true
-SUFFIX=a
+SUFFIX=b
+if [ $SUFFIX != "" ]; then 
+  SUFFIX="-$SUFFIX"
+fi
 RELEASE_NAME="${SERVER_VERSION}${SUFFIX}"
-TAG_VERSION="${VERSION}_${VERSION_SHA:0:8}${SUFFIX}"
+TAG_VERSION="${VERSION}${SUFFIX}_${VERSION_SHA:0:8}"
 
 LABEL=$SERVER_VERSION
 DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\` \`jellyfin-ffmpeg5_$FFMPEG5_VERSION\`"

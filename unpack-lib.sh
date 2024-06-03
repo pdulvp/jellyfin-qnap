@@ -3,14 +3,14 @@
 KEY=$1
 if [ -d .cache/$KEY ]; then
   echo -e "\033[0;32mUnpack dependencies $1 from cache \033[0m"
-  cp -r .cache/$KEY/lib .cache/$KEY/usr .tmp-lib
+  cp -r .cache/$KEY/lib .cache/$KEY/usr .tmp/lib
   exit 0
 fi
 
 echo "Unpack dependencies $1 from debs"
-mkdir -p .tmp-lib/lib;
-mkdir -p .tmp-lib/usr/lib;
-cd .tmp-lib
+mkdir -p .tmp/lib/lib;
+mkdir -p .tmp/lib/usr/lib;
+cd .tmp/lib
 
 for file in $(find . -type f -name "*.deb"); do
     echo "--- $file"
@@ -24,7 +24,7 @@ for file in $(find . -type f -name "*.deb"); do
     rm -f *.tar.xz
 done
 
-cd ..
+cd ../..
 mkdir -p .cache/$KEY;
-cp -r .tmp-lib/lib .tmp-lib/usr .cache/$KEY
+cp -r .tmp/lib/lib .tmp/lib/usr .cache/$KEY
 exit 0

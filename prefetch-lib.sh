@@ -4,16 +4,17 @@ VERSION="$1"
 BUILD_INFO="$2"
 ARCH=$3
 
-mkdir -p .tmp-lib;
+mkdir -p .tmp/lib;
 if [ -d ".cache/$VERSION-$ARCH/deb" ]; then
-  echo -e "\033[0;32mPrefetch dependencies $2 from cache \033[0m"
-  cp .cache/$VERSION-$ARCH/deb/* .tmp-lib
+  echo -e "\033[0;32mPrefetch dependencies $BUILD_INFO from cache \033[0m"
+  cp .cache/$VERSION-$ARCH/deb/* .tmp/lib
   exit 0
 fi
 
-echo "Prefetch dependencies $2"
-cp "$2" .tmp-lib
-cd .tmp-lib
+echo "Prefetch dependencies $BUILD_INFO"
+mkdir -p .tmp/lib-unary;
+cp "$BUILD_INFO" .tmp/lib-unary
+cd .tmp/lib-unary
 
 getDependencies() {
   echo $(awk '
@@ -41,10 +42,11 @@ for var in $(getDependencies $BUILD_INFO); do
   apt-get download "$var" -o APT::Architecture=$ARCH
 done
 
-cd ..
-
+cd ../..
 mkdir -p .cache/$VERSION-$ARCH/deb
-cp .tmp-lib/* .cache/$VERSION-$ARCH/deb
+cp .tmp/lib-unary/* .cache/$VERSION-$ARCH/deb
+cp .tmp/lib-unary/* .tmp/lib
+rm -rf .tmp/lib-unary
 
-echo "Finished prefetch dependencies $1"
+echo "Finished prefetch dependencies $VERSION"
 exit 0

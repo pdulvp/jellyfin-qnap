@@ -26,6 +26,12 @@ rm -rf .tmp/server;
 #Create redirection for jellyfin
 mv output/shared/jellyfin/bin/jellyfin output/shared/jellyfin/bin/jellyfin2
 
+case "$ARCH" in
+    armhf) LD_LIB="ld-linux-armhf.so.3" ;;
+    arm64) LD_LIB="ld-linux-aarch64.so.1" ;;
+    *) LD_LIB="ld-linux-x86-64.so.2" ;;
+esac
+
 cat >output/shared/jellyfin/bin/jellyfin <<EOL
 #!/bin/bash
 
@@ -37,7 +43,7 @@ ADDITIONAL_PATHS=""
 if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
   ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
 fi
-\$QPKG_ROOT/jellyfin/bin/ld-linux-x86-64.so.2 --library-path \$QPKG_ROOT/jellyfin/bin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin/bin/jellyfin2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin/bin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin/bin/jellyfin2 "\$@"
 EOL
 
 chmod +x output/shared/jellyfin/bin/jellyfin

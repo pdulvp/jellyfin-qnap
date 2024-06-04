@@ -6,8 +6,8 @@ SERVER_VERSION=$(cat package.json | jq -r .server)
 WEB_VERSION=$(cat package.json | jq -r .web)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 FFMPEG5_VERSION=$(cat package.json | jq -r .ffmpeg5)
+SUFFIX=$(cat package.json | jq -r .suffix)
 PRERELEASE=true
-SUFFIX=b
 if [ $SUFFIX != "" ]; then 
   SUFFIX="-$SUFFIX"
 fi

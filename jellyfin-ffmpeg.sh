@@ -20,7 +20,7 @@ case "$ARCH" in
     *) LD_LIB="ld-linux-x86-64.so.2" ;;
 esac
 
-if [ $ARCH == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
+if [ "$ARCH" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
     echo -e "\033[0;36mNo new release \033[0m"
     exit;
 fi
@@ -108,7 +108,7 @@ chmod +x output/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x output/shared/jellyfin-ffmpeg/ffprobe
 chmod +x output/shared/jellyfin-ffmpeg/vainfo
 
-if [ $FFMPEG != "ffmpeg6" ]; then 
+if [ "$FFMPEG" == "ffmpeg5" ]; then 
   if ! ! ./prefetch-lib-legacy.sh "$FFMPEG_VERSION" "$FFMPEG" "$ARCH"; then
       exit $?
   fi

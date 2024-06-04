@@ -112,10 +112,16 @@ fi
 if ! proceed "amd64" "ffmpeg6"; then
   exit $?
 fi
+if ! proceed "arm64" "ffmpeg5"; then
+  exit $?
+fi
 if ! proceed "arm64" "ffmpeg6"; then
   exit $?
 fi
 if ! proceed "armhf" "ffmpeg6"; then
+  exit $?
+fi
+if ! proceed "armhf" "ffmpeg5"; then
   exit $?
 fi
 
@@ -125,5 +131,3 @@ cat package.json | jq ".ffmpeg = \"$FFMPEG_VERSION\""
 cat package.json | jq ".ffmpeg5 = \"$FFMPEG5_VERSION\""
 cat package.json | jq ".server = \"$SERVER_VERSION\""
 cat package.json | jq ".web = \"$WEB_VERSION\""
-
-./push.sh

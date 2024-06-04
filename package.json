@@ -12,7 +12,8 @@
   "suffix": "b",
   "main": "index.js",
   "scripts": {
-    "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'"
+    "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'",
+    "push": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./push.sh'"
   },
   "repository": {
     "type": "git",

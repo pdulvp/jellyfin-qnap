@@ -125,9 +125,10 @@ if ! proceed "armhf" "ffmpeg5"; then
   exit $?
 fi
 
-cat package.json | jq ".version = \"$NEXT_VERSION\""
-cat package.json | jq ".sha = \"$NEXT_SHA\""
-cat package.json | jq ".ffmpeg = \"$FFMPEG_VERSION\""
-cat package.json | jq ".ffmpeg5 = \"$FFMPEG5_VERSION\""
-cat package.json | jq ".server = \"$SERVER_VERSION\""
-cat package.json | jq ".web = \"$WEB_VERSION\""
+json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
+json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
+json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
+json=$(echo $json | jq ".ffmpeg5 = \"$FFMPEG5_VERSION\"")
+json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
+json=$(echo $json | jq ".web = \"$WEB_VERSION\"")
+printf '%s\n' "$json" > package.json

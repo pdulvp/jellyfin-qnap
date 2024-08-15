@@ -35,8 +35,8 @@ getDependencies() {
   }' $1) | sort | uniq
   echo "libpciaccess0" #vainfo
   echo "libstdc++"     #jellyfin
+  echo "libgnutls30"   #jellyfin-ffmpeg
 }
-
 
 for var in $(getDependencies $BUILD_INFO); do
   apt-get download "$var" -o APT::Architecture=$ARCH
@@ -45,7 +45,19 @@ done
 cd ../..
 mkdir -p .cache/$VERSION-$ARCH/deb
 cp .tmp/lib-unary/* .cache/$VERSION-$ARCH/deb
-cp .tmp/lib-unary/* .tmp/lib
+# Remove some debs that doesnt contain libs
+rm -rf .cache/$VERSION-$ARCH/deb/libstdc*cross*
+rm -rf .cache/$VERSION-$ARCH/deb/libstdc*dbg*
+rm -rf .cache/$VERSION-$ARCH/deb/libstdc*doc*
+rm -rf .cache/$VERSION-$ARCH/deb/libstdc*dev*
+rm -rf .cache/$VERSION-$ARCH/deb/libstdc*pic*
+rm -rf .cache/$VERSION-$ARCH/deb/libstdc*eabi*
+rm -rf .cache/$VERSION-$ARCH/deb/perl*
+rm -rf .cache/$VERSION-$ARCH/deb/python*
+rm -rf .cache/$VERSION-$ARCH/deb/man-db*
+rm -rf .cache/$VERSION-$ARCH/deb/gcc-*
+rm -rf .cache/$VERSION-$ARCH/deb/cpp-*
+cp .cache/$VERSION-$ARCH/deb/* .tmp/lib
 rm -rf .tmp/lib-unary
 
 echo "Finished prefetch dependencies $VERSION"

@@ -106,10 +106,10 @@ proceed() {
   fi
 }
 
-if ! proceed "amd64" "ffmpeg5"; then
+if ! proceed "amd64" "ffmpeg6"; then
   exit $?
 fi
-if ! proceed "amd64" "ffmpeg6"; then
+if ! proceed "amd64" "ffmpeg5"; then
   exit $?
 fi
 if ! proceed "arm64" "ffmpeg5"; then

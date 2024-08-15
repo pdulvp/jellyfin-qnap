@@ -9,7 +9,7 @@
   "ffmpeg5": "5.1.4-3",
   "web": "10.9.9",
   "description": "",
-  "suffix": "d",
+  "suffix": "e",
   "main": "index.js",
   "scripts": {
     "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'",

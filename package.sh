@@ -2,7 +2,7 @@
 ARCH=$1
 FFMPEG=$2
 SUFFIX=$(cat package.json | jq -r .suffix)
-if [ $SUFFIX != "" ]; then 
+if [ "$SUFFIX" != "" ]; then 
   SUFFIX="-$SUFFIX"
 fi
 

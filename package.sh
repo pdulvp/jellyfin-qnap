@@ -16,7 +16,7 @@ if [ "$ARCH" != "amd64" ]; then
   for filename in output/build/*.qpkg; do mv "$filename" "${filename%%.qpkg}_$ARCH.qpkg"; done;
   for filename in output/build/*.qpkg.md5; do mv "$filename" "${filename%%.qpkg.md5}_$ARCH.qpkg.md5"; done;
 fi
-if [ "$FFMPEG" != "ffmpeg6" ]; then 
+if [ "$FFMPEG" != "ffmpeg7" ]; then 
   for filename in output/build/*.qpkg; do mv "$filename" "${filename%%.qpkg}_$FFMPEG.qpkg"; done;
   for filename in output/build/*.qpkg.md5; do mv "$filename" "${filename%%.qpkg.md5}_$FFMPEG.qpkg.md5"; done;
 fi

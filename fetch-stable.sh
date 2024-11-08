@@ -5,7 +5,7 @@ SERVER_VERSION=$(wget https://repo.jellyfin.org/?path=/server/debian/latest-stab
 echo "SERVER_VERSION=$SERVER_VERSION"
 WEB_VERSION=$SERVER_VERSION
 echo "WEB_VERSION=$WEB_VERSION"
-FFMPEG_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-6.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_$ARCH.buildinfo)" | head -n 1)
+FFMPEG_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-7.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_$ARCH.buildinfo)" | head -n 1)
 #FFMPEG_VERSION="4.4.1-4"
 FFMPEG5_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-5.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_$ARCH.deb)" | head -n 1)
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
@@ -52,9 +52,13 @@ proceed() {
     FFMPEG_INFO=latest-6.x/$ARCH/jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
     FFMPEG_DEB=latest-5.x/$ARCH/jellyfin-ffmpeg5_$FFMPEG5_VERSION-bullseye_$ARCH.deb
     FFMPEG_TAG=$FFMPEG5_VERSION
-  else
+  elif [ "$FFMPEG" == "ffmpeg6" ]; then
     FFMPEG_INFO=latest-6.x/$ARCH/jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
     FFMPEG_DEB=latest-6.x/$ARCH/jellyfin-ffmpeg6_$FFMPEG_VERSION-bullseye_$ARCH.deb
+    FFMPEG_TAG=$FFMPEG5_VERSION
+  else
+    FFMPEG_INFO=latest-7.x/$ARCH/jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
+    FFMPEG_DEB=latest-7.x/$ARCH/jellyfin-ffmpeg7_$FFMPEG_VERSION-bullseye_$ARCH.deb
     FFMPEG_TAG=$FFMPEG_VERSION
   fi
 
@@ -106,7 +110,7 @@ proceed() {
   fi
 }
 
-if ! proceed "amd64" "ffmpeg6"; then
+if ! proceed "amd64" "ffmpeg7"; then
   exit $?
 fi
 if ! proceed "amd64" "ffmpeg5"; then
@@ -115,10 +119,10 @@ fi
 if ! proceed "arm64" "ffmpeg5"; then
   exit $?
 fi
-if ! proceed "arm64" "ffmpeg6"; then
+if ! proceed "arm64" "ffmpeg7"; then
   exit $?
 fi
-if ! proceed "armhf" "ffmpeg6"; then
+if ! proceed "armhf" "ffmpeg7"; then
   exit $?
 fi
 if ! proceed "armhf" "ffmpeg5"; then

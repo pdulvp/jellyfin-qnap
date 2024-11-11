@@ -14,7 +14,7 @@ fi
 RELEASE_NAME="${SERVER_VERSION}${SUFFIX}"
 TAG_VERSION="${VERSION}${SUFFIX}_${VERSION_SHA:0:8}"
 
-LABEL=$SERVER_VERSION
+LABEL=$RELEASE_NAME
 DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\` \`jellyfin-ffmpeg5_$FFMPEG5_VERSION\`"
 
 git pull bot HEAD
@@ -34,7 +34,7 @@ echo "$RELEASE_ID"
 RELEASE_ID=`echo $RELEASE_ID | grep -o -P "(?<=\"id\": )\d+" | head -n 1`
 echo "RELEASE=$RELEASE_ID"
 
-for FILE in $(find build/ -name "jellyfin_*$SERVER_VERSION*.qpkg"); do
+for FILE in $(find build/ -name "jellyfin_*$RELEASE_NAME*.qpkg"); do
   NAME=$(basename $FILE);
   echo "Publish $FILE"
   curl -X POST \

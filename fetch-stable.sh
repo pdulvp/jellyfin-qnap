@@ -22,6 +22,13 @@ NEXT_SHA=$(echo $NEXT_VERSION | md5sum | cut -d" " -f 1)
 echo "NEXT_VERSION=$NEXT_VERSION"
 echo "NEXT_SHA=$NEXT_SHA"
 
+SUFFIX=$(cat package.json | grep -o -P "(?<=\"suffix\"\: \")([^\"])+")
+if [ $SUFFIX != "" ]; then 
+  SUFFIX="-$SUFFIX"
+fi
+QPKG_VER=$SERVER_VERSION$SUFFIX
+echo "QPKG_VER=$QPKG_VER"
+
 if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
     echo -e "\033[0;36mNo new release \033[0m"
     exit;
@@ -82,7 +89,7 @@ proceed() {
   mkdir output
   cp -rf packaging/* output
 
-  sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$SERVER_VERSION\"/" output/qpkg.cfg
+  sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
 
   if ! ./jellyfin-server.sh "$ARCH" "$SERVER_VERSION"; then
       exit $?

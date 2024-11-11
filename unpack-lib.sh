@@ -10,18 +10,27 @@ fi
 echo "Unpack dependencies $1 from debs"
 mkdir -p .tmp/lib/lib;
 mkdir -p .tmp/lib/usr/lib;
+mkdir -p .tmp/lib/usr/local/lib;
 cd .tmp/lib
 
 for file in $(find . -type f -name "*.deb"); do
     echo "--- $file"
-    ar x $file data.tar.xz
-    tar xf data.tar.xz ./usr/lib/x86_64-linux-gnu/ 2>/dev/null
-    tar xf data.tar.xz ./lib/x86_64-linux-gnu/ 2>/dev/null
-    tar xf data.tar.xz ./usr/lib/aarch64-linux-gnu/ 2>/dev/null
-    tar xf data.tar.xz ./lib/aarch64-linux-gnu/ 2>/dev/null
-    tar xf data.tar.xz ./usr/lib/arm-linux-gnueabihf/ 2>/dev/null
-    tar xf data.tar.xz ./lib/arm-linux-gnueabihf/ 2>/dev/null
-    rm -f *.tar.xz
+
+    ar x $file data.tar.xz 2>/dev/null
+    ar x $file data.tar.gz 2>/dev/null
+    ar x $file data.tar.zst 2>/dev/null
+    #tar xf data.tar.* --wildcards "*/lib/*.so*" 2>/dev/null
+    tar xf data.tar.* --wildcards "*" 2>/dev/null
+    
+   # for path in ./usr/lib/x86_64-linux-gnu/ ./lib/x86_64-linux-gnu/ ./usr/lib/aarch64-linux-gnu/ ./lib/aarch64-linux-gnu/ ./usr/lib/arm-linux-gnueabihf/ ./lib/arm-linux-gnueabihf/; do
+      
+   # done
+
+   # if [[ "$file" = *"intel-igc"* ]]; then
+    #  tar xf data.tar.*  --wildcards "*/lib/*" 2>/dev/null
+   # fi
+
+    rm -f *.tar.*
 done
 
 cd ../..

@@ -7,6 +7,7 @@ WEB_VERSION=$(cat package.json | jq -r .web)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 FFMPEG5_VERSION=$(cat package.json | jq -r .ffmpeg5)
 SUFFIX=$(cat package.json | jq -r .suffix)
+INTEL_VERSION=$(cat package.json | jq -r .intel)
 PRERELEASE=true
 if [ $SUFFIX != "" ]; then 
   SUFFIX="-$SUFFIX"

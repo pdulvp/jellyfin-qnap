@@ -45,6 +45,15 @@ done
 cd ../..
 mkdir -p .cache/$VERSION-$ARCH/deb
 cp .tmp/lib-unary/* .cache/$VERSION-$ARCH/deb
+
+
+if [[ "$BUILD_INFO" = *"jellyfin_"* ]]; then
+  if [ "$ARCH" == "amd64" ]; then
+    cp intel*.deb .cache/$VERSION-$ARCH/deb
+    cp libigd*.deb .cache/$VERSION-$ARCH/deb
+  fi
+fi
+
 # Remove some debs that doesnt contain libs
 rm -rf .cache/$VERSION-$ARCH/deb/libstdc*cross*
 rm -rf .cache/$VERSION-$ARCH/deb/libstdc*dbg*

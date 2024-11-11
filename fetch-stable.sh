@@ -11,6 +11,8 @@ FFMPEG5_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-5.x
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
 echo "FFMPEG5_VERSION=$FFMPEG5_VERSION"
 
+INTEL_VERSION=$(wget https://api.github.com/repos/intel/compute-runtime/releases/latest -q -O- | jq .tag_name| cut -d\" -f2)
+
 CURRENT_VERSION=$(cat package.json | grep -o -P "(?<=\"version\"\: \")([^\"])+")
 CURRENT_SHA=$(cat package.json | grep -o -P "(?<=\"sha\"\: \")([^\"])+")
 echo "CURRENT_VERSION=$CURRENT_VERSION"
@@ -84,6 +86,17 @@ proceed() {
   get "https://repo.jellyfin.org/files/server/debian/$SERVER_DEB"
   get "https://repo.jellyfin.org/files/server/debian/$WEB_DEB"
 
+  rm -f intel-*.deb*
+  rm -f libigd-*.deb*
+  if [ "$ARCH" == "amd64" ]; then
+    for i in $(wget https://api.github.com/repos/intel/compute-runtime/releases/latest -q -O- | jq .assets | grep "browser_download_url" | grep .deb | grep -v .ddeb | cut -d\" -f4); do
+      get "$i"
+    done
+    for i in $(wget https://api.github.com/repos/intel/intel-graphics-compiler/releases/latest -q -O- | jq .assets | grep "browser_download_url" | grep .deb | grep -v .ddeb | grep -v devel | cut -d\" -f4); do
+      get "$i"
+    done
+  fi
+
   rm -rf .tmp
   rm -rf output
   mkdir output
@@ -104,6 +117,7 @@ proceed() {
   # move all libs under bin as jellyfin doesn't support other folders.
   mv .tmp/lib/lib/*-linux-*/* output/shared/jellyfin/bin/
   mv .tmp/lib/usr/lib/*-linux-*/* output/shared/jellyfin/bin/
+  mv .tmp/lib/usr/local/lib/* output/shared/jellyfin/bin/
 
   if ! ./jellyfin-web.sh; then
       exit $?
@@ -118,21 +132,21 @@ proceed() {
 if ! proceed "amd64" "ffmpeg7"; then
   exit $?
 fi
-if ! proceed "amd64" "ffmpeg5"; then
-  exit $?
-fi
-if ! proceed "arm64" "ffmpeg5"; then
-  exit $?
-fi
-if ! proceed "arm64" "ffmpeg7"; then
-  exit $?
-fi
-if ! proceed "armhf" "ffmpeg7"; then
-  exit $?
-fi
-if ! proceed "armhf" "ffmpeg5"; then
-  exit $?
-fi
+#if ! proceed "amd64" "ffmpeg5"; then
+#  exit $?
+#fi
+#if ! proceed "arm64" "ffmpeg5"; then
+#  exit $?
+#fi
+#if ! proceed "arm64" "ffmpeg7"; then
+#  exit $?
+#fi
+#if ! proceed "armhf" "ffmpeg7"; then
+#  exit $?
+#fi
+#if ! proceed "armhf" "ffmpeg5"; then
+#  exit $?
+#fi
 
 json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
 json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
@@ -140,4 +154,5 @@ json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
 json=$(echo $json | jq ".ffmpeg5 = \"$FFMPEG5_VERSION\"")
 json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
 json=$(echo $json | jq ".web = \"$WEB_VERSION\"")
+json=$(echo $json | jq ".intel = \"$INTEL_VERSION\"")
 printf '%s\n' "$json" > package.json

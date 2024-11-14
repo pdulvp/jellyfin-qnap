@@ -44,8 +44,6 @@ if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
   ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
 fi
 
-export TMPDIR="\$QPKG_ROOT/cache/tmp"
-
 \$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin/bin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin/bin/jellyfin2 "\$@"
 EOL
 

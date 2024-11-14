@@ -17,6 +17,8 @@ jellyfin_start(){
 
   set_from_config "conf/network.xml" "InternalHttpPort" "Web_Port" "8096"
   set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
+  
+  export TMPDIR="\$QPKG_ROOT/cache/tmp"
 
   if [ -f ./user-config.sh ]; then source ./user-config.sh; fi
 

@@ -1,7 +1,9 @@
 #!/bin/bash
 ARCH=$1
 FFMPEG=$2
+QPKG_VER=$3
 
+sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
 cd output; /usr/share/qdk2/QDK/bin/qbuild ; cd ..
 
 if [ "$ARCH" != "amd64" ]; then 

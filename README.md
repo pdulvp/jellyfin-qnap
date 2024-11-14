@@ -1,4 +1,4 @@
-# <img alt="logo" src="https://raw.githubusercontent.com/pdulvp/jellyfin-qnap-intel/master/jellyfin/icons/jellyfin_80.gif" width="24px"/> Jellyfin for QNAP &emsp; [![](https://img.shields.io/badge/dynamic/json?labelColor=green&color=BDE055&label=release&query=$[?(@.prerelease==false)].name&url=https%3A%2F%2Fapi.github.com%2Frepositories%2F441484865%2Freleases%3Fper_page%3D1&style=flat-square)![](https://img.shields.io/badge/dynamic/json?labelColor=green&color=BDE055&label=&query=$[?(@.prerelease==false)].assets[0].download_count&url=https%3A%2F%2Fapi.github.com%2Frepositories%2F441484865%2Freleases%3Fper_page%3D1&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB5UlEQVRYR+2X/U3DMBDF6w3oBu0GMAEdASYANqAT0E5AmQA2oBvQDegGZAOyQXgvukTuyXFixxL+w5aqNLF9/uXdhx2zyLyZzPkWBXCuh4qC2SjYNM0VYL4E6N4YU82F4/xkLgbgM+y9CtQWgIecAfcA3BXAEAWUi4uCXvEkYxeIs7ob6FOQ4+2xIZ4JzmKB+8YiK/x6Vw4ByvOXtmQYswyBiyozAvhrLdRCugDVM065wdhzCGSwgjSOhVlCWlWk7XGlu7s6qO857AC4bQhclIJWzBGGxblrJ/zZyE2F68rqi4KbBShKakiXQNFwo4BwJRW5dqxawV3HCZA9nMfWGbaovrMNxqAjwLWBJxj+8EDacHcY9zkEgee9LT3GB/ij4kjPvdgt8EK2uy/cir5HTH73ANZDJcgJqEoJs/NNGWcSHHXxFRDWu1ZZu6GPKupwebBEWLqK+RRAxtva8/bRXYBmwe+g/w/QOswSpj8r5gS4A5hd2Nc8cecEaCcJY5qAdTaAUoq469wy4bq6lxWgK5NSAdL2KTpV/ROZNPwaZJuexeKSsUKdkjmsUAvgBtfuOzcljLbFpOFW1+7tuo2eBxEnrsNCSmBuBP2nQzBgSpIYW6MKxhhNOacAzlWzKFgUnKvA3Pl/bz0COFTcZNAAAAAASUVORK5CYII=&style=flat-square)](https://github.com/pdulvp/jellyfin-qnap/releases) [![](https://img.shields.io/badge/dynamic/json?labelColor=yellow&color=EFD68B&label=prerelease&query=$[?(@.prerelease==true)].name&url=https%3A%2F%2Fapi.github.com%2Frepositories%2F441484865%2Freleases%3Fper_page%3D2&style=flat-square)![](https://img.shields.io/badge/dynamic/json?labelColor=yellow&color=EFD68B&label=&query=$[?(@.prerelease==true)].assets[0].download_count&url=https%3A%2F%2Fapi.github.com%2Frepositories%2F441484865%2Freleases%3Fper_page%3D2&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB5UlEQVRYR+2X/U3DMBDF6w3oBu0GMAEdASYANqAT0E5AmQA2oBvQDegGZAOyQXgvukTuyXFixxL+w5aqNLF9/uXdhx2zyLyZzPkWBXCuh4qC2SjYNM0VYL4E6N4YU82F4/xkLgbgM+y9CtQWgIecAfcA3BXAEAWUi4uCXvEkYxeIs7ob6FOQ4+2xIZ4JzmKB+8YiK/x6Vw4ByvOXtmQYswyBiyozAvhrLdRCugDVM065wdhzCGSwgjSOhVlCWlWk7XGlu7s6qO857AC4bQhclIJWzBGGxblrJ/zZyE2F68rqi4KbBShKakiXQNFwo4BwJRW5dqxawV3HCZA9nMfWGbaovrMNxqAjwLWBJxj+8EDacHcY9zkEgee9LT3GB/ij4kjPvdgt8EK2uy/cir5HTH73ANZDJcgJqEoJs/NNGWcSHHXxFRDWu1ZZu6GPKupwebBEWLqK+RRAxtva8/bRXYBmwe+g/w/QOswSpj8r5gS4A5hd2Nc8cecEaCcJY5qAdTaAUoq469wy4bq6lxWgK5NSAdL2KTpV/ROZNPwaZJuexeKSsUKdkjmsUAvgBtfuOzcljLbFpOFW1+7tuo2eBxEnrsNCSmBuBP2nQzBgSpIYW6MKxhhNOacAzlWzKFgUnKvA3Pl/bz0COFTcZNAAAAAASUVORK5CYII=&style=flat-square)](https://github.com/pdulvp/jellyfin-qnap/releases)  ![](https://img.shields.io/github/downloads/pdulvp/jellyfin-qnap/total?label=All%20downloads&labelColor=green&color=BDE055&style=flat-square)
+# <img alt="logo" src="https://raw.githubusercontent.com/pdulvp/jellyfin-qnap-intel/master/jellyfin/icons/jellyfin_80.gif" width="24px"/> Jellyfin for QNAP &emsp; (https://github.com/pdulvp/jellyfin-qnap/releases)  ![](https://img.shields.io/github/downloads/pdulvp/jellyfin-qnap/total?label=All%20downloads&labelColor=green&color=BDE055&style=flat-square)
 
 ## <img alt="compatibility icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/compat.png" width="24px"/> Compatibility <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 - See [Compatibility list](https://github.com/pdulvp/jellyfin-qnap/issues/4) and please add a comment if compatible or not with yours.
@@ -38,6 +38,89 @@ Go to `Admin > Dashboard`
 * Disable some unexpected enabled options `Server > Playback > Transcoding`:
 
    * On TS-253A, the option `Enable 10-Bit hardware decoding for HEVC` shall be disabled
+
+## Network
+
+### HTTP port
+
+Is it possible to change the default http port of Jellyfin.
+
+Go to `Administration > Dashboard > Advanced > Networking`
+
+- Change the `Server Address Settings > Local HTTP port number`, go to QNAP App Center and do Stop and Start on the Jellyfin.
+
+- Hopefully, if you open Jellyfin with the new port number, it shall open it.
+
+### HTTPS
+
+Is it possible to enable HTTPS for Jellyfin.
+
+Go to `Administration > Dashboard > Advanced > Networking`
+
+- Enable the `HTTPS` accordingly and change the `Server Address Settings > Local HTTPS port number` if needed. 
+
+- Put the path towards your p12 certificate if you have some. (if not, see below how to generate one for your Jellyfin server)
+
+- Go to QNAP App Center and do Stop and Start on the Jellyfin.
+
+- Hopefully, if you open Jellyfin with the new HTTPS port number, it shall open it.
+
+### Generate a HTTPS certificate
+
+You can use directly the certificate of your NAS (download it and generate a p12 from it), or create a new one. Below are the steps to create a child certificate from the QNAP one.
+
+Download your QNAP NAS certificate
+
+`System > Security > SSH and certificates > Download certificate and private key`
+
+Create a private key for the new certificate
+
+`openssl genrsa -out newkey.key 2048`
+
+Create a configuration `openssl-cert.conf`
+
+```
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+prompt = no
+
+[req_distinguished_name]
+C   = FR
+ST  = Paris
+L   = Paris
+O   = pdulvp
+CN  = Jellyfin QNAP
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 192.168.1.xxx
+DNS.1 = nasfxxxxxx
+```
+
+Create a sign request
+
+`openssl req -new -key newkey.key -out newcsr.csr -config openssl-cert.conf`
+
+Create a certificate
+
+`openssl x509 -req -in newcsr.csr -CA SSLcertificate.crt -CAkey SSLprivatekey.key -CAcreateserial -out jellyfincert.crt -days 365 -extensions req_ext -extfile openssl-cert.conf`
+
+Package the certificate
+
+`openssl pkcs12 -export -out jellyfincert.p12 -inkey newkey.key -in jellyfincert.crt -certfile SSLcertificate.crt`
+
+Reference it in Jellyfin
+
+Start and stop Jellyfin in the QNAP App Center
+
+On your client, Install the certificate as Trusted. Whether the Jellyfin one (Right Click on CRT, Install Certificate > Local Machine (or current user) > Automatically select the certificate) or the QNAP one as Trusted Root Certificate (Right Click on CRT, Install Certificate > Local Machine (or current user) > Place all certificates on the following store > Trusted Root Certification Authorities). With this last option, all childs certificates of your NAS are trusted. (Restart your PC)
+
+Open Jellyfin, it shall work. 
+
+Now you shall reconnect to the server using HTTPS
 
 
 ## <img alt="hybriddesk icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hd.png" width="24px"/> HybridDesk Station <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>

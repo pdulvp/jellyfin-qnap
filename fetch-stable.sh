@@ -89,8 +89,6 @@ proceed() {
   mkdir output
   cp -rf packaging/* output
 
-  sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
-
   if ! ./jellyfin-server.sh "$ARCH" "$SERVER_VERSION"; then
       exit $?
   fi
@@ -112,7 +110,7 @@ proceed() {
   fi
 
   mkdir -p output/build
-  if ! ./package.sh $ARCH $FFMPEG; then
+  if ! ./package.sh $ARCH $FFMPEG $QPKG_VER; then
       exit $?
   fi
 }

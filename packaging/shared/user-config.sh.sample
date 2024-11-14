@@ -1,0 +1,9 @@
+#!/bin/sh
+source ./jellyfin-helpers.sh
+
+#cat /etc/config/qpkg.conf for more options
+set_value "Web_UI" "/"
+
+#export http_proxy="http://xxxx:xx"
+#export https_proxy="http://xxxx:xx"
+#export no_proxy= "192.168.168.0/24,localhost,127.0.0.1"

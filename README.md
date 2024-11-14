@@ -123,6 +123,10 @@ Open Jellyfin, it shall work.
 Now you shall reconnect to the server using HTTPS
 
 
+### Customization
+
+Now, you can customize the startup of Jellyfin by creating a new file `user-config.sh` in the installation folder, rather than editing provided scripts. It will not be erased after updates. (look at `user-config.sh.sample` provided aside)
+
 ## <img alt="hybriddesk icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/hd.png" width="24px"/> HybridDesk Station <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
 To add a shortcut onto the HybridDesk Station, you can use **[@pdulvp/jellyfin-qnap-hd](https://github.com/pdulvp/jellyfin-qnap-hd)**

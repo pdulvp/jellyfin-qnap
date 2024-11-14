@@ -7,18 +7,7 @@ export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
 #export LIBVA_DRIVER_NAME_JELLYFIN=i965 #iHD
 
-set_from_config(){
-  config_file=$1
-  config_field=$2
-  qpkg_field=$3
-  default_value=$4
-
-  # Set if different
-  value=$(cat $QPKG_ROOT/$config_file | grep $config_field | cut -f2 -d\> | cut -f1 -d\< )
-  [ -z "$value" ] && value=$default_value
-  current_value=`/sbin/getcfg $QPKG_NAME $qpkg_field -f ${CONF}`
-  [ ! -z "$value" ] && [ "$current_value" -ne "$value" ] && `/sbin/setcfg $QPKG_NAME $qpkg_field "$value" -f ${CONF}`
-}
+source ./jellyfin-helpers.sh
 
 jellyfin_start(){
   /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME
@@ -28,6 +17,8 @@ jellyfin_start(){
 
   set_from_config "conf/network.xml" "InternalHttpPort" "Web_Port" "8096"
   set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
+
+  if [ -f ./user-config.sh ]; then source ./user-config.sh; fi
 
   mkdir -p $QPKG_ROOT/logs
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log

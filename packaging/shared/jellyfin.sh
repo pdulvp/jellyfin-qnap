@@ -9,17 +9,20 @@ export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
 source ./jellyfin-helpers.sh
 
+default_config(){
+  set_from_config "conf/network.xml" "InternalHttpPort" "Web_Port" "8096"
+  set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
+
+  export TMPDIR="$QPKG_ROOT/cache/tmp"
+}
+
 jellyfin_start(){
   /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME
   /bin/ln -sf $QPKG_ROOT/jellyfin-ffmpeg /usr/lib/jellyfin-ffmpeg
 
   ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
 
-  set_from_config "conf/network.xml" "InternalHttpPort" "Web_Port" "8096"
-  set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
-  
-  export TMPDIR="\$QPKG_ROOT/cache/tmp"
-
+  default_config
   if [ -f ./user-config.sh ]; then source ./user-config.sh; fi
 
   mkdir -p $QPKG_ROOT/logs

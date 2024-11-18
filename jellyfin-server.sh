@@ -39,12 +39,10 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
-ADDITIONAL_PATHS=""
-if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
-  ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
-fi
+source \$QPKG_ROOT/jellyfin-config.sh
+jellyfin_server_start "\$@"
 
-\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin/bin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin/bin/jellyfin2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin/bin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$QPKGS_PATHS \$QPKG_ROOT/jellyfin/bin/jellyfin2 "\$@"
 EOL
 
 chmod +x output/shared/jellyfin/bin/jellyfin

@@ -47,21 +47,10 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
-## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
-LIBVA_FROM_CONFIG=\`[ -f \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1\`
-if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
-    if [ "\$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
-        export LIBVA_DRIVER_NAME_JELLYFIN="\$LIBVA_FROM_CONFIG"
-        export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
-    fi
-fi
+source \$QPKG_ROOT/jellyfin-config.sh
+jellyfin_ffmpeg_start "\$@"
 
-ADDITIONAL_PATHS=""
-if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
-  ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
-fi
-
-\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
+\$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$QPKGS_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
 EOL
 
 cat >output/shared/jellyfin-ffmpeg/ffprobe <<EOL
@@ -71,19 +60,9 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
-## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
-LIBVA_FROM_CONFIG=\`[ -f \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat \$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1\`
-if [ ! -z \${LIBVA_FROM_CONFIG} ]; then
-    if [ "\$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
-        export LIBVA_DRIVER_NAME_JELLYFIN="\$LIBVA_FROM_CONFIG"
-        export LIBVA_DRIVER_NAME="\$LIBVA_FROM_CONFIG"
-    fi
-fi
+source \$QPKG_ROOT/jellyfin-config.sh
+jellyfin_ffprobe_start "\$@"
 
-ADDITIONAL_PATHS=""
-if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
-  ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
-fi
 \$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 
@@ -94,10 +73,9 @@ CONF=/etc/config/qpkg.conf;
 QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
-ADDITIONAL_PATHS=""
-if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
-  ADDITIONAL_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
-fi
+source \$QPKG_ROOT/jellyfin-config.sh
+jellyfin_vainfo_start "\$@"
+
 if [ -f \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 ]; then
   \$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin/bin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
 fi

@@ -3,13 +3,17 @@ CONF=/etc/config/qpkg.conf
 QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
 
-source ./jellyfin-helpers.sh
+source $QPKG_ROOT/jellyfin-config.sh
 
-#cat /etc/config/qpkg.conf for more options
-set_value "Web_UI" "/"
+user_config(){
+  echo "Load user-configuration"
 
-#export http_proxy="http://xxxx:xx"
-#export https_proxy="http://xxxx:xx"
-#export no_proxy= "192.168.168.0/24,localhost,127.0.0.1"
+  #Access to jellyfin with the QTS port
+  #set_qpkg_field "Use_Proxy" "1"
+  #set_qpkg_field "Proxy_Path" "/jellyfin/"
 
-#export TMPDIR="\$QPKG_ROOT/cache/tmp"
+  #export http_proxy="http://xxxx:xx"
+  #export https_proxy="http://xxxx:xx"
+  #export no_proxy= "192.168.168.0/24,localhost,127.0.0.1"
+  return 0
+}

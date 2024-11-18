@@ -2,19 +2,9 @@
 CONF=/etc/config/qpkg.conf
 QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
-export QNAP_QPKG=$QPKG_NAME
 export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
-#export LIBVA_DRIVER_NAME_JELLYFIN=i965 #iHD
-
-source ./jellyfin-helpers.sh
-
-default_config(){
-  set_from_config "conf/network.xml" "InternalHttpPort" "Web_Port" "8096"
-  set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
-
-  export TMPDIR="$QPKG_ROOT/cache/tmp"
-}
+source $QPKG_ROOT/jellyfin-config.sh
 
 jellyfin_start(){
   /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME
@@ -22,9 +12,7 @@ jellyfin_start(){
 
   ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
 
-  default_config
-  if [ -f ./user-config.sh ]; then source ./user-config.sh; fi
-
+  load_config
   mkdir -p $QPKG_ROOT/logs
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log
   $QPKG_ROOT/jellyfin/bin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --ffmpeg=$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg --package-name=pdulvp &

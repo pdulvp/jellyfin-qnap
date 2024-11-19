@@ -2,6 +2,11 @@
 CONF=/etc/config/qpkg.conf
 QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
+CMD_SETCFG="/sbin/setcfg"
+
+PDULVP_STORE="d118acb17dd1c34e962e8c0de3628ba1"
+PDULVP_PRE_STORE="d808fb70d08462529b9d3275874b2f45"
+
 export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
 source $QPKG_ROOT/jellyfin-config.sh
@@ -25,6 +30,10 @@ jellyfin_stop(){
   rm -rf /usr/lib/jellyfin-ffmpeg
 }
 
+link_to_store(){
+  ${CMD_SETCFG} "${QPKG_NAME}" "store" "$1" -f "${CONF}"
+}
+
 case "$1" in
   start)
     ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
@@ -44,8 +53,16 @@ case "$1" in
     $0 start
     ;;
 
+  link_to_default_store)
+    link_to_store "$PDULVP_STORE"
+    ;;
+
+  link_to_prerelease_store)
+    link_to_store "$PDULVP_PRE_STORE"
+    ;;
+
   *)
-    echo "Usage: $0 {start|stop|restart}"
+    echo "Usage: $0 {start|stop|restart|link_to_default_store|link_to_prerelease_store}"
     exit 1
 esac
 

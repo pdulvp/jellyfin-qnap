@@ -30,7 +30,13 @@ set_from_config(){
 
 default_config(){
   set_from_config "conf/network.xml" "InternalHttpPort" "Web_Port" "8096"
-  set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
+
+  https_enabled=$(get_from_config "conf/network.xml" "EnableHttps")
+  if [ "$https_enabled" == "True" ]; then
+    set_from_config "conf/network.xml" "InternalHttpsPort" "Web_SSL_Port" "8920"
+  else
+    set_qpkg_field "Web_SSL_Port" "-1"
+  fi
   
   export TMPDIR="$QPKG_ROOT/cache/tmp"
   export QPKGS_PATHS=""

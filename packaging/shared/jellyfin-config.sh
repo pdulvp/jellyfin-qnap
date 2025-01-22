@@ -66,6 +66,19 @@ jellyfin_ffmpeg_start() {
   return 0
 }
 
+read_ini_file() {
+  local ini_file=$1
+  local section=$2
+  local key=$3
+
+  value=$(awk -F ' = ' -v section="$section" -v key="$key" '
+  $0 ~ "\\[" section "\\]" { in_section=1; next }
+  $0 ~ "^\\[" { in_section=0 }
+  in_section && $1 == key { print $2; exit }
+  ' "$ini_file")
+  echo "$value"
+}
+
 jellyfin_ffprobe_start() {
   return 0
 }

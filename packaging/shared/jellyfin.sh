@@ -4,8 +4,8 @@ QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
 CMD_SETCFG="/sbin/setcfg"
 
-PDULVP_STORE="d118acb17dd1c34e962e8c0de3628ba1"
-PDULVP_PRE_STORE="d808fb70d08462529b9d3275874b2f45"
+PDULVP_STORE="https://pdulvp.github.io/qnap-store/repos.xml"
+PDULVP_PRE_STORE="https://pdulvp.github.io/qnap-store/repos-prereleases.xml"
 
 export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
@@ -30,8 +30,23 @@ jellyfin_stop(){
   rm -rf /usr/lib/jellyfin-ffmpeg
 }
 
+find_store() {
+  local ini_file="/etc/config/3rd_pkg_v2.conf"
+  local url=$1
+	
+	SECTIONS=`cat $ini_file | grep "\[.*\]"`
+	for section in ${SECTIONS//[\[\]]}; do 
+		store_url=$(read_ini_file "$ini_file" "$section" "u")
+		if [ $store_url == "$url" ]; then
+			echo $section
+			exit
+		fi
+	done
+}
+
 link_to_store(){
-  ${CMD_SETCFG} "${QPKG_NAME}" "store" "$1" -f "${CONF}"
+  store=$(find_store $1)
+  ${CMD_SETCFG} "${QPKG_NAME}" "store" "$store" -f "${CONF}"
 }
 
 case "$1" in

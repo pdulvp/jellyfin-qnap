@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Jellyfin.Plugin.QnapConfiguration</RootNamespace>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
@@ -25,10 +25,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jellyfin.Controller" Version="10.7.7" Condition="'$(TargetFramework)' == 'net5.0'" />
-    <PackageReference Include="Jellyfin.Model" Version="10.7.7" Condition="'$(TargetFramework)' == 'net5.0'" />
-    <PackageReference Include="Jellyfin.Controller" Version="10.8-*" Condition="'$(TargetFramework)' == 'net6.0'" />
-    <PackageReference Include="Jellyfin.Model" Version="10.8-*" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="Jellyfin.Controller" Version="10.10.5" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageReference Include="Jellyfin.Model" Version="10.10.5" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="SerilogAnalyzer" Version="0.15.0" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.376" PrivateAssets="All" />
     <PackageReference Include="SmartAnalyzers.MultithreadingAnalyzer" Version="1.1.31" PrivateAssets="All" />

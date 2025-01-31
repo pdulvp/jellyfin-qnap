@@ -79,6 +79,20 @@ read_ini_file() {
   echo "$value"
 }
 
+find_store() {
+  local ini_file="/etc/config/3rd_pkg_v2.conf"
+  local url=$1
+	
+	SECTIONS=`cat $ini_file | grep "\[.*\]"`
+	for section in ${SECTIONS//[\[\]]}; do 
+		store_url=$(read_ini_file "$ini_file" "$section" "u")
+		if [ $store_url == "$url" ]; then
+			echo $section
+			exit
+		fi
+	done
+}
+
 jellyfin_ffprobe_start() {
   return 0
 }

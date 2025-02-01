@@ -10,7 +10,7 @@
 - Download the `.qpkg` from the [Releases](https://github.com/pdulvp/jellyfin-qnap/releases)
 - On the `Qnap QTS` > `App Center` > `Settings` > `Allow installation of applications without a valid digital signature`
 - On the `Qnap QTS` > `App Center` > `Install Manually`. then choose the downloaded `.qpkg`.
-- After installation, on the Jellyfin appearing in the App Center, just wait a bit (~30s) then open it using the `Open` button. It shall open a working web site.
+- After installation, on the Jellyfin appearing in the App Center, just wait a bit (~30s) then open it using the `Open` button. It shall open a working web site. (note that if it doesn't open or raise an connection refused, try with default http default port 8096)
 - If it is the first time you open, you will have to choose a server (which is the IP of your NAS) and create an user
 - If you watch jellyfin on your TV (or so) using Jellyfin Android version (or other), your NAS should then be accessible from it. Just add the NAS ip to access it.
 

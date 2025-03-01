@@ -39,7 +39,7 @@ getDependencies() {
 }
 
 for var in $(getDependencies $BUILD_INFO); do
-  apt-get download "$var" -o APT::Architecture=$ARCH
+  apt-get download "$var" -o APT::Architecture=$ARCH 2>>output.err
 done
 
 cd ../..

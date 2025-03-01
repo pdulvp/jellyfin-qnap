@@ -94,6 +94,14 @@ find_store() {
 }
 
 jellyfin_ffprobe_start() {
+  ## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
+  LIBVA_FROM_CONFIG=`[ -f $QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat $QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1`
+  if [ ! -z "${LIBVA_FROM_CONFIG}" ]; then
+      if [ "$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
+          export LIBVA_DRIVER_NAME_JELLYFIN="$LIBVA_FROM_CONFIG"
+          export LIBVA_DRIVER_NAME="$LIBVA_FROM_CONFIG"
+      fi
+  fi
   return 0
 }
 

@@ -4,7 +4,7 @@ FFMPEG=$2
 QPKG_VER=$3
 
 sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
-cd output; /usr/share/qdk2/QDK/bin/qbuild ; cd ..
+cd output; /usr/share/QDK/bin/qbuild ; cd ..
 
 if [ "$ARCH" != "amd64" ]; then 
   for filename in output/build/*.qpkg; do mv "$filename" "${filename%%.qpkg}_$ARCH.qpkg"; done;

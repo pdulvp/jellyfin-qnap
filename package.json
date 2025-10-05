@@ -12,7 +12,10 @@
   "suffix": "02",
   "main": "index.js",
   "scripts": {
-    "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./make.sh'",
+    "init-lxc": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; sudo ./init-container.sh'",
+    "stop-lxc": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; sudo ./stop-container.sh'",
+    "build-lxc": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; sudo lxc-attach -n bullseye1 -- bash /mnt/shared/make-lxc.sh'",
+    "build-wsl": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./make.sh'",
     "push": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./push.sh'"
   },
   "repository": {

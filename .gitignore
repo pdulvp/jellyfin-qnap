@@ -6,3 +6,5 @@
 /*.deb
 /*.buildinfo
 /init.sh
+jellyfin_team.gpg.key
+jellyfin_team.gpg

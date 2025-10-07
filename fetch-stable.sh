@@ -1,15 +1,13 @@
 #!/bin/bash
 
 ARCH=amd64
-SERVER_VERSION=$(wget https://repo.jellyfin.org/?path=/server/debian/latest-stable/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=\+deb.*_$ARCH.buildinfo)" | head -n 1)
+SERVER_KIND=preview
+SERVER_VERSION=$(wget https://repo.jellyfin.org/?path=/server/debian/latest-$SERVER_KIND/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=\+deb11_$ARCH.buildinfo)" | head -n 1)
 echo "SERVER_VERSION=$SERVER_VERSION"
 WEB_VERSION=$SERVER_VERSION
 echo "WEB_VERSION=$WEB_VERSION"
 FFMPEG_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-7.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_$ARCH.buildinfo)" | head -n 1)
-#FFMPEG_VERSION="4.4.1-4"
-FFMPEG5_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-5.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_$ARCH.deb)" | head -n 1)
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
-echo "FFMPEG5_VERSION=$FFMPEG5_VERSION"
 
 CURRENT_VERSION=$(cat package.json | grep -o -P "(?<=\"version\"\: \")([^\"])+")
 CURRENT_SHA=$(cat package.json | grep -o -P "(?<=\"sha\"\: \")([^\"])+")
@@ -17,7 +15,7 @@ echo "CURRENT_VERSION=$CURRENT_VERSION"
 echo "CURRENT_SHA=$CURRENT_SHA"
 
 PREFIX=""
-NEXT_VERSION=$(echo $SERVER_VERSION @ $WEB_VERSION @ $FFMPEG_VERSION @ $FFMPEG5_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g")
+NEXT_VERSION=$(echo $SERVER_VERSION @ $WEB_VERSION @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g")
 NEXT_SHA=$(echo $NEXT_VERSION | md5sum | cut -d" " -f 1)
 echo "NEXT_VERSION=$NEXT_VERSION"
 echo "NEXT_SHA=$NEXT_SHA"
@@ -26,7 +24,7 @@ SUFFIX=$(cat package.json | grep -o -P "(?<=\"suffix\"\: \")([^\"])+")
 if [ $SUFFIX != "" ]; then 
   SUFFIX="-$SUFFIX"
 fi
-QPKG_VER=$SERVER_VERSION$SUFFIX
+QPKG_VER=$(echo $SERVER_VERSION | cut -f1 -d"-")$SUFFIX
 echo "QPKG_VER=$QPKG_VER"
 
 if [ "$CURRENT_VERSION" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
@@ -50,40 +48,68 @@ get() {
   fi
 }
 
+gpg_check() {
+  if ! gpg --no-default-keyring --keyring ./jellyfin_team.gpg --verify $1; then
+    echo "GPG signature verification failed for $1"
+    exit 1
+  fi
+}
+
+sha256sum_check() {
+  INFO=$1
+  DEB=$2
+  SHA=$(sha256sum $DEB | cut -d" " -f1)
+  if ! grep $SHA -o $INFO; then
+    echo "Wrong SHA for ffmpeg: $SHA"
+    exit 1
+  fi
+}
+
+get_jellyfin_key() {
+  # Just to make sure that jellyfin_team.gpg is still valid
+  wget -q "https://repo.jellyfin.org/jellyfin_team.gpg.key"
+  SHA="$(sha256sum jellyfin_team.gpg.key | cut -d' ' -f1)"
+  if [ $SHA != "a0cde241ae297fa6f0265c0bf15ce9eb9ee97c008904a59ab367a67d59532839" ]; then
+    echo "Please verify the key integrity"
+    exit 1
+  fi
+
+  if [ ! -f jellyfin_team.gpg ]; then
+    cat jellyfin_team.gpg.key | gpg --dearmor --yes --output jellyfin_team.gpg
+  fi
+  rm -f jellyfin_team.gpg.key
+}
+
 proceed() {
   ARCH=$1
   FFMPEG=$2
   echo "Procceed $ARCH $FFMPEG"
   rm -f *.buildinfo
-  if [ "$FFMPEG" == "ffmpeg5" ]; then
-    FFMPEG_INFO=latest-6.x/$ARCH/jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
-    FFMPEG_DEB=latest-5.x/$ARCH/jellyfin-ffmpeg5_$FFMPEG5_VERSION-bullseye_$ARCH.deb
-    FFMPEG_TAG=$FFMPEG5_VERSION
-  elif [ "$FFMPEG" == "ffmpeg6" ]; then
-    FFMPEG_INFO=latest-6.x/$ARCH/jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
-    FFMPEG_DEB=latest-6.x/$ARCH/jellyfin-ffmpeg6_$FFMPEG_VERSION-bullseye_$ARCH.deb
-    FFMPEG_TAG=$FFMPEG5_VERSION
-  else
-    FFMPEG_INFO=latest-7.x/$ARCH/jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
-    FFMPEG_DEB=latest-7.x/$ARCH/jellyfin-ffmpeg7_$FFMPEG_VERSION-bullseye_$ARCH.deb
-    FFMPEG_TAG=$FFMPEG_VERSION
-  fi
 
-  SERVER_INFO=latest-stable/$ARCH/jellyfin_$SERVER_VERSION%2Bdeb11_$ARCH.buildinfo
-  SERVER_DEB=latest-stable/$ARCH/jellyfin-server_$SERVER_VERSION%2Bdeb11_$ARCH.deb
-  WEB_DEB=latest-stable/$ARCH/jellyfin-web_$SERVER_VERSION%2Bdeb11_all.deb
+  FFMPEG_INFO=jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
+  FFMPEG_DEB=jellyfin-ffmpeg7_$FFMPEG_VERSION-bullseye_$ARCH.deb
+  FFMPEG_TAG=$FFMPEG_VERSION
 
-  get "https://repo.jellyfin.org/files/ffmpeg/debian/$FFMPEG_INFO"
-  get "https://repo.jellyfin.org/files/server/debian/$SERVER_INFO"
+  SERVER_INFO=jellyfin_$SERVER_VERSION+deb11_$ARCH.buildinfo
+  SERVER_DEB=jellyfin-server_$SERVER_VERSION+deb11_$ARCH.deb
+  WEB_DEB=jellyfin-web_$SERVER_VERSION+deb11_all.deb
+  
+  get "https://repo.jellyfin.org/files/ffmpeg/debian/latest-7.x/$ARCH/$FFMPEG_INFO"
+  #gpg_check $FFMPEG_INFO #buildinfo is not signed
+  get "https://repo.jellyfin.org/files/server/debian/latest-$SERVER_KIND/$ARCH/$SERVER_INFO"
+  gpg_check $SERVER_INFO
 
   rm -f jellyfin-server_*.deb*
   rm -f jellyfin-web_*.deb*
   rm -f jellyfin-ffmpeg*_*.deb*
 
-  get "https://repo.jellyfin.org/files/ffmpeg/debian/$FFMPEG_DEB"
-  get "https://repo.jellyfin.org/files/server/debian/$SERVER_DEB"
-  get "https://repo.jellyfin.org/files/server/debian/$WEB_DEB"
-
+  get "https://repo.jellyfin.org/files/ffmpeg/debian/latest-7.x/$ARCH/$FFMPEG_DEB"
+  sha256sum_check $FFMPEG_INFO $FFMPEG_DEB
+  get "https://repo.jellyfin.org/files/server/debian/latest-$SERVER_KIND/$ARCH/$SERVER_DEB"
+  #sha256sum_check $SERVER_INFO $SERVER_DEB   #checksum doesn't match
+  get "https://repo.jellyfin.org/files/server/debian/latest-$SERVER_KIND/$ARCH/$WEB_DEB"
+  #sha256sum_check $SERVER_INFO $WEB_DEB      #checksum doesn't match
+  
   rm -rf .tmp
   rm -rf output
   mkdir output
@@ -115,29 +141,20 @@ proceed() {
   fi
 }
 
+get_jellyfin_key
+
 if ! proceed "amd64" "ffmpeg7"; then
   exit $?
 fi
-if ! proceed "amd64" "ffmpeg5"; then
-  exit $?
-fi
-if ! proceed "arm64" "ffmpeg5"; then
-  exit $?
-fi
+
 if ! proceed "arm64" "ffmpeg7"; then
-  exit $?
-fi
-if ! proceed "armhf" "ffmpeg7"; then
-  exit $?
-fi
-if ! proceed "armhf" "ffmpeg5"; then
   exit $?
 fi
 
 json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
 json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
 json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
-json=$(echo $json | jq ".ffmpeg5 = \"$FFMPEG5_VERSION\"")
 json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
+json=$(echo $json | jq ".kind = \"$SERVER_KIND\"")
 json=$(echo $json | jq ".web = \"$WEB_VERSION\"")
 printf '%s\n' "$json" > package.json

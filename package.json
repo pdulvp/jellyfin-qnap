@@ -1,21 +1,16 @@
 {
   "name": "jellyfin-qnap",
-  "preversion": "1080-beta3.1080-beta3.5014",
-  "presha": "10.8.0-beta3_fef37ac1c887de65574ce94688f1f479",
   "version": "10107.10107.7112.5143",
   "sha": "c0dcfe7d1cfd484cf4500c97082b0089",
   "server": "10.10.7",
   "ffmpeg": "7.1.1-2",
-  "ffmpeg5": "5.1.4-3",
   "web": "10.10.7",
+  "kind": "preview",
   "description": "",
-  "suffix": "02",
+  "suffix": "r8",
   "main": "index.js",
   "scripts": {
-    "init-lxc": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; sudo ./init-container.sh'",
-    "stop-lxc": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; sudo ./stop-container.sh'",
-    "build-lxc": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; sudo lxc-attach -n bullseye1 -- bash /mnt/shared/make-lxc.sh'",
-    "build-wsl": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./make.sh'",
+    "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./make-on-docker.sh'",
     "push": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./push.sh'"
   },
   "repository": {

@@ -5,17 +5,21 @@ VERSION_SHA=$(cat package.json | jq -r .sha)
 SERVER_VERSION=$(cat package.json | jq -r .server)
 WEB_VERSION=$(cat package.json | jq -r .web)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
-FFMPEG5_VERSION=$(cat package.json | jq -r .ffmpeg5)
 SUFFIX=$(cat package.json | jq -r .suffix)
-PRERELEASE=true
+KIND=$(cat package.json | jq -r .kind)
 if [ $SUFFIX != "" ]; then 
   SUFFIX="-$SUFFIX"
 fi
+PRERELEASE="false"
+if [ $KIND != "stable" ]; then 
+  PRERELEASE="true"
+fi
+
 RELEASE_NAME="${SERVER_VERSION}${SUFFIX}"
 TAG_VERSION="${VERSION}${SUFFIX}_${VERSION_SHA:0:8}"
 
 LABEL=$RELEASE_NAME
-DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\` \`jellyfin-ffmpeg5_$FFMPEG5_VERSION\`"
+DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
 
 git pull bot HEAD
 git config user.email "pdulvp-bot@laposte.net"

@@ -86,14 +86,8 @@ chmod +x output/shared/jellyfin-ffmpeg/ffmpeg
 chmod +x output/shared/jellyfin-ffmpeg/ffprobe
 chmod +x output/shared/jellyfin-ffmpeg/vainfo
 
-if [ "$FFMPEG" == "ffmpeg5" ]; then 
-  if ! ! ./prefetch-lib-legacy.sh "$FFMPEG_VERSION" "$FFMPEG" "$ARCH"; then
-      exit $?
-  fi
-else
-  if ! ./prefetch-lib.sh "$FFMPEG_VERSION" "$FFMPEG_INFO" "$ARCH"; then
-      exit $?
-  fi
+if ! ./prefetch-lib.sh "$FFMPEG_VERSION" "$FFMPEG_INFO" "$ARCH"; then
+  exit $?
 fi
 
 exit 0

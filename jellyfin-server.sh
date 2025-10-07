@@ -1,5 +1,4 @@
 #!/bin/bash
-
 ARCH=$1
 SERVER_VERSION=$2
 if [ `ls -1 jellyfin-server_*_*.deb | wc -l` -ne 1 ]; then
@@ -16,6 +15,7 @@ echo $SERVER_INFO found.
 #Unzip jellyfin-server.deb/data.tar.xz/./usr/lib/ into output/shared/
 mkdir -p .tmp/server;
 cd .tmp/server
+
 ar x ../../$SERVER data.tar.xz
 tar xf data.tar.xz ./usr/lib/
 cd ../..

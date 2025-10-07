@@ -7,10 +7,12 @@ if [ -d .cache/$KEY ]; then
   exit 0
 fi
 
+pwd
 echo "Unpack dependencies $1 from debs"
 mkdir -p .tmp/lib/lib;
 mkdir -p .tmp/lib/usr/lib;
 cd .tmp/lib
+pwd
 
 for file in $(find . -type f -name "*.deb"); do
     echo "--- $file"

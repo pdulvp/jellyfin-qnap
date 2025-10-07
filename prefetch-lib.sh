@@ -13,6 +13,7 @@ fi
 
 echo "Prefetch dependencies $BUILD_INFO"
 mkdir -p .tmp/lib-unary;
+
 cp "$BUILD_INFO" .tmp/lib-unary
 cd .tmp/lib-unary
 

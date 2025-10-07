@@ -139,13 +139,10 @@ See **[pdulvp.fr/qnap-store](https://pdulvp.fr/qstore.html)**
 ## <img alt="build icon" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/build.png" width="24px"/> Build <img alt="arrow" src="https://raw.githubusercontent.com/pdulvp/pdulvp/main/icons/downarrow.png" height="24px"/>
 
 ### Requirements
-- WSL debian bullseye with rsync and jq installed 
-- QDK2 : https://github.com/qnap-dev/qdk2/releases
-- Visual Studio 2022
+- WSL with docker
 
 ### How to
-- Launch a Release build of the `plugins/Jellyfin.Plugin.QnapConfiguration.sln` under Visual Studio. It will create one release, for net8.0 that will be embedded afterwards.
-- Launch `./make.sh` (note that the script will try to push it on this repository. `push.sh` can be disabled in subscripts `fetch-stable.sh` and `fetch-stable-pre.sh`)
+- Launch `./make-on-docker.sh`, this will create a Docker image to build the stuff.
 - If there is some 'File not found' while downloading dependencies, just launch a `sudo apt-get update` on your WSL and relaunch the build
 - The build is verbose and raises some logs on tar operations but shall not ring a bell
 

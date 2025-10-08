@@ -2,11 +2,11 @@
 
 ARCH=amd64
 SERVER_KIND=preview
-SERVER_VERSION=$(wget https://repo.jellyfin.org/?path=/server/debian/latest-$SERVER_KIND/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=\+deb11_$ARCH.buildinfo)" | head -n 1)
+SERVER_VERSION=$(wget https://repo.jellyfin.org/?path=/server/debian/latest-$SERVER_KIND/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=\+deb12_$ARCH.buildinfo)" | head -n 1)
 echo "SERVER_VERSION=$SERVER_VERSION"
 WEB_VERSION=$SERVER_VERSION
 echo "WEB_VERSION=$WEB_VERSION"
-FFMPEG_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-7.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bullseye_$ARCH.buildinfo)" | head -n 1)
+FFMPEG_VERSION=$(wget https://repo.jellyfin.org/?path=/ffmpeg/debian/latest-7.x/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=-bookworm_$ARCH.buildinfo)" | head -n 1)
 echo "FFMPEG_VERSION=$FFMPEG_VERSION"
 
 CURRENT_VERSION=$(cat package.json | grep -o -P "(?<=\"version\"\: \")([^\"])+")
@@ -86,13 +86,13 @@ proceed() {
   echo "Procceed $ARCH $FFMPEG"
   rm -f *.buildinfo
 
-  FFMPEG_INFO=jellyfin-ffmpeg_$FFMPEG_VERSION-bullseye_$ARCH.buildinfo
-  FFMPEG_DEB=jellyfin-ffmpeg7_$FFMPEG_VERSION-bullseye_$ARCH.deb
+  FFMPEG_INFO=jellyfin-ffmpeg_$FFMPEG_VERSION-bookworm_$ARCH.buildinfo
+  FFMPEG_DEB=jellyfin-ffmpeg7_$FFMPEG_VERSION-bookworm_$ARCH.deb
   FFMPEG_TAG=$FFMPEG_VERSION
 
-  SERVER_INFO=jellyfin_$SERVER_VERSION+deb11_$ARCH.buildinfo
-  SERVER_DEB=jellyfin-server_$SERVER_VERSION+deb11_$ARCH.deb
-  WEB_DEB=jellyfin-web_$SERVER_VERSION+deb11_all.deb
+  SERVER_INFO=jellyfin_$SERVER_VERSION+deb12_$ARCH.buildinfo
+  SERVER_DEB=jellyfin-server_$SERVER_VERSION+deb12_$ARCH.deb
+  WEB_DEB=jellyfin-web_$SERVER_VERSION+deb12_all.deb
   
   get "https://repo.jellyfin.org/files/ffmpeg/debian/latest-7.x/$ARCH/$FFMPEG_INFO"
   #gpg_check $FFMPEG_INFO #buildinfo is not signed

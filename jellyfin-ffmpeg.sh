@@ -3,12 +3,12 @@
 ARCH=$1
 FFMPEG_VERSION=$2
 FFMPEG_TYPE=$3
-if [ $(ls -1 jellyfin-ffmpeg*_*-bullseye_*.deb | wc -l) -ne 1 ]; then
-    echo -e "jellyfin-ffmpeg*_XYZ-bullseye_*.deb not found or several releases." 1>&2
+if [ $(ls -1 jellyfin-ffmpeg*_*-bookworm_*.deb | wc -l) -ne 1 ]; then
+    echo -e "jellyfin-ffmpeg*_XYZ-bookworm_*.deb not found or several releases." 1>&2
     exit 1
 fi
 
-FFMPEG=$(ls -1 jellyfin-ffmpeg*_*-bullseye_*.deb)
+FFMPEG=$(ls -1 jellyfin-ffmpeg*_*-bookworm_*.deb)
 echo $FFMPEG found.
 
 FFMPEG_INFO=`ls -1 jellyfin-ffmpeg*.buildinfo`

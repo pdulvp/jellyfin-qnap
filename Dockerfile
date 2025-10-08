@@ -1,10 +1,10 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ARG QDK_VERSION="2.4.0"
 ARG DOTNET_VERSION="9.0"
 
 RUN apt-get update
-RUN apt-get install -y jq wget unzip gnupg ca-certificates
+RUN apt-get install -y jq binutils xz-utils wget unzip gnupg ca-certificates
 
 RUN wget -O /tmp/qdk.zip https://github.com/qnap-dev/QDK/archive/refs/tags/v${QDK_VERSION}.zip
 RUN unzip -d /tmp /tmp/qdk.zip
@@ -16,3 +16,6 @@ RUN rm -rf /tmp/QDK-${QDK_VERSION}
 
 RUN apt-get install -y libicu-dev icu-devtools
 RUN wget -O- https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel ${DOTNET_VERSION} --install-dir /usr/local/bin
+
+RUN dpkg --add-architecture arm64
+RUN apt update -o APT::Architecture="arm64" -o APT::Architectures="arm64"

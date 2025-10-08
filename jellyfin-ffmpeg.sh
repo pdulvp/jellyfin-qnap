@@ -15,15 +15,9 @@ FFMPEG_INFO=`ls -1 jellyfin-ffmpeg*.buildinfo`
 echo $FFMPEG_INFO found.
 
 case "$ARCH" in
-    armhf) LD_LIB="ld-linux-armhf.so.3" ;;
     arm64) LD_LIB="ld-linux-aarch64.so.1" ;;
     *) LD_LIB="ld-linux-x86-64.so.2" ;;
 esac
-
-if [ "$ARCH" == "$NEXT_VERSION" ] && [ "$CURRENT_SHA" == "$NEXT_SHA" ]; then
-    echo -e "\033[0;36mNo new release \033[0m"
-    exit;
-fi
 
 # Unzip jellyfin-ffmpeg.deb/data.tar.xz/./usr/lib/ into output/shared/
 mkdir .tmp/ffmpeg

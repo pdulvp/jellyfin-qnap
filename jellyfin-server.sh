@@ -27,7 +27,6 @@ rm -rf .tmp/server;
 mv output/shared/jellyfin/bin/jellyfin output/shared/jellyfin/bin/jellyfin2
 
 case "$ARCH" in
-    armhf) LD_LIB="ld-linux-armhf.so.3" ;;
     arm64) LD_LIB="ld-linux-aarch64.so.1" ;;
     *) LD_LIB="ld-linux-x86-64.so.2" ;;
 esac

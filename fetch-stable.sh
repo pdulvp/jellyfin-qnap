@@ -14,16 +14,16 @@ CURRENT_SHA=$(cat package.json | grep -o -P "(?<=\"sha\"\: \")([^\"])+")
 echo "CURRENT_VERSION=$CURRENT_VERSION"
 echo "CURRENT_SHA=$CURRENT_SHA"
 
-PREFIX=""
-NEXT_VERSION=$(echo $SERVER_VERSION @ $WEB_VERSION @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g")
-NEXT_SHA=$(echo $NEXT_VERSION | md5sum | cut -d" " -f 1)
-echo "NEXT_VERSION=$NEXT_VERSION"
-echo "NEXT_SHA=$NEXT_SHA"
-
 SUFFIX=$(cat package.json | grep -o -P "(?<=\"suffix\"\: \")([^\"])+")
 if [ $SUFFIX != "" ]; then 
   SUFFIX="-$SUFFIX"
 fi
+
+NEXT_VERSION=$(echo $SERVER_VERSION @ $SUFFIX @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g")
+NEXT_SHA=$(echo $NEXT_VERSION | md5sum | cut -d" " -f 1)
+echo "NEXT_VERSION=$NEXT_VERSION"
+echo "NEXT_SHA=$NEXT_SHA"
+
 QPKG_VER=$(echo $SERVER_VERSION | cut -f1 -d"-")$SUFFIX
 echo "QPKG_VER=$QPKG_VER"
 

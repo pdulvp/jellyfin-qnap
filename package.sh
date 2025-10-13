@@ -1,10 +1,7 @@
 #!/bin/bash
 ARCH=$1
 FFMPEG=$2
-QPKG_VER=$3
-
-sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
-cd output; /usr/share/QDK/bin/qbuild ; cd ..
+QPKG_VER=$(cat package.json | jq -r .qpkg_ver)
 cd output; tar --exclude='./build' -cf build/jellyfin_$QPKG_VER.tar .; cd ..
 
 if [ "$ARCH" != "amd64" ]; then 

@@ -6,12 +6,12 @@ ARCH=$3
 
 mkdir -p .tmp/lib;
 if [ -d ".cache/$VERSION-$ARCH/deb" ]; then
-  echo -e "\033[0;32mPrefetch dependencies $BUILD_INFO from cache \033[0m"
+  echo -e "\033[0;32mPrefetch dependencies $BUILD_INFO-$ARCH from cache \033[0m"
   cp .cache/$VERSION-$ARCH/deb/* .tmp/lib
   exit 0
 fi
 
-echo "Prefetch dependencies $BUILD_INFO"
+echo "Prefetch dependencies $BUILD_INFO-$ARCH"
 mkdir -p .tmp/lib-unary;
 
 cp "$BUILD_INFO" .tmp/lib-unary

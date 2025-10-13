@@ -1,5 +1,5 @@
 #!/bin/bash
 
-dotnet build plugins/Jellyfin.Plugin.QnapConfiguration.sln --configuration Release
+#dotnet build plugins/Jellyfin.Plugin.QnapConfiguration.sln --configuration Release
 
 ./fetch-stable.sh

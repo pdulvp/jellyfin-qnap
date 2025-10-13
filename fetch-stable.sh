@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCH=amd64
+ARCH=$1
 SERVER_KIND=preview
 SERVER_VERSION=$(wget https://repo.jellyfin.org/?path=/server/debian/latest-$SERVER_KIND/$ARCH -q -O- | grep -o -P "([a-z0-9\-\.~]+)(?=\+deb12_$ARCH.buildinfo)" | head -n 1)
 echo "SERVER_VERSION=$SERVER_VERSION"
@@ -114,6 +114,7 @@ proceed() {
   rm -rf output
   mkdir output
   cp -rf packaging/* output
+  sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
 
   if ! ./jellyfin-server.sh "$ARCH" "$SERVER_VERSION"; then
       exit $?
@@ -135,24 +136,21 @@ proceed() {
       exit $?
   fi
 
-  mkdir -p output/build
-  if ! ./package.sh $ARCH $FFMPEG $QPKG_VER; then
-      exit $?
-  fi
 }
 
 get_jellyfin_key
 
-if ! proceed "amd64" "ffmpeg7"; then
+if ! proceed $ARCH "ffmpeg7"; then
   exit $?
 fi
 
-if ! proceed "arm64" "ffmpeg7"; then
-  exit $?
-fi
+#if ! proceed "arm64" "ffmpeg7"; then
+#  exit $?
+#fi
 
 json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
 json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
+json=$(echo $json | jq ".qpkg_ver = \"$QPKG_VER\"")
 json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
 json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
 json=$(echo $json | jq ".kind = \"$SERVER_KIND\"")

@@ -2,6 +2,9 @@
 /.cache
 /build
 /output
+/tests/output
+/tests/test
+/jel
 /packaging/build
 /*.deb
 /*.buildinfo

@@ -1,13 +1,14 @@
 {
   "name": "jellyfin-qnap",
-  "version": "10110rc8.8a.7122",
-  "sha": "85b795a03f6fe3d7d2aa77711a2b8a11",
+  "version": "10110rc8.8b.7122",
+  "sha": "310c2a958e55aebf184c2a794edbe2ba",
   "server": "10.11.0-rc8",
+  "qpkg_ver": "10.11.0-8b",
   "ffmpeg": "7.1.2-2",
   "web": "10.11.0-rc8",
   "kind": "preview",
   "description": "",
-  "suffix": "8a",
+  "suffix": "8b",
   "main": "index.js",
   "scripts": {
     "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./make-on-docker.sh'",

@@ -1,0 +1,6 @@
+FROM qbuild1:latest
+
+RUN mkdir -p /test
+COPY packaging /test
+
+RUN mkdir -p /test/build

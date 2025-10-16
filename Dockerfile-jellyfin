@@ -1,0 +1,3 @@
+FROM jellyfin/jellyfin:10.11.0-rc8-amd64.20250928-164638
+
+ENTRYPOINT [""]

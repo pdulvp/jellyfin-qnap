@@ -29,10 +29,26 @@ setSha() {
 process() {
   ARCH=$1
   
-  docker run --rm -it \
-    -v "$(pwd):/mnt/shared" \
-    bookworm1 \
-    bash -c "cd /mnt/shared && ./fetch-stable.sh $ARCH"
+  #docker run --rm -it \
+  #  -v "$(pwd):/mnt/shared" \
+  #  bookworm1 \
+  #  bash -c "cd /mnt/shared && ./fetch-stable.sh $ARCH"
+
+
+docker run --rm -it \
+  -v "$(pwd):/mnt/shared" \
+  -v "$(pwd)/jel:/mnt/jel" \
+  jellyfin1 \
+  bash -c "cd /mnt/shared && ./copy.sh"
+
+./jellyfin-server-steps.sh "amd64"
+./jellyfin-ffmpeg-steps.sh "amd64"
+
+QPKG_VER=10.11.0-8c
+sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
+
+json=$(cat package.json | jq ".qpkg_ver = \"$QPKG_VER\"")
+printf '%s\n' "$json" > package.json
 
   docker run --rm -it \
     -v "$(pwd):/mnt/shared" \
@@ -48,12 +64,6 @@ process() {
 
 SHA=$(cat package.json | jq -r .sha)
 process "amd64"
-setSha "$SHA"
-process "arm64"
+#setSha "$SHA"
+#process "arm64"
 
-
-#docker run --rm -it \
-# -v "$(pwd):/mnt/shared" \
-#  -v "$(pwd)/jel:/mnt/jel" \
- # jellyfin1 \
-#  bash -c "cd /mnt/shared && ./copy.sh"

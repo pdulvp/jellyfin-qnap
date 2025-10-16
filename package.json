@@ -3,7 +3,7 @@
   "version": "10110rc8.8b.7122",
   "sha": "310c2a958e55aebf184c2a794edbe2ba",
   "server": "10.11.0-rc8",
-  "qpkg_ver": "10.11.0-8c",
+  "qpkg_ver": "10.11.0-9a",
   "ffmpeg": "7.1.2-2",
   "web": "10.11.0-rc8",
   "kind": "preview",

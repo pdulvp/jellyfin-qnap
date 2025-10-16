@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker build -t jellyfin1 . -f Dockerfile-jellyfin
+
 docker build -t qbuild1 . -f Dockerfile-qbuild
 docker run --rm -it \
   -v "$(pwd):/mnt/shared" \
@@ -44,7 +46,7 @@ docker run --rm -it \
 ./jellyfin-server-steps.sh "amd64"
 ./jellyfin-ffmpeg-steps.sh "amd64"
 
-QPKG_VER=10.11.0-8c
+QPKG_VER=10.11.0-9a
 sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
 
 json=$(cat package.json | jq ".qpkg_ver = \"$QPKG_VER\"")

@@ -8,7 +8,7 @@
   "web": "10.11.0-rc8",
   "kind": "preview",
   "description": "",
-  "suffix": "8c",
+  "suffix": "9a",
   "main": "index.js",
   "scripts": {
     "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./make-on-docker.sh'",

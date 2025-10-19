@@ -1,3 +1,3 @@
-FROM jellyfin/jellyfin:10.11.0-rc9-amd64.20251013-222559
+FROM jellyfin/jellyfin:10.11.0-rc9
 
 ENTRYPOINT [""]

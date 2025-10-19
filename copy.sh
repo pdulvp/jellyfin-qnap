@@ -1,30 +1,12 @@
 #!/bin/bash
+cp -r /packaging/* /output/
+mkdir -p /output/shared/jellyfin
+cp -r /source/jellyfin/* /output/shared/jellyfin/
+mv /output/shared/jellyfin/jellyfin-web /output/shared/
+cp -r /source/usr/lib/jellyfin-ffmpeg /output/shared/
+cp -r /source/usr/lib/x86_64-linux-gnu/* /output/shared/jellyfin/ 2>/dev/null || true
+cp -r /source/usr/lib/aarch64-linux-gnu/* /output/shared/jellyfin/ 2>/dev/null || true
 
-rm -rf /mnt/jel/*
-mkdir /mnt/jel/lib
-mkdir /mnt/jel/usr
-mkdir /mnt/jel/usr/lib
-mkdir /mnt/jel/jellyfin
-ls /
-find /bin > /mnt/jel/all.txt
-find /etc >> /mnt/jel/all.txt
-find /usr >> /mnt/jel/all.txt
-find /lib >> /mnt/jel/all.txt
-find /var >> /mnt/jel/all.txt
-
-
-cd /mnt/shared
-
-  rm -rf .tmp
-  rm -rf output
-  mkdir output
-  cp -rf packaging/* output
-
-cp -r /jellyfin /mnt/shared/output/shared/
-mv /mnt/shared/output/shared/jellyfin/jellyfin-web /mnt/shared/output/shared/
-cp -r /usr/lib/x86_64-linux-gnu/* /mnt/shared/output/shared/jellyfin/
-cp -r /usr/lib/jellyfin-ffmpeg /mnt/shared/output/shared/
-
-mkdir -p /mnt/shared/output/shared/bin
-mv /mnt/shared/output/shared/jellyfin/* /mnt/shared/output/shared/bin/
-mv /mnt/shared/output/shared/bin /mnt/shared/output/shared/jellyfin/
+mkdir -p /output/shared/bin
+mv /output/shared/jellyfin/* /output/shared/bin/
+mv /output/shared/bin /output/shared/jellyfin/

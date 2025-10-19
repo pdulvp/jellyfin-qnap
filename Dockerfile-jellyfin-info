@@ -1,0 +1,8 @@
+FROM debian:bookworm AS base
+FROM jellyfin/jellyfin:10.11.0-rc9
+
+COPY --from=base /bin/sh /bin/sh
+COPY --from=base /usr/bin/bash /usr/bin/bash
+COPY ./jellyfin-info.sh /jellyfin-info.sh
+
+ENTRYPOINT [""]

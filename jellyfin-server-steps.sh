@@ -2,14 +2,14 @@
 ARCH=$1
 
 #Create redirection for jellyfin
-mv output/shared/jellyfin/bin/jellyfin output/shared/jellyfin/bin/jellyfin2
+mv /output/shared/jellyfin/bin/jellyfin /output/shared/jellyfin/bin/jellyfin2
 
 case "$ARCH" in
     arm64) LD_LIB="ld-linux-aarch64.so.1" ;;
     *) LD_LIB="ld-linux-x86-64.so.2" ;;
 esac
 
-cat >output/shared/jellyfin/bin/jellyfin <<EOL
+cat >/output/shared/jellyfin/bin/jellyfin <<EOL
 #!/bin/bash
 
 CONF=/etc/config/qpkg.conf;
@@ -22,16 +22,19 @@ jellyfin_server_start "\$@"
 \$QPKG_ROOT/jellyfin/bin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin/bin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$QPKGS_PATHS \$QPKG_ROOT/jellyfin/bin/jellyfin2 "\$@"
 EOL
 
-chmod +x output/shared/jellyfin/bin/jellyfin
+chmod +x /output/shared/jellyfin/bin/jellyfin
 
 # Add Configuration plugin
-mkdir -p output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration
-NETVERSION=`cat output/shared/jellyfin/bin/jellyfin.runtimeconfig.json | grep -E "tfm.*" | cut -f4 -d"\""`
+mkdir -p /output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration
+NETVERSION=`cat /output/shared/jellyfin/bin/jellyfin.runtimeconfig.json | grep -E "tfm.*" | cut -f4 -d"\""`
 echo "NETVERSION=$NETVERSION"
 
-if ! cp plugins/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"; then
+ls "/"
+ls "/plugins"
+
+if ! cp /plugins/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "/output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"; then
     echo -e "\033[0;36mError copying plugin. Please generate it before \033[0m"
     exit 1
 fi
 
-ls "output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"
+ls "/output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"

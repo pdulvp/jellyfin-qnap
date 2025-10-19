@@ -11,4 +11,6 @@ RUN chmod 755 /tmp/QDK-${QDK_VERSION}/InstallToUbuntu.sh
 RUN cd /tmp/QDK-${QDK_VERSION} && ./InstallToUbuntu.sh install;
 RUN rm -rf /tmp/QDK-${QDK_VERSION}
 
+COPY ./archive-artifacts.sh /archive-artifacts.sh
+COPY ./update_qver.sh /update_qver.sh
 ENTRYPOINT [""]

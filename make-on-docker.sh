@@ -1,71 +1,117 @@
 #!/bin/bash
 
-docker build -t jellyfin1 . -f Dockerfile-jellyfin
-
+docker build -t jellyfin-info . -f Dockerfile-jellyfin-info
 docker build -t qbuild1 . -f Dockerfile-qbuild
-docker run --rm -it \
-  -v "$(pwd):/mnt/shared" \
-  qbuild1 \
-  bash -c "cd /tmp/QDK-2.4.0/ && ./InstallToUbuntu.sh install && find /usr/share/QDK"
+docker build -t net1 . -f Dockerfile-net
 
 # Test qbuild
-docker build -t qbuild.test . -f Dockerfile-qbuild.test
-rm -rf $(pwd)/tests/test/*
-mkdir -p $(pwd)/tests/test/build
-cp -r packaging/* $(pwd)/tests/test
+if [ 1 == 2 ]; then
+  docker build -t qbuild.test . -f Dockerfile-qbuild.test
+  rm -rf $(pwd)/tests/test/*
+  mkdir -p $(pwd)/tests/test/build
+  cp -r packaging/* $(pwd)/tests/test
+
+  docker run --rm -it \
+    -v "$(pwd):/mnt/shared" \
+    -v "$(pwd)/tests/test:/test" \
+    qbuild.test \
+    bash -c "/mnt/shared/tests/test-qbuild.sh"
+fi
+
+get_env_var() {
+  local container=$1
+  local var_name=$2
+  docker run --rm -it "$container" bash -c "/jellyfin-info.sh; source /.env; echo \$$var_name" | tr -d '\r' | tr -d '\n'
+}
+
+create_volume() {
+  local volume_name=$1
+  local containers=$(docker ps -a --filter volume="$volume_name" -q)
+
+  if [ -n "$containers" ]; then
+    echo "Stopping and removing containers using the volume: $volume_name"
+    docker stop $containers
+    docker rm $containers
+  fi
+  if docker volume inspect "$volume_name" > /dev/null 2>&1; then
+    echo "Deleting existing volume: $volume_name"
+    docker volume rm --force "$volume_name"
+  else
+    echo "Volume $volume_name does not exist, skipping deletion."
+  fi
+  docker volume create $VOLUME
+}
+
+initialize_output_folder() {
+  rm -rf output
+  mkdir -p output
+  cp -rf packaging/* output
+}
+
+VOLUME_PLUGINS="jellyfin-plugins"
+create_volume "$VOLUME_PLUGINS"
 
 docker run --rm -it \
-  -v "$(pwd):/mnt/shared" \
-  -v "$(pwd)/tests/test:/test" \
-  qbuild.test \
-  bash -c "/mnt/shared/tests/test-qbuild.sh"
-
-docker build -t bookworm1 . -f Dockerfile
-
-setSha() {
-  SHA=$1 
-  json=$(cat package.json | jq ".sha = \"$SHA\"")
-  printf '%s\n' "$json" > package.json
-}
+  -v "$(pwd)/plugins:/plugins" \
+  -v $VOLUME_PLUGINS:/output \
+  net1 \
+  bash -c "/make-plugin.sh " 
 
 process() {
+  pwd
   ARCH=$1
-  
-  #docker run --rm -it \
-  #  -v "$(pwd):/mnt/shared" \
-  #  bookworm1 \
-  #  bash -c "cd /mnt/shared && ./fetch-stable.sh $ARCH"
+  QPKG_VER=$2
+  VOLUME="jellyfin-volume5"
+  create_volume "$VOLUME"
 
+  VOLUME2="jellyfin-volume6"
+  create_volume "$VOLUME2"
 
-docker run --rm -it \
-  -v "$(pwd):/mnt/shared" \
-  -v "$(pwd)/jel:/mnt/jel" \
+  VOLUME3="jellyfin-output1"
+  create_volume "$VOLUME3"
+
+  docker build --platform linux/$ARCH -t jellyfin1 . -f Dockerfile-jellyfin 
+
+  docker run \
+  --platform linux/$ARCH \
+  -v $VOLUME:/jellyfin \
+  -v $VOLUME2:/usr \
   jellyfin1 \
-  bash -c "cd /mnt/shared && ./copy.sh"
+  echo
 
-./jellyfin-server-steps.sh "amd64"
-./jellyfin-ffmpeg-steps.sh "amd64"
-
-QPKG_VER=10.11.0-9a
-sed -i "s/^QPKG_VER=.*$/QPKG_VER=\"$QPKG_VER\"/" output/qpkg.cfg
-
-json=$(cat package.json | jq ".qpkg_ver = \"$QPKG_VER\"")
-printf '%s\n' "$json" > package.json
+  docker build -t builder1 . -f Dockerfile-builder
+  docker run --rm -it \
+    -v $VOLUME:/source/jellyfin \
+    -v $VOLUME2:/source/usr \
+    -v $VOLUME3:/output \
+    -v $VOLUME_PLUGINS:/plugins \
+    builder1 \
+    bash -c "/copy.sh && /jellyfin-ffmpeg-steps.sh $ARCH && /jellyfin-server-steps.sh $ARCH"
 
   docker run --rm -it \
-    -v "$(pwd):/mnt/shared" \
+    -v $VOLUME3:/output \
+    -v "$(pwd)/build:/builds" \
     qbuild1 \
-    bash -c "cd /mnt/shared/output && /usr/share/QDK/bin/qbuild -v" 
-
-  docker run --rm -it \
-    -v "$(pwd):/mnt/shared" \
-    bookworm1 \
-    bash -c "cd /mnt/shared && ./package.sh $ARCH ffmpeg7"
+    bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH ffmpeg7 $QPKG_VER" 
 
 }
 
-SHA=$(cat package.json | jq -r .sha)
-process "amd64"
-#setSha "$SHA"
-#process "arm64"
+FFMPEG_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_FFMPEG")
+SERVER_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_VERSION")
+WEB_VERSION=$SERVER_VERSION
 
+source ./version-check.sh
+echo CURRENT_VERSION=$CURRENT_VERSION
+echo NEXT_VERSION=$NEXT_VERSION
+echo QPKG_VER=$QPKG_VER
+
+process "arm64" $QPKG_VER
+process "amd64" $QPKG_VER
+
+json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
+json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
+json=$(echo $json | jq ".qpkg_ver = \"$QPKG_VER\"")
+json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
+json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
+json=$(echo $json | jq ".web = \"$WEB_VERSION\"")
+printf '%s\n' "$json" > package.json

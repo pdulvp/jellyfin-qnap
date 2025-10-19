@@ -8,7 +8,6 @@ RUN apt-get install -y jq binutils xz-utils wget unzip gnupg ca-certificates cur
 RUN apt-get install -y libicu-dev icu-devtools
 RUN wget -O- https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel ${DOTNET_VERSION} --install-dir /usr/local/bin
 
-RUN dpkg --add-architecture amd64
-RUN dpkg --add-architecture arm64
-RUN apt update -o APT::Architecture="arm64" -o APT::Architectures="arm64"
-RUN apt update -o APT::Architecture="amd64" -o APT::Architectures="amd64"
+COPY ./make-plugin.sh /make-plugin.sh
+
+ENTRYPOINT [""]

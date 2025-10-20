@@ -7,7 +7,7 @@ CMD_SETCFG="/sbin/setcfg"
 PDULVP_STORE="https://pdulvp.github.io/qnap-store/repos.xml"
 PDULVP_PRE_STORE="https://pdulvp.github.io/qnap-store/repos-prereleases.xml"
 
-export PATH=$QPKG_ROOT/jellyfin/bin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
+export PATH=$QPKG_ROOT/jellyfin:$QPKG_ROOT/jellyfin-ffmpeg:$PATH
 
 source $QPKG_ROOT/jellyfin-config.sh
 
@@ -20,12 +20,13 @@ jellyfin_start(){
   load_config
   mkdir -p $QPKG_ROOT/logs
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log
-  $QPKG_ROOT/jellyfin/bin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --ffmpeg=$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg --package-name=pdulvp &
+  $QPKG_ROOT/jellyfin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --ffmpeg=$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg --package-name=pdulvp &
   sleep 10
 }
 
 jellyfin_stop(){
   ps aux | grep -ie jellyfin/bin/ld-linux | grep -v grep | awk '{print $1}' | xargs kill -9
+  ps aux | grep -ie jellyfin/ld-linux | grep -v grep | awk '{print $1}' | xargs kill -9
   rm -rf /opt/$QPKG_NAME
   rm -rf /usr/lib/jellyfin-ffmpeg
 }

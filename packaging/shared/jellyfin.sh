@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CONF=/etc/config/qpkg.conf
 QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
@@ -22,6 +22,7 @@ jellyfin_start(){
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log
   $QPKG_ROOT/jellyfin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --ffmpeg=$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg --package-name=pdulvp &
   sleep 10
+  echo "$QPKG_NAME is started."
 }
 
 jellyfin_stop(){
@@ -29,6 +30,7 @@ jellyfin_stop(){
   ps aux | grep -ie jellyfin/ld-linux | grep -v grep | awk '{print $1}' | xargs kill -9
   rm -rf /opt/$QPKG_NAME
   rm -rf /usr/lib/jellyfin-ffmpeg
+  echo "$QPKG_NAME is stopped."
 }
 
 link_to_store(){

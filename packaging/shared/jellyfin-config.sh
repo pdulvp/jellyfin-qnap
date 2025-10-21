@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CONF=/etc/config/qpkg.conf
 QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
@@ -43,7 +43,7 @@ default_config(){
   if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
     QPKGS_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
   fi
-  export QPKGS_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
+  export QPKGS_PATHS="$QPKGS_PATHS"
 }
 
 load_config(){

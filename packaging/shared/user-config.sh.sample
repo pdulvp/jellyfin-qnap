@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CONF=/etc/config/qpkg.conf
 QPKG_NAME="jellyfin"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`

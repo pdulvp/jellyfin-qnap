@@ -35,7 +35,7 @@ QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 source \$QPKG_ROOT/jellyfin-config.sh
 jellyfin_ffprobe_start "\$@"
 
-\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
+\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 
 cat >/output/shared/jellyfin-ffmpeg/vainfo <<EOL
@@ -49,7 +49,7 @@ source \$QPKG_ROOT/jellyfin-config.sh
 jellyfin_vainfo_start "\$@"
 
 if [ -f \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 ]; then
-  \$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$ADDITIONAL_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
+  \$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
 fi
 
 EOL

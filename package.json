@@ -12,6 +12,7 @@
   "main": "index.js",
   "scripts": {
     "build": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./make-on-docker.sh'",
+    "test": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; ./test-last-docker.sh'",
     "push": "debian.exe run 'cd /mnt/c/Works/jellyfin-qnap; if [ -f ./init.sh ]; then source ./init.sh; fi; ./push.sh'"
   },
   "repository": {

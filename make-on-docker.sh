@@ -61,13 +61,14 @@ process() {
   pwd
   ARCH=$1
   QPKG_VER=$2
-  VOLUME="jellyfin-volume5"
+
+  VOLUME="jellyfin-volume5-$ARCH"
   create_volume "$VOLUME"
 
-  VOLUME2="jellyfin-volume6"
+  VOLUME2="jellyfin-volume6-$ARCH"
   create_volume "$VOLUME2"
 
-  VOLUME3="jellyfin-output1"
+  VOLUME3="jellyfin-output1-$ARCH"
   create_volume "$VOLUME3"
 
   docker build --platform linux/$ARCH -t jellyfin1 . -f Dockerfile-jellyfin 
@@ -88,12 +89,11 @@ process() {
     builder1 \
     bash -c "/copy.sh && /jellyfin-ffmpeg-steps.sh $ARCH && /jellyfin-server-steps.sh $ARCH"
 
-  docker run --rm -it \
-    -v $VOLUME3:/output \
-    -v "$(pwd)/build:/builds" \
-    qbuild1 \
-    bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH ffmpeg7 $QPKG_VER" 
-
+  #docker run --rm -it \
+  #  -v $VOLUME3:/output \
+  #  -v "$(pwd)/build:/builds" \
+  #  qbuild1 \
+  #  bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH ffmpeg7 $QPKG_VER" 
 }
 
 FFMPEG_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_FFMPEG")
@@ -105,8 +105,8 @@ echo CURRENT_VERSION=$CURRENT_VERSION
 echo NEXT_VERSION=$NEXT_VERSION
 echo QPKG_VER=$QPKG_VER
 
-process "arm64" $QPKG_VER
 process "amd64" $QPKG_VER
+#process "arm64" $QPKG_VER
 
 json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
 json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
@@ -114,4 +114,4 @@ json=$(echo $json | jq ".qpkg_ver = \"$QPKG_VER\"")
 json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
 json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
 json=$(echo $json | jq ".web = \"$WEB_VERSION\"")
-printf '%s\n' "$json" > package.json
+#printf '%s\n' "$json" > package.json

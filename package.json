@@ -1,7 +1,7 @@
 {
   "name": "jellyfin-qnap",
   "version": "10110.b.712",
-  "sha": "8f284ea782ee4cb1dd1f3f36dccf7e84",
+  "sha": "8f284ea7dd1f3f36dccf7e84",
   "server": "10.11.0",
   "qpkg_ver": "10.11.0-b",
   "ffmpeg": "7.1.2",

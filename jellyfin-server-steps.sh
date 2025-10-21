@@ -29,12 +29,7 @@ mkdir -p /output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration
 NETVERSION=`cat /output/shared/jellyfin/jellyfin.runtimeconfig.json | grep -E "tfm.*" | cut -f4 -d"\""`
 echo "NETVERSION=$NETVERSION"
 
-ls "/"
-ls "/plugins"
-
 if ! cp /plugins/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "/output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"; then
     echo -e "\033[0;36mError copying plugin. Please generate it before \033[0m"
     exit 1
 fi
-
-ls "/output/shared/database/plugins/Jellyfin.Plugin.QnapConfiguration/"

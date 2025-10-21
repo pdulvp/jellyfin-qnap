@@ -62,35 +62,40 @@ process() {
   ARCH=$1
   QPKG_VER=$2
 
-  VOLUME="jellyfin-volume5-$ARCH"
-  create_volume "$VOLUME"
+  VOLUME_JELLYFIN="jellyfin-volume-jellyfin-$ARCH"
+  create_volume "$VOLUME_JELLYFIN"
 
-  VOLUME2="jellyfin-volume6-$ARCH"
-  create_volume "$VOLUME2"
+  VOLUME_USR="jellyfin-volume-usr-$ARCH"
+  create_volume "$VOLUME_USR"
 
-  VOLUME3="jellyfin-output1-$ARCH"
-  create_volume "$VOLUME3"
+  VOLUME_ETC="jellyfin-volume-etc-$ARCH"
+  create_volume "$VOLUME_ETC"
+
+  VOLUME_OUTPUT="jellyfin-output1-$ARCH"
+  create_volume "$VOLUME_OUTPUT"
 
   docker build --platform linux/$ARCH -t jellyfin1 . -f Dockerfile-jellyfin 
 
   docker run \
   --platform linux/$ARCH \
-  -v $VOLUME:/jellyfin \
-  -v $VOLUME2:/usr \
+  -v $VOLUME_JELLYFIN:/jellyfin \
+  -v $VOLUME_ETC:/etc \
+  -v $VOLUME_USR:/usr \
   jellyfin1 \
   echo
 
   docker build -t builder1 . -f Dockerfile-builder
   docker run --rm -it \
-    -v $VOLUME:/source/jellyfin \
-    -v $VOLUME2:/source/usr \
-    -v $VOLUME3:/output \
+    -v $VOLUME_JELLYFIN:/source/jellyfin \
+    -v $VOLUME_ETC:/source/etc \
+    -v $VOLUME_USR:/source/usr \
+    -v $VOLUME_OUTPUT:/output \
     -v $VOLUME_PLUGINS:/plugins \
     builder1 \
     bash -c "/copy.sh && /jellyfin-ffmpeg-steps.sh $ARCH && /jellyfin-server-steps.sh $ARCH"
 
   docker run --rm -it \
-    -v $VOLUME3:/output \
+    -v $VOLUME_OUTPUT:/output \
     -v "$(pwd)/build:/builds" \
     qbuild1 \
     bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH ffmpeg7 $QPKG_VER" 

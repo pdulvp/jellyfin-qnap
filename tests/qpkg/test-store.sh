@@ -2,6 +2,8 @@
 
 source /qpkg/asserts.sh
 
+sub_test "Test references to the store"
+
 mkdir -p /etc/config/
 cat >/etc/config/3rd_pkg_v2.conf <<EOL
 [AAAA]

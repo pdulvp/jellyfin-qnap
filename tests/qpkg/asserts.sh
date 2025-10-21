@@ -71,4 +71,10 @@ red(){
   echo -e "\e[31m$1\e[0m"
 }
 
-green "== Start $0"
+main_test() {
+  green "== Start $0"
+}
+sub_test() {
+  green "=== $1"
+}
+main_test

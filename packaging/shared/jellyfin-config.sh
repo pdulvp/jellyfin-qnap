@@ -14,7 +14,7 @@ set_qpkg_field(){
 get_from_config(){
   config_file=$1
   config_field=$2
-  if [ -f "$config_file" ]; then
+  if [ -f "$QPKG_ROOT/${config_file}" ]; then
     value=$(cat "$QPKG_ROOT/${config_file}" | grep "${config_field}" | cut -f2 -d\> | cut -f1 -d\< )
     echo "${value}"
   else

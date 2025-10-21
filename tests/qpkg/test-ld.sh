@@ -2,6 +2,8 @@
 
 source /qpkg/asserts.sh
 
+sub_test "Test overridden default app are properly launching the default ones"
+
 START=$(/jellyfin/shared/jellyfin-ffmpeg/vainfo "ok")
 log_assertion $(equals "$START" "ok") "vainfo2 must be called"
 

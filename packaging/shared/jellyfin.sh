@@ -14,6 +14,7 @@ source $QPKG_ROOT/jellyfin-config.sh
 jellyfin_start(){
   /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME
   /bin/ln -sf $QPKG_ROOT/jellyfin-ffmpeg /usr/lib/jellyfin-ffmpeg
+  [ ! -d "/etc/OpenCL" ] && /bin/ln -sf $QPKG_ROOT/etc/OpenCL /etc/OpenCL
 
   ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
 
@@ -21,8 +22,8 @@ jellyfin_start(){
   mkdir -p $QPKG_ROOT/logs
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log
   $QPKG_ROOT/jellyfin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --ffmpeg=$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg --package-name=pdulvp &
-  sleep 10
   echo "$QPKG_NAME is started."
+  sleep 10
 }
 
 jellyfin_stop(){
@@ -30,6 +31,8 @@ jellyfin_stop(){
   ps aux | grep -ie jellyfin/ld-linux | grep -v grep | awk '{print $1}' | xargs kill -9
   rm -rf /opt/$QPKG_NAME
   rm -rf /usr/lib/jellyfin-ffmpeg
+  [ -d "/etc/OpenCL" ] && [ -f "/etc/OpenCL/.jellyfin" ] && rm -rf /etc/OpenCL
+
   echo "$QPKG_NAME is stopped."
 }
 

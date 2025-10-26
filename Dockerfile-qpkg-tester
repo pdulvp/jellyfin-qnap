@@ -2,10 +2,4 @@
 FROM debian:bookworm
 RUN apt-get update
 COPY ./tests/qpkg /qpkg
-
-RUN mkdir -p /usr/bin
-RUN ln /qpkg/getcfg.sh
-RUN ln /qpkg/setcfg.sh
-RUN chmod +x /qpkg/getcfg.sh
-RUN chmod +x /qpkg/setcfg.sh
 ENTRYPOINT [""]

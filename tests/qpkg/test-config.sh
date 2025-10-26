@@ -31,3 +31,15 @@ log_assertion $(contains "$QPKGS_PATHS" "/user_config") "QPKGS_PATHS contains us
 
 sub_test "Test TMPDIR default config"
 log_assertion $(equals "$TMPDIR" "/jellyfin/shared/cache/tmp") "TMPDIR shall have a default value related to jellyfin"
+
+
+
+sub_test "Test QPKG_LD_PRELOAD default config with jemalloc"
+default_config
+log_assertion $(contains "$QPKG_LD_PRELOAD" "libjemalloc") "QPKG_LD_PRELOAD contains libjemalloc"
+
+sub_test "Test QPKG_LD_PRELOAD default config without jemalloc"
+mv /jellyfin/shared/jellyfin/libjemalloc.so.2 /jellyfin/shared/jellyfin/libjemalloc.so.bak
+default_config
+mv /jellyfin/shared/jellyfin/libjemalloc.so.bak /jellyfin/shared/jellyfin/libjemalloc.so.2
+log_assertion $(not_contains "$QPKG_LD_PRELOAD" "libjemalloc") "QPKG_LD_PRELOAD not contains libjemalloc"

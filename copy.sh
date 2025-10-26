@@ -1,6 +1,5 @@
 #!/bin/bash
 
-find /source/etc
 cp -r /packaging/* /output/
 mkdir -p /output/shared/jellyfin
 cp -r /source/jellyfin/* /output/shared/jellyfin/

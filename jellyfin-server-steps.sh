@@ -19,7 +19,11 @@ QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 source \$QPKG_ROOT/jellyfin-config.sh
 jellyfin_server_start "\$@"
 
-\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$QPKGS_PATHS \$QPKG_ROOT/jellyfin/jellyfin2 "\$@"
+PRELOAD=""
+if [ ! -z "\$QPKG_LD_PRELOAD" ]; then
+  PRELOAD="--preload \$QPKG_LD_PRELOAD"
+fi
+\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$QPKGS_PATHS \$PRELOAD \$QPKG_ROOT/jellyfin/jellyfin2 "\$@"
 EOL
 
 chmod +x /output/shared/jellyfin/jellyfin

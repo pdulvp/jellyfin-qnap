@@ -43,31 +43,25 @@ default_config(){
   fi
   
   export TMPDIR="$QPKG_ROOT/cache/tmp"
-  export QPKGS_PATHS=""
-  if [ -d /opt/NVIDIA_GPU_DRV/usr/nvidia ]; then
+  QPKGS_PATHS=""
+  if [ -d "/opt/NVIDIA_GPU_DRV/usr/nvidia" ]; then
     QPKGS_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
   fi
   export QPKGS_PATHS="$QPKGS_PATHS"
+  
+  QPKG_LD_PRELOAD=""
+  if [ -f "$QPKG_ROOT/jellyfin/libjemalloc.so.2" ]; then
+    QPKG_LD_PRELOAD="$QPKG_ROOT/jellyfin/libjemalloc.so.2"
+  fi
+  export QPKG_LD_PRELOAD="$QPKG_LD_PRELOAD"
 }
 
 load_config(){
   default_config
   if [ -f "$QPKG_ROOT/user-config.sh" ]; then 
-    source $QPKG_ROOT/user-config.sh;
+    source "$QPKG_ROOT/user-config.sh";
     user_config
   fi
-}
-
-jellyfin_ffmpeg_start() {
-  ## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
-  LIBVA_FROM_CONFIG=`[ -f $QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat $QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1`
-  if [ ! -z "${LIBVA_FROM_CONFIG}" ]; then
-      if [ "$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
-          export LIBVA_DRIVER_NAME_JELLYFIN="$LIBVA_FROM_CONFIG"
-          export LIBVA_DRIVER_NAME="$LIBVA_FROM_CONFIG"
-      fi
-  fi
-  return 0
 }
 
 read_ini_file() {
@@ -97,9 +91,27 @@ find_store() {
 	done
 }
 
+jellyfin_server_start() {
+  export XDG_CACHE_HOME="$QPKG_ROOT/cache"
+  export MALLOC_TRIM_THRESHOLD_=131072
+  return 0
+}
+
+jellyfin_ffmpeg_start() {
+  ## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
+  LIBVA_FROM_CONFIG=`[ -f "$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml" ] && cat "$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml" | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1`
+  if [ ! -z "${LIBVA_FROM_CONFIG}" ]; then
+      if [ "$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
+          export LIBVA_DRIVER_NAME_JELLYFIN="$LIBVA_FROM_CONFIG"
+          export LIBVA_DRIVER_NAME="$LIBVA_FROM_CONFIG"
+      fi
+  fi
+  return 0
+}
+
 jellyfin_ffprobe_start() {
   ## Look at the config for which VaapiDriver to use from the Jellyfin.Plugin.QnapConfiguration if installed
-  LIBVA_FROM_CONFIG=`[ -f $QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml ] && cat $QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1`
+  LIBVA_FROM_CONFIG=`[ -f "$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml" ] && cat "$QPKG_ROOT/database/plugins/configurations/Jellyfin.Plugin.QnapConfiguration.xml" | grep -E "<VaapiDriver>([^<]+)</VaapiDriver>" | cut -d">" -f2 | cut -d"<" -f1`
   if [ ! -z "${LIBVA_FROM_CONFIG}" ]; then
       if [ "$LIBVA_FROM_CONFIG" != "defaultValue" ]; then
           export LIBVA_DRIVER_NAME_JELLYFIN="$LIBVA_FROM_CONFIG"
@@ -110,9 +122,5 @@ jellyfin_ffprobe_start() {
 }
 
 jellyfin_vainfo_start() {
-  return 0
-}
-
-jellyfin_server_start() {
   return 0
 }

@@ -22,7 +22,11 @@ QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 source \$QPKG_ROOT/jellyfin-config.sh
 jellyfin_ffmpeg_start "\$@"
 
-\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
+PRELOAD=""
+if [ ! -z "\$QPKG_LD_PRELOAD" ]; then
+  PRELOAD="--preload \$QPKG_LD_PRELOAD"
+fi
+\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$PRELOAD \$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg2 "\$@"
 EOL
 
 cat >/output/shared/jellyfin-ffmpeg/ffprobe <<EOL
@@ -35,7 +39,11 @@ QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 source \$QPKG_ROOT/jellyfin-config.sh
 jellyfin_ffprobe_start "\$@"
 
-\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
+PRELOAD=""
+if [ ! -z "\$QPKG_LD_PRELOAD" ]; then
+  PRELOAD="--preload \$QPKG_LD_PRELOAD"
+fi
+\$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$PRELOAD \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 
 cat >/output/shared/jellyfin-ffmpeg/vainfo <<EOL
@@ -48,8 +56,12 @@ QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 source \$QPKG_ROOT/jellyfin-config.sh
 jellyfin_vainfo_start "\$@"
 
+PRELOAD=""
+if [ ! -z "\$QPKG_LD_PRELOAD" ]; then
+  PRELOAD="--preload \$QPKG_LD_PRELOAD"
+fi
 if [ -f \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 ]; then
-  \$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
+  \$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$PRELOAD \$QPKG_ROOT/jellyfin-ffmpeg/vainfo2 "\$@"
 fi
 
 EOL

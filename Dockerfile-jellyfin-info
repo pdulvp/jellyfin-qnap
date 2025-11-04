@@ -1,8 +1,12 @@
-FROM debian:bookworm AS base
-FROM jellyfin/jellyfin:10.11.1
+FROM net1 AS base
+FROM jellyfin/jellyfin:latest
 
 COPY --from=base /bin/sh /bin/sh
 COPY --from=base /usr/bin/bash /usr/bin/bash
+COPY --from=base /usr/bin/strings /usr/bin/strings
+COPY --from=base /usr/lib/x86_64-linux-gnu/libbfd* /usr/lib/x86_64-linux-gnu/
+COPY --from=base /usr/lib/x86_64-linux-gnu/libsframe* /usr/lib/x86_64-linux-gnu/
+
 COPY ./jellyfin-info.sh /jellyfin-info.sh
 
 ENTRYPOINT [""]

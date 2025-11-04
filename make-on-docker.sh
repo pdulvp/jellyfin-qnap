@@ -1,8 +1,8 @@
 #!/bin/bash
 
+docker build -t net1 . -f Dockerfile-net
 docker build -t jellyfin-info . -f Dockerfile-jellyfin-info
 docker build -t qbuild1 . -f Dockerfile-qbuild
-docker build -t net1 . -f Dockerfile-net
 
 # Test qbuild
 if [ 1 == 2 ]; then

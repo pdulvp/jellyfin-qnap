@@ -1,6 +1,6 @@
 FROM debian:bookworm
 
-ARG DOTNET_VERSION="9.0"
+ARG DOTNET_VERSION="10.0"
 
 RUN apt-get update
 RUN apt-get install -y jq binutils xz-utils wget unzip gnupg ca-certificates curl

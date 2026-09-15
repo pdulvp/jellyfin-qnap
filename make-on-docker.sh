@@ -29,6 +29,11 @@ list_env() {
   docker run --rm -it "$container" bash -c "/jellyfin-info.sh; cat /.env"
 }
 
+list_qbuildenv() {
+  local container=$1
+  docker run --rm -it "$container" bash -c "/qbuild-info.sh; cat /.env"
+}
+
 create_volume() {
   local volume_name=$1
   local containers=$(docker ps -a --filter volume="$volume_name" -q)
@@ -106,7 +111,9 @@ process() {
     bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH ffmpeg7 $QPKG_VER" 
 }
 
-#list_env "jellyfin-info"
+list_qbuildenv "qbuild1"
+list_env "jellyfin-info"
+
 FFMPEG_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_FFMPEG_VERSION")
 SERVER_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_VERSION")
 WEB_VERSION=$SERVER_VERSION

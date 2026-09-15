@@ -1,11 +1,24 @@
-FROM debian:bullseye
+FROM debian:bookworm-20260824
 ARG QDK_VERSION="2.4.0"
-
 RUN apt-get update
-RUN apt-get install -y wget rsync unzip python2 xz-utils tar
+
+RUN apt-get install -y wget rsync unzip xz-utils tar
+RUN apt-get install -y gcc make
+RUN wget -O /tmp/python.tgz https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+RUN mkdir /tmp/python
+RUN tar zxf /tmp/python.tgz -C /tmp/python
+
+WORKDIR "/tmp/python/Python-2.7.18"
+RUN ./configure --prefix=/usr/local --enable-optimizations
+RUN make
+RUN make install
+RUN python2 --version
+
 RUN wget -O /tmp/qdk.zip https://github.com/qnap-dev/QDK/archive/refs/tags/v${QDK_VERSION}.zip
 RUN unzip -d /tmp /tmp/qdk.zip
 RUN rm -rf /tmp/qdk.zip
+RUN rm -rf /tmp/python.tgz
+RUN rm -rf /tmp/python
 
 RUN chmod 755 /tmp/QDK-${QDK_VERSION}/InstallToUbuntu.sh
 RUN cd /tmp/QDK-${QDK_VERSION} && ./InstallToUbuntu.sh install;
@@ -13,4 +26,5 @@ RUN rm -rf /tmp/QDK-${QDK_VERSION}
 
 COPY ./archive-artifacts.sh /archive-artifacts.sh
 COPY ./update_qver.sh /update_qver.sh
+COPY ./qbuild-info.sh /qbuild-info.sh
 ENTRYPOINT [""]

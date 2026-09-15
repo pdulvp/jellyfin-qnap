@@ -1,5 +1,5 @@
 
-FROM debian:bookworm-20250929
+FROM debian:bookworm-20260824
 COPY ./copy.sh /copy.sh
 COPY ./jellyfin-server-steps.sh /jellyfin-server-steps.sh
 COPY ./jellyfin-ffmpeg-steps.sh /jellyfin-ffmpeg-steps.sh

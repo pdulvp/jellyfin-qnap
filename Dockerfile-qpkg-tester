@@ -1,5 +1,5 @@
 
-FROM debian:bookworm
+FROM debian:bookworm-20260824
 RUN apt-get update
 COPY ./tests/qpkg /qpkg
 ENTRYPOINT [""]

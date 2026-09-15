@@ -22,7 +22,7 @@ RELEASE_NAME="${QPKG_VER}"
 TAG_VERSION="${VERSION}${SUFFIX}_${VERSION_SHA:0:8}"
 
 LABEL=$RELEASE_NAME
-DESC="Version based on: \`jellyfin-server_$SERVER_VERSION\` \`jellyfin-web_$WEB_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
+DESC="Version based on: \`jellyfin_$SERVER_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
 
 git pull bot HEAD
 git config user.email "pdulvp-bot@laposte.net"

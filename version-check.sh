@@ -5,12 +5,12 @@ CURRENT_SHA=$(cat package.json | jq -r .sha)
 SUFFIX=$(cat package.json | jq -r .suffix)
 
 if [ $SUFFIX != "" ]; then 
-  SUFFIX="-$SUFFIX"
+  SUFFIX=".$SUFFIX"
 fi
 
 NEXT_VERSION=$(echo $SERVER_VERSION @ $SUFFIX @ $FFMPEG_VERSION | tr ".-" " " | tr "@" "." | tr "~" "-" | sed "s/ //g")
 NEXT_SHA=$(echo $NEXT_VERSION | md5sum | cut -d" " -f 1)
-QPKG_VER=$(echo $SERVER_VERSION | cut -f1 -d"-")$SUFFIX
+QPKG_VER=$(echo $SERVER_VERSION)$SUFFIX
 
 echo "CURRENT_VERSION=$CURRENT_VERSION"
 echo "CURRENT_SHA=$CURRENT_SHA"

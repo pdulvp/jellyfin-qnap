@@ -8,7 +8,7 @@ FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 SUFFIX=$(cat package.json | jq -r .suffix)
 KIND=$(cat package.json | jq -r .kind)
 if [ $SUFFIX != "" ]; then 
-  SUFFIX="-$SUFFIX"
+  SUFFIX=".$SUFFIX"
 fi
 PRERELEASE="false"
 if [ $KIND != "stable" ]; then 

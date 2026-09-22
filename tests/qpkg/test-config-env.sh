@@ -20,8 +20,8 @@ log_assertion $(contains "$START" "MALLOC_TRIM_THRESHOLD") "MALLOC_TRIM_THRESHOL
 START=$(/jellyfin/shared/fonts/usr/bin/fc-list | grep FONTCONFIG_FILE)
 log_assertion $(contains "$START" "FONTCONFIG_FILE") "FONTCONFIG_FILE must be set on fc-list"
 
-START=$(/jellyfin/shared/fonts/usr/bin/fc-list | grep FONTCONFIG_PATH)
-log_assertion $(contains "$START" "FONTCONFIG_PATH") "FONTCONFIG_PATH must be set on fc-list"
+START=$(/jellyfin/shared/jellyfin/jellyfin | grep FONTCONFIG_FILE)
+log_assertion $(contains "$START" "FONTCONFIG_FILE") "FONTCONFIG_FILE must be set on jellyfin"
 
 cp /bin/echo /jellyfin/shared/jellyfin-ffmpeg/ffmpeg2
 cp /bin/echo /jellyfin/shared/jellyfin-ffmpeg/ffprobe2

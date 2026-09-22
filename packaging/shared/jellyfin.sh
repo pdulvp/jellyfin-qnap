@@ -47,6 +47,7 @@ link_fonts(){
   mkdir -p $QPKG_ROOT/cache/fontconfig
   cat >"$QPKG_ROOT/fonts/etc/fonts/local.conf" <<EOL
 <fontconfig>
+  <include ignore_missing="true">$QPKG_ROOT/fonts/etc/fonts/conf.d</include>
   <dir>$QPKG_ROOT/fonts/usr/share/fonts</dir>
   <cachedir>$QPKG_ROOT/cache/fontconfig</cachedir>
 </fontconfig>

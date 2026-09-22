@@ -19,7 +19,6 @@ QPKG_NAME="jellyfin";
 QPKG_ROOT=\`/sbin/getcfg \$QPKG_NAME Install_Path -f \${CONF}\`
 
 export FONTCONFIG_FILE=\$QPKG_ROOT/fonts/etc/fonts/local.conf
-export FONTCONFIG_PATH=\$QPKG_ROOT/fonts/etc/fonts/conf.d
 
 source \$QPKG_ROOT/jellyfin-config.sh
 

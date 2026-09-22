@@ -43,7 +43,10 @@ PRELOAD=""
 if [ ! -z "\$QPKG_LD_PRELOAD" ]; then
   PRELOAD="--preload \$QPKG_LD_PRELOAD"
 fi
+
+export FONTCONFIG_FILE=\$QPKG_ROOT/fonts/etc/fonts/local.conf
 export PATH=\$QPKG_ROOT/fonts/usr/bin:\$PATH
+
 \$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin-ffmpeg/lib:\$QPKG_ROOT/jellyfin\$QPKGS_PATHS \$PRELOAD \$QPKG_ROOT/jellyfin-ffmpeg/ffprobe2 "\$@"
 EOL
 

@@ -8,6 +8,14 @@ equals(){
   fi
 }
 
+not_equals(){
+  if [[ "$1" != "$2" ]]; then
+    echo 0
+  else
+    echo 1
+  fi
+}
+
 not_contains(){
   if [[ "$1" != *"$2"* ]]; then
     echo 0

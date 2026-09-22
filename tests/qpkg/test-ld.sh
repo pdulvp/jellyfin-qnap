@@ -19,6 +19,9 @@ log_assertion $(equals "$START" "ok") "ffmpeg2 must be called"
 START=$(/jellyfin/shared/jellyfin/jellyfin "ok")
 log_assertion $(equals "$START" "ok") "jellyfin2 must be called"
 
+START=$(/jellyfin/shared/fonts/usr/bin/fc-list "ok")
+log_assertion $(equals "$START" "ok") "fc-list2 must be called"
+
 
 sub_test "Test preload variable properly added in ld"
 

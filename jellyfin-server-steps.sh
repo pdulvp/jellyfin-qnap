@@ -23,6 +23,8 @@ PRELOAD=""
 if [ ! -z "\$QPKG_LD_PRELOAD" ]; then
   PRELOAD="--preload \$QPKG_LD_PRELOAD"
 fi
+
+export PATH=\$QPKG_ROOT/fonts/usr/bin:\$PATH
 \$QPKG_ROOT/jellyfin/$LD_LIB --library-path \$QPKG_ROOT/jellyfin:\$QPKG_ROOT/jellyfin-ffmpeg/lib\$QPKGS_PATHS \$PRELOAD \$QPKG_ROOT/jellyfin/jellyfin2 "\$@"
 EOL
 
@@ -37,3 +39,4 @@ if ! cp /plugins/Jellyfin.Plugin.QnapConfiguration/bin/Release/${NETVERSION}/* "
     echo -e "\033[0;36mError copying plugin. Please generate it before \033[0m"
     exit 1
 fi
+

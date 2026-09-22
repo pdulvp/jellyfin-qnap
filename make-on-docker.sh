@@ -102,7 +102,7 @@ process() {
     -v $VOLUME_OUTPUT:/output \
     -v $VOLUME_PLUGINS:/plugins \
     builder1 \
-    bash -c "/copy.sh && /jellyfin-ffmpeg-steps.sh $ARCH && /jellyfin-server-steps.sh $ARCH"
+    bash -c "/copy.sh && /jellyfin-ffmpeg-steps.sh $ARCH && /jellyfin-server-steps.sh $ARCH && /jellyfin-fonts-steps.sh $ARCH"
 
   docker run --rm -it \
     -v $VOLUME_OUTPUT:/output \

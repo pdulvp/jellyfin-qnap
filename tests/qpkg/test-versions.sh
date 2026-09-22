@@ -39,3 +39,7 @@ split_version "10.11.0-c"
 log_assertion $(equals "$MAJOR" "10") "split major"
 log_assertion $(equals "$MINOR" "11") "split micro"
 log_assertion $(equals "$BUILD" "0-c") "split build"
+
+is_greater "12.1.1" "12.1.0-a"
+RESULT=$?
+log_assertion $(equals "$RESULT" "0") "by-micro is_greater"

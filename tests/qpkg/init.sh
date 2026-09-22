@@ -17,11 +17,13 @@ replace /jellyfin/shared/jellyfin/jellyfin
 replace /jellyfin/shared/jellyfin-ffmpeg/ffprobe
 replace /jellyfin/shared/jellyfin-ffmpeg/ffmpeg 
 replace /jellyfin/shared/jellyfin-ffmpeg/vainfo
+replace /jellyfin/shared/fonts/usr/bin/fc-list
 replace /jellyfin/shared/jellyfin-config.sh
 
 cp /bin/echo /jellyfin/shared/jellyfin-ffmpeg/ffmpeg2
 cp /bin/echo /jellyfin/shared/jellyfin-ffmpeg/ffprobe2
 cp /bin/echo /jellyfin/shared/jellyfin-ffmpeg/vainfo2
 cp /bin/echo /jellyfin/shared/jellyfin/jellyfin2
+cp /bin/echo /jellyfin/shared/fonts/usr/bin/fc-list2
 cp /bin/echo /usr/bin/ps
 cp /bin/echo /usr/bin/kill

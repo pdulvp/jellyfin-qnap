@@ -19,7 +19,9 @@ jellyfin_start(){
   ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
 
   load_config
+  link_fonts
   mkdir -p $QPKG_ROOT/logs
+  $QPKG_ROOT/fonts/usr/bin/fc-list > $QPKG_ROOT/logs/fc-list-$(date -d "today" +"%Y%m%d%H%M").log
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log
   $QPKG_ROOT/jellyfin/jellyfin --datadir=$QPKG_ROOT/database --cachedir=$QPKG_ROOT/cache --webdir=$QPKG_ROOT/jellyfin/jellyfin-web --configdir=$QPKG_ROOT/conf --logdir=$QPKG_ROOT/logs --ffmpeg=$QPKG_ROOT/jellyfin-ffmpeg/ffmpeg --package-name=pdulvp &
   echo "$QPKG_NAME is started."
@@ -40,6 +42,16 @@ link_to_store(){
   store=$(find_store $1)
   ${CMD_SETCFG} "${QPKG_NAME}" "store" "$store" -f "${CONF}"
 } 
+
+link_fonts(){
+  mkdir -p $QPKG_ROOT/cache/fontconfig
+  cat >"$QPKG_ROOT/fonts/etc/fonts/local.conf" <<EOL
+<fontconfig>
+  <dir>$QPKG_ROOT/fonts/usr/share/fonts</dir>
+  <cachedir>$QPKG_ROOT/cache/fontconfig</cachedir>
+</fontconfig>
+EOL
+}
 
 case "$1" in
   start)

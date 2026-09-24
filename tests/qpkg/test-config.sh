@@ -16,7 +16,7 @@ sub_test "Test QPKGS_PATHS default config with nvidia folder"
 mkdir -p /opt/NVIDIA_GPU_DRV/usr/nvidia
 default_config
 log_assertion $(contains "$QPKGS_PATHS" "/opt/NVIDIA_GPU_DRV/usr/nvidia") "QPKGS_PATHS contains nvidia if folder exists"
-
+rm -rf /opt/NVIDIA_GPU_DRV/usr/nvidia
 
 sub_test "Test QPKGS_PATHS customized through user_config"
 cat >/jellyfin/shared/user-config.sh <<EOL

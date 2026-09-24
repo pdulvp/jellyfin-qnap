@@ -43,3 +43,7 @@ log_assertion $(equals "$BUILD" "0-c") "split build"
 is_greater "12.1.1" "12.1.0-a"
 RESULT=$?
 log_assertion $(equals "$RESULT" "0") "by-micro is_greater"
+
+is_greater "12.1.10" "12.1.1"
+RESULT=$?
+log_assertion $(equals "$RESULT" "0") "by-build is_greater"

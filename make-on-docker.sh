@@ -108,7 +108,51 @@ process() {
     -v $VOLUME_OUTPUT:/output \
     -v "$(pwd)/build:/builds" \
     qbuild1 \
-    bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH ffmpeg7 $QPKG_VER" 
+    bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH jellyfin $QPKG_VER" 
+}
+
+
+process_opencl() {
+  pwd
+  ARCH=$1
+  QPKG_VER=$2
+
+  VOLUME_JELLYFIN="jellyfin-volume-jellyfin-$ARCH"
+  create_volume "$VOLUME_JELLYFIN"
+
+  VOLUME_USR="jellyfin-volume-usr-$ARCH"
+  create_volume "$VOLUME_USR"
+
+  VOLUME_ETC="jellyfin-volume-etc-$ARCH"
+  create_volume "$VOLUME_ETC"
+
+  VOLUME_OUTPUT="jellyfin-opencl-output1-$ARCH"
+  create_volume "$VOLUME_OUTPUT"
+
+  docker build --platform linux/$ARCH -t jellyfin1 . -f Dockerfile-jellyfin 
+
+  docker run \
+  --platform linux/$ARCH \
+  -v $VOLUME_JELLYFIN:/jellyfin \
+  -v $VOLUME_ETC:/etc \
+  -v $VOLUME_USR:/usr \
+  jellyfin1 \
+  echo
+
+  docker build -t builder1 . -f Dockerfile-builder
+  docker run --rm -it \
+    -v $VOLUME_JELLYFIN:/source/jellyfin \
+    -v $VOLUME_ETC:/source/etc \
+    -v $VOLUME_USR:/source/usr \
+    -v $VOLUME_OUTPUT:/output \
+    builder1 \
+    bash -c "/copy-opencl.sh"
+
+  docker run --rm -it \
+    -v $VOLUME_OUTPUT:/output \
+    -v "$(pwd)/build:/builds" \
+    qbuild1 \
+    bash -c "/update_qver.sh $QPKG_VER && cd /output && /usr/share/QDK/bin/qbuild -v && cd .. && /archive-artifacts.sh $ARCH jellyfin-opencl $QPKG_VER" 
 }
 
 list_qbuildenv "qbuild1"
@@ -125,6 +169,7 @@ echo QPKG_VER=$QPKG_VER
 
 process "amd64" $QPKG_VER
 process "arm64" $QPKG_VER
+process_opencl "amd64" $QPKG_VER
 
 json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
 json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")

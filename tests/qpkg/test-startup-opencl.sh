@@ -1,37 +1,15 @@
 #!/bin/bash
 
 source /qpkg/asserts.sh
+source /jellyfin/shared/jellyfin-config.sh
 
+/qpkg/setcfg.sh jellyfin-opencl Enable "TRUE"
 
-sub_test "Test that OpenCL is properly referenced on /etc on start"
+sub_test "Test if OpenCL is started, icd is valid"
+START=$(/jellyfin-opencl/shared/jellyfin-opencl.sh start)
+VALUE=$(cat /jellyfin-opencl/shared/etc/OpenCL/vendors/intel.icd)
+VALUE_LEGACY=$(cat /jellyfin-opencl/shared/etc/OpenCL/vendors/intel_legacy1.icd)
 
-/qpkg/setcfg.sh jellyfin Enable "TRUE"
-START=$(/jellyfin/shared/jellyfin.sh start)
-log_assertion $(folder_exists /etc/OpenCL) "/etc/OpenCL must exist."
-log_assertion $(file_exists /etc/OpenCL/.jellyfin) "/etc/OpenCL/.jellyfin must exist."
+log_assertion $(equals "$VALUE" "/jellyfin-opencl/shared/lib/intel-opencl/libigdrcl.so") "intel.icd shall be valid"
+log_assertion $(equals "$VALUE_LEGACY" "/jellyfin-opencl/shared/lib/intel-opencl/libigdrcl_legacy1.so") "intel_legacy1.icd shall be valid"
 
-
-sub_test "Test that OpenCL is properly removed on /etc on stop"
-
-STOP=$(/jellyfin/shared/jellyfin.sh stop)
-log_assertion $(folder_not_exists /etc/OpenCL) "/etc/OpenCL must not exist."
-
-
-sub_test "Test if OpenCL is already existing in the NAS that it is not erased by jellyfin startup"
-
-mkdir -p /etc/OpenCL/vendors
-touch /etc/OpenCL/vendors/sample
-
-START=$(/jellyfin/shared/jellyfin.sh start)
-log_assertion $(folder_exists /etc/OpenCL) "/etc/OpenCL must exist."
-log_assertion $(file_not_exists /etc/OpenCL/.jellyfin) "/etc/OpenCL/.jellyfin must not exist."
-log_assertion $(file_exists /etc/OpenCL/vendors/sample) "/etc/OpenCL/vendors/sample must exist."
-
-
-sub_test "Test if OpenCL is already existing in the NAS that it is not erased by jellyfin stop"
-
-STOP=$(/jellyfin/shared/jellyfin.sh stop)
-log_assertion $(folder_exists /etc/OpenCL) "/etc/OpenCL must not exist."
-log_assertion $(file_exists /etc/OpenCL/vendors/sample) "/etc/OpenCL/vendors/sample must exist."
-
-rm -rf /etc/OpenCL

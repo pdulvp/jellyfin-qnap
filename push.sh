@@ -41,7 +41,7 @@ echo "$RELEASE_ID"
 RELEASE_ID=`echo $RELEASE_ID | grep -o -P "(?<=\"id\": )\d+" | head -n 1`
 echo "RELEASE=$RELEASE_ID"
 
-for FILE in $(find build/ -name "jellyfin_*$RELEASE_NAME*.qpkg"); do
+for FILE in $(find build/ -name "jellyfin*_*$RELEASE_NAME*.qpkg"); do
   NAME=$(basename $FILE);
   echo "Publish $FILE"
   curl -X POST \

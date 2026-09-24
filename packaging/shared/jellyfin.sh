@@ -14,12 +14,12 @@ source $QPKG_ROOT/jellyfin-config.sh
 jellyfin_start(){
   /bin/ln -sf $QPKG_ROOT /opt/$QPKG_NAME
   /bin/ln -sf $QPKG_ROOT/jellyfin-ffmpeg /usr/lib/jellyfin-ffmpeg
-  [ ! -d "/etc/OpenCL" ] && /bin/ln -sf $QPKG_ROOT/etc/OpenCL /etc/OpenCL
 
   ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
 
   load_config
   link_fonts
+  
   mkdir -p $QPKG_ROOT/logs
   $QPKG_ROOT/fonts/usr/bin/fc-list > $QPKG_ROOT/logs/fc-list-$(date -d "today" +"%Y%m%d%H%M").log
   $QPKG_ROOT/jellyfin-ffmpeg/vainfo > $QPKG_ROOT/logs/vainfo-$(date -d "today" +"%Y%m%d%H%M").log
@@ -33,7 +33,6 @@ jellyfin_stop(){
   ps aux | grep -ie jellyfin/ld-linux | grep -v grep | awk '{print $1}' | xargs kill -9
   rm -rf /opt/$QPKG_NAME
   rm -rf /usr/lib/jellyfin-ffmpeg
-  [ -d "/etc/OpenCL" ] && [ -f "/etc/OpenCL/.jellyfin" ] && rm -rf /etc/OpenCL
 
   echo "$QPKG_NAME is stopped."
 }

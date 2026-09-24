@@ -45,8 +45,18 @@ default_config(){
   export TMPDIR="$QPKG_ROOT/cache/tmp"
   QPKGS_PATHS=""
   if [ -d "/opt/NVIDIA_GPU_DRV/usr/nvidia" ]; then
-    QPKGS_PATHS=":/opt/NVIDIA_GPU_DRV/usr/nvidia"
+    QPKGS_PATHS="$QPKGS_PATHS:/opt/NVIDIA_GPU_DRV/usr/nvidia"
   fi
+  
+  QPKG_OPENCL_ROOT=$(/sbin/getcfg jellyfin-opencl Install_Path -f ${CONF})
+  if [ -d "$QPKG_OPENCL_ROOT" ]; then
+    OPENCL_ENABLED=$(/sbin/getcfg jellyfin-opencl Enable -u -d FALSE -f ${CONF})
+    if [ "$OPENCL_ENABLED" = "TRUE" ]; then
+      QPKGS_PATHS="$QPKGS_PATHS:$QPKG_OPENCL_ROOT/lib"
+      export OCL_ICD_VENDORS="$QPKG_OPENCL_ROOT/etc/OpenCL/vendors"
+    fi
+  fi
+
   export QPKGS_PATHS="$QPKGS_PATHS"
   
   QPKG_LD_PRELOAD=""

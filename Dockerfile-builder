@@ -1,9 +1,11 @@
 
 FROM debian:bookworm-20260824
 COPY ./copy.sh /copy.sh
+COPY ./copy-opencl.sh /copy-opencl.sh
 COPY ./jellyfin-server-steps.sh /jellyfin-server-steps.sh
 COPY ./jellyfin-ffmpeg-steps.sh /jellyfin-ffmpeg-steps.sh
 COPY ./jellyfin-fonts-steps.sh /jellyfin-fonts-steps.sh
 COPY ./packaging /packaging
+COPY ./packaging-opencl /packaging-opencl
 
 ENTRYPOINT [""]

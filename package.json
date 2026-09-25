@@ -5,7 +5,6 @@
   "server": "12.1",
   "qpkg_ver": "12.1.3",
   "ffmpeg": "8.1.2",
-  "kind": "preview",
   "description": "",
   "suffix": "3",
   "main": "index.js",

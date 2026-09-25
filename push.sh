@@ -6,14 +6,10 @@ SERVER_VERSION=$(cat package.json | jq -r .server)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 OPENCL_LEGACY_VERSION=$(cat package.json | jq -r .opencl_legacy)
 OPENCL_VERSION=$(cat package.json | jq -r .opencl)
+PRERELEASE="true"
 SUFFIX=$(cat package.json | jq -r .suffix)
-KIND=$(cat package.json | jq -r .kind)
 if [ $SUFFIX != "" ]; then 
   SUFFIX=".$SUFFIX"
-fi
-PRERELEASE="false"
-if [ $KIND != "stable" ]; then 
-  PRERELEASE="true"
 fi
 
 QPKG_VER=$(echo $SERVER_VERSION | cut -f1 -d"-")$SUFFIX

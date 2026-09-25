@@ -3,7 +3,6 @@
 VERSION=$(cat package.json | jq -r .version)
 VERSION_SHA=$(cat package.json | jq -r .sha)
 SERVER_VERSION=$(cat package.json | jq -r .server)
-WEB_VERSION=$(cat package.json | jq -r .web)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 SUFFIX=$(cat package.json | jq -r .suffix)
 KIND=$(cat package.json | jq -r .kind)

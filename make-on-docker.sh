@@ -160,6 +160,8 @@ list_env "jellyfin-info"
 
 FFMPEG_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_FFMPEG_VERSION")
 SERVER_VERSION=$(get_env_var "jellyfin-info" "JELLYFIN_VERSION")
+OPENCL_LEGACY_VERSION=$(get_env_var "jellyfin-info" "OPENCL_LEGACY_VERSION")
+OPENCL_VERSION=$(get_env_var "jellyfin-info" "OPENCL_VERSION")
 
 source ./version-check.sh
 echo CURRENT_VERSION=$CURRENT_VERSION
@@ -175,4 +177,6 @@ json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
 json=$(echo $json | jq ".qpkg_ver = \"$QPKG_VER\"")
 json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
 json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")
+json=$(echo $json | jq ".opencl_legacy = \"$OPENCL_LEGACY_VERSION\"")
+json=$(echo $json | jq ".opencl = \"$OPENCL_VERSION\"")
 printf '%s\n' "$json" > package.json

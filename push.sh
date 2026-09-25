@@ -4,6 +4,8 @@ VERSION=$(cat package.json | jq -r .version)
 VERSION_SHA=$(cat package.json | jq -r .sha)
 SERVER_VERSION=$(cat package.json | jq -r .server)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
+OPENCL_LEGACY_VERSION=$(cat package.json | jq -r .opencl_legacy)
+OPENCL_VERSION=$(cat package.json | jq -r .opencl)
 SUFFIX=$(cat package.json | jq -r .suffix)
 KIND=$(cat package.json | jq -r .kind)
 if [ $SUFFIX != "" ]; then 
@@ -21,7 +23,7 @@ RELEASE_NAME="${QPKG_VER}"
 TAG_VERSION="${VERSION}_${VERSION_SHA:0:8}"
 
 LABEL=$RELEASE_NAME
-DESC="Version based on: \`jellyfin_$SERVER_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\`"
+DESC="Version based on: \`jellyfin_$SERVER_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\` \`opencl_legacy_$OPENCL_LEGACY_VERSION\` \`opencl_$OPENCL_VERSION\`"
 
 git pull bot HEAD
 git config user.email "pdulvp-bot@laposte.net"

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 VERSION=$(cat package.json | jq -r .version)
-VERSION_SHA=$(cat package.json | jq -r .sha)
 SERVER_VERSION=$(cat package.json | jq -r .server)
 FFMPEG_VERSION=$(cat package.json | jq -r .ffmpeg)
 OPENCL_LEGACY_VERSION=$(cat package.json | jq -r .opencl_legacy)
@@ -16,7 +15,7 @@ QPKG_VER=$(echo $SERVER_VERSION | cut -f1 -d"-")$SUFFIX
 echo "QPKG_VER=$QPKG_VER"
 
 RELEASE_NAME="${QPKG_VER}"
-TAG_VERSION="${VERSION}_${VERSION_SHA:0:8}"
+TAG_VERSION="${VERSION}"
 
 LABEL=$RELEASE_NAME
 DESC="Version based on: \`jellyfin_$SERVER_VERSION\` \`jellyfin-ffmpeg_$FFMPEG_VERSION\` \`opencl_legacy_$OPENCL_LEGACY_VERSION\` \`opencl_$OPENCL_VERSION\`"

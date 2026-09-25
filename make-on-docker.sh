@@ -173,7 +173,6 @@ process "arm64" $QPKG_VER
 process_opencl "amd64" $QPKG_VER
 
 json=$(cat package.json | jq ".version = \"$NEXT_VERSION\"")
-json=$(echo $json | jq ".sha = \"$NEXT_SHA\"")
 json=$(echo $json | jq ".qpkg_ver = \"$QPKG_VER\"")
 json=$(echo $json | jq ".ffmpeg = \"$FFMPEG_VERSION\"")
 json=$(echo $json | jq ".server = \"$SERVER_VERSION\"")

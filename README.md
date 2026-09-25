@@ -25,6 +25,19 @@ Go to `Admin > Dashboard`
 
 This shall be OK, but maybe not.
 
+## OpenCL
+
+If you want and can use OpenCL for tonemapping, you can install the corresponding package jellyfin-opencl aside jellyfin one. 
+
+Note that OpenCL shall be already installed when Jellyfin is started, so you may need to restart Jellyfin to take into account the corresponding package. 
+
+- Install/Update jellyfin-opencl then Install/Update jellyfin
+or 
+- Install jellyfin, Install jellyfin-opencl, Restart jellyfin from AppCenter.
+
+- Configure jellyfin to use OpenCL, it shall work
+
+
 ### Troubleshooting while trancoding
 
 Go to `Admin > Dashboard`
